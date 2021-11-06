@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "722029059234",
+    "project_id": "vanelliapp",
+    "storage_bucket": "vanelliapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722029059234:android:5e1f004d32faa2863f0bfb",
+        "android_client_info": {
+          "package_name": "br.com.vanelliapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722029059234-8frpru5sp5klkjnetnn7npv10e133qms.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.vanelliapp",
+            "certificate_hash": "9e56d900f877f7f3d76e1dd4153ba5b17770a455"
+          }
+        },
+        {
+          "client_id": "722029059234-frgec3i3duk0av39hc8ktlua1qo286uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi71VhLl3qD97N8eeGergeEWie5mhXgKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722029059234-frgec3i3duk0av39hc8ktlua1qo286uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
