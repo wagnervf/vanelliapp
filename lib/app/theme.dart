@@ -144,7 +144,7 @@ ButtonStyle styleElevatedButton() {
   return ElevatedButton.styleFrom(
     primary: kPrimaryColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(25),
+      borderRadius: BorderRadius.circular(12),
     ),
   );
 }

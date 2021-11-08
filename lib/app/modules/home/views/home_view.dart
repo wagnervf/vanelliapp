@@ -4,17 +4,15 @@ import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/components/constants.dart';
-import 'package:vanelliapp/app/components/decorations.dart';
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
-import 'package:vanelliapp/app/shared/enums.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 class HomeView extends StatelessWidget {
-  final LoginController loginController = Get.find();
+  final loginController = Get.put(LoginController());
 
   //get kColorReceitas => null;
 
@@ -41,14 +39,13 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(selectedMenu: MenuState.home),
+      bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }
 
   Container buildHeaderHome(BuildContext context) {
     return Container(
       color: kPrimaryColor,
-      //height: getWidth(context) * .03,
       width: double.infinity,
       alignment: Alignment.topCenter,
     );
@@ -56,46 +53,16 @@ class HomeView extends StatelessWidget {
 
   Container buildBodyHome(Size size, BuildContext context) {
     return Container(
-      decoration: Decorations.boxDecorationCircular(),
-      //height: size.height,
+      color: Colors.white,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 4.0),
           buildBalanco(),
-          const SizedBox(height: 12.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Componentsutils.cardInformation(
-                size: size,
-                icon: Icons.trending_up,
-                title: 'Receitas',
-                valor: "R\$ 2569,39",
-                color: kColorReceitas,
-              ),
-              //const SizedBox(width: 8.0),
-              Componentsutils.cardInformation(
-                size: size,
-                icon: Icons.trending_down,
-                title: 'Despesas',
-                valor: "R\$ 1569,39",
-                color: kColorDespesas,
-              ),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buttonSelectPeriodo(title: 'Hoje', active: true),
-              buttonSelectPeriodo(title: 'Semana', active: false),
-              buttonSelectPeriodo(title: 'Mês', active: false),
-              buttonSelectPeriodo(title: 'Ano', active: false),
-            ],
-          ),
+          // const SizedBox(height: 12.0),
+          textAcao(),
+          rowCards(size),
           const Divider(),
           Column(
             children: [
@@ -109,6 +76,43 @@ class HomeView extends StatelessWidget {
           logoutFirebase(context),
           testes()
         ],
+      ),
+    );
+  }
+
+  Row rowCards(Size size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Componentsutils.cardInformation(
+          size: size,
+          icon: Icons.date_range,
+          title: 'Eventos',
+          color: kColorEventos,
+        ),
+        Componentsutils.cardInformation(
+          size: size,
+          icon: Icons.trending_up,
+          title: 'Receitas',
+          color: kColorReceitas,
+        ),
+        Componentsutils.cardInformation(
+          size: size,
+          icon: Icons.trending_down,
+          title: 'Despesas',
+          color: kColorDespesas,
+        ),
+      ],
+    );
+  }
+
+  Container textAcao() {
+    return Container(
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.all(8.0),
+      child: const Text(
+        'Ações',
+        style: TextStyle(fontWeight: FontWeight.bold, color: ksecondaryColor),
       ),
     );
   }
@@ -133,8 +137,8 @@ class HomeView extends StatelessWidget {
             color: Colors.purple[600],
           ),
         ),
-        title: Text('Festa'),
-        subtitle: Text('Churras no gelra'),
+        title: const Text('Festa'),
+        subtitle: const Text('Churras no gelera'),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -151,8 +155,11 @@ class HomeView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(
-          'Eventos Recente',
-          style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+          'Atividades Recente',
+          style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: ksecondaryColor),
         ),
         Container(
           padding: EdgeInsets.zero,
@@ -197,13 +204,19 @@ class HomeView extends StatelessWidget {
       children: [
         TextButton.icon(
           onPressed: () {},
-          icon: Icon(Icons.arrow_drop_down),
-          label: Text('Abril'),
+          icon: const Icon(Icons.arrow_drop_down),
+          label: const Text('Abril'),
         ),
-        Text('Balanço do Mês'),
-        Text(
+        const Padding(
+          padding: EdgeInsets.all(2.0),
+          child: Text(
+            'Balanço do Mês',
+            style: TextStyle(color: ksecondaryColor),
+          ),
+        ),
+        const Text(
           'R\$ 5569,39',
-          style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
         ),
       ],
     );

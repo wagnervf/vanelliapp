@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
-import 'package:vanelliapp/app/shared/enums.dart';
 import 'package:get/get.dart';
 
 import '../controllers/perfil_controller.dart';
@@ -16,9 +15,7 @@ class PerfilView extends GetView<PerfilController> {
         centerTitle: true,
       ),
       body: PerfilBodyView(),
-      bottomNavigationBar: const BottomNavBar(
-        selectedMenu: MenuState.profile,
-      ),
+      bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }
 }

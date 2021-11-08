@@ -69,41 +69,43 @@ class Componentsutils {
     required Size size,
     required IconData icon,
     required String title,
-    required String valor,
+    // required String valor,
     required Color color,
   }) {
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Container(
-        width: size.width * .43,
-        height: size.height * .1,
+        width: size.width * .22,
+        height: size.height * .15,
+        padding: const EdgeInsets.fromLTRB(8, 2, 8, 8),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              icon,
-              color: Colors.white,
-              size: 32.0,
+            Container(
+              width: 42.0,
+              height: 42.0,
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.only(left: 4.0, top: 4.0),
+              decoration: BoxDecoration(
+                color: Colors.white60,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(
+                icon,
+                color: color,
+                size: 24.0,
+              ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  valor,
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
-                ),
-              ],
+            Text(
+              title,
+              style: const TextStyle(color: Colors.white, fontSize: 16.0),
             ),
           ],
         ),

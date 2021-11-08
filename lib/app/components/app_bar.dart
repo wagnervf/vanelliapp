@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vanelliapp/app/components/constants.dart';
+import 'package:vanelliapp/app/theme.dart';
 
 class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   final double height;
@@ -9,7 +11,7 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
 
   AppBarCustom({
     Key? key,
-    this.height = 50,
+    this.height = 35,
     required this.title,
     required this.color,
     required this.voltar,
@@ -19,32 +21,39 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       brightness: Brightness.dark,
-      backgroundColor: color,
+      backgroundColor: kPrimaryColor,
       elevation: 0,
-      title: Text(
-        title,
-        style: TextStyle(color: color != null ? Colors.white : color),
-      ),
+      // title: Text(
+      //   title,
+      //   style: TextStyle(color: color),
+      // ),
       centerTitle: true,
       leading: Visibility(
         visible: voltar,
         child: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
-            color: Colors.white,
+            color: kColorDespesas,
           ),
           onPressed: () => Get.back(),
         ),
+        replacement: IconButton(
+          icon: const Icon(
+            Icons.menu,
+            color: kPrimaryLightColor,
+          ),
+          onPressed: () {},
+        ),
       ),
-      actions: <Widget>[
-        // IconButton(
-        //   icon: SvgPicture.asset("assets/icons/share.svg"),
-        //   onPressed: () {},
-        // ),
-        // IconButton(
-        //   icon: SvgPicture.asset("assets/icons/more.svg"),
-        //   onPressed: () {},
-        // ),
+      actions: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0),
+          child: Center(
+              child: Text(
+            'Alan',
+            style: TextStyle(color: kPrimaryLightColor),
+          )),
+        ),
       ],
     );
   }
