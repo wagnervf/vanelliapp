@@ -1,3 +1,4 @@
+import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/select_date.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
@@ -40,6 +41,7 @@ class DespesasView extends GetView<DespesasController> {
           ],
         ),
       )),
+      bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }
 

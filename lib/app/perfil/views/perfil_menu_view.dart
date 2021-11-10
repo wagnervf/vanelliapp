@@ -5,11 +5,10 @@ class ProfileMenuView extends StatelessWidget {
   const ProfileMenuView({
     Key? key,
     required this.text,
-    required this.icon,
     required this.press,
   }) : super(key: key);
 
-  final String text, icon;
+  final String text;
   final VoidCallback press;
 
   @override

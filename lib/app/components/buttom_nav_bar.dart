@@ -1,34 +1,36 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:vanelliapp/app/application/controllerGlobal/controller_global.dart';
+
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
 import 'package:vanelliapp/app/modules/event/views/event_view.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/perfil/views/perfil_view.dart';
-import 'package:vanelliapp/app/shared/enums.dart';
 import 'package:vanelliapp/app/theme.dart';
 
-import 'components_utils.dart';
 import 'constants.dart';
 
 class BottomNavigationBarCustom extends StatelessWidget {
-  //final ControllerGlobal dashController = Get.put(ControllerGlobal());
-  final dashController = 1;
+  final ControllerGlobal dashController = Get.put(ControllerGlobal());
+
+  int _selectedIndex = 0;
+  BottomNavigationBarCustom({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      unselectedItemColor: Colors.grey[600],
-      selectedItemColor: ksecondaryColor,
+      backgroundColor: Colors.white,
+      unselectedItemColor: ksecondaryColor,
+      selectedItemColor: kPrimaryColor,
       onTap: _changePage,
-      currentIndex: dashController,
+      currentIndex: dashController.index,
       iconSize: 24.0,
       showSelectedLabels: true,
       showUnselectedLabels: true,
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
       elevation: 2,
       // ignore: prefer_const_literals_to_create_immutables
       items: [
@@ -38,7 +40,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
         ),
         const BottomNavigationBarItem(
           icon: Icon(Icons.date_range),
-          label: 'Biblioteca',
+          label: 'Eventos',
         ),
         const BottomNavigationBarItem(
           icon: Icon(Icons.trending_down),
@@ -57,93 +59,111 @@ class BottomNavigationBarCustom extends StatelessWidget {
   }
 
   void _changePage(int index) {
-    // dashController.changeTabIndex(index);
+    dashController.changeTabIndex(index);
+    print(index);
 
     switch (index) {
       case 0:
-        Get.to(() => HomeView());
+        Get.to(
+          () => HomeView(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 300),
+        );
         break;
       case 1:
-        Get.to(() => EventView());
+        Get.to(
+          () => EventView(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 300),
+        );
         break;
       case 2:
-        Get.to(() => DespesasView());
+        Get.to(
+          () => DespesasView(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 300),
+        );
         break;
       case 3:
-        Get.to(() => ReceitasView());
+        Get.to(
+          () => ReceitasView(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 300),
+        );
+        break;
+      case 4:
+        Get.to(
+          () => PerfilView(),
+          transition: Transition.fadeIn,
+          duration: const Duration(milliseconds: 300),
+        );
         break;
     }
   }
 }
- 
 
-  
-  // Container(
-  //   padding: const EdgeInsets.symmetric(vertical: 14),
-  //   decoration: BoxDecoration(
-  //     color: Colors.white,
-  //     boxShadow: [
-  //       BoxShadow(
-  //         offset: const Offset(0, -15),
-  //         blurRadius: 20,
-  //         color: const Color(0xFFDADADA).withOpacity(0.15),
-  //       ),
-  //     ],
-  //   ),
-  //   child: SafeArea(
-  //     top: false,
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //       children: [
-  //         iconHome(inActiveIconColor),
-  //         iconEventos(inActiveIconColor),
-  //         iconDespesas(inActiveIconColor),
-  //         iconReceitas(inActiveIconColor),
-  //         iconMore(inActiveIconColor),
-  //       ],
-  //     ),
-  //   ),
-  // );
+// Container(
+//   padding: const EdgeInsets.symmetric(vertical: 14),
+//   decoration: BoxDecoration(
+//     color: Colors.white,
+//     boxShadow: [
+//       BoxShadow(
+//         offset: const Offset(0, -15),
+//         blurRadius: 20,
+//         color: const Color(0xFFDADADA).withOpacity(0.15),
+//       ),
+//     ],
+//   ),
+//   child: SafeArea(
+//     top: false,
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         iconHome(inActiveIconColor),
+//         iconEventos(inActiveIconColor),
+//         iconDespesas(inActiveIconColor),
+//         iconReceitas(inActiveIconColor),
+//         iconMore(inActiveIconColor),
+//       ],
+//     ),
+//   ),
+// );
 
-
-
-
-  // ElevatedButton buttonsModal(
-  //     {required Color color,
-  //     required IconData icon,
-  //     required String text,
-  //     required String page}) {
-  //   return ElevatedButton(
-  //     onPressed: () => Get.toNamed(page),
-  //     child: Column(
-  //       children: [
-  //         Icon(
-  //           icon,
-  //           color: Colors.white,
-  //           size: 25.0,
-  //         ),
-  //         Text(
-  //           text,
-  //           textAlign: TextAlign.start,
-  //           style: const TextStyle(
-  //             color: Colors.white,
-  //             fontSize: 20.0,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //     style: ElevatedButton.styleFrom(
-  //       elevation: 4.0,
-  //       primary: color,
-  //       alignment: Alignment.center,
-  //       padding: const EdgeInsets.all(18.0),
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(80),
-  //       ),
-  //     ),
-  //   );
-  // }
-
+// ElevatedButton buttonsModal(
+//     {required Color color,
+//     required IconData icon,
+//     required String text,
+//     required String page}) {
+//   return ElevatedButton(
+//     onPressed: () => Get.toNamed(page),
+//     child: Column(
+//       children: [
+//         Icon(
+//           icon,
+//           color: Colors.white,
+//           size: 25.0,
+//         ),
+//         Text(
+//           text,
+//           textAlign: TextAlign.start,
+//           style: const TextStyle(
+//             color: Colors.white,
+//             fontSize: 20.0,
+//           ),
+//         ),
+//       ],
+//     ),
+//     style: ElevatedButton.styleFrom(
+//       elevation: 4.0,
+//       primary: color,
+//       alignment: Alignment.center,
+//       padding: const EdgeInsets.all(18.0),
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(80),
+//       ),
+//     ),
+//   );
+// }
 
 //   iconHome(Color inActiveIconColor) {
 //     return Container(

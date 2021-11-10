@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class ControllerGlobal extends GetxController {
   final tabIndex = 0.obs;
 
   int get index => tabIndex.value;

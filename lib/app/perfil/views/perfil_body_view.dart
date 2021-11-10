@@ -24,12 +24,12 @@ class PerfilBodyView extends StatelessWidget {
           SizedBox(height: getHeight(context) * .1),
           ProfileMenuView(
             text: "Settings",
-            icon: "assets/icons/Settings.svg",
+            //icon: Icon(Icons.settings),
             press: () {},
           ),
           ProfileMenuView(
             text: "Sair",
-            icon: "assets/icons/Log out.svg",
+            //  icon: "assets/icons/Log out.svg",
             press: () => Get.to(() => LoginView()),
           ),
         ],

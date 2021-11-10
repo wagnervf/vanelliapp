@@ -14,10 +14,6 @@ import 'package:vanelliapp/app/theme.dart';
 class HomeView extends StatelessWidget {
   final loginController = Get.put(LoginController());
 
-  //get kColorReceitas => null;
-
-  //get kColorDespesas => null;
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -55,23 +51,27 @@ class HomeView extends StatelessWidget {
     return Container(
       color: Colors.white,
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      // padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           buildBalanco(),
-          // const SizedBox(height: 12.0),
-          textAcao(),
-          rowCards(size),
+          const SizedBox(height: 20),
+          buildHeaderInfo('Ações'),
+          buttonsCards(size),
           const Divider(),
-          Column(
-            children: [
-              buildHeaderListRecentes(),
-              buildBodyListRecentes(),
-              buildBodyListRecentes(),
-              buildBodyListRecentes(),
-              buildBodyListRecentes(),
-            ],
+          buildHeaderInfo('Atividades Recente'),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            color: Colors.grey[50],
+            child: Column(
+              children: [
+                buildBodyListRecentes(),
+                buildBodyListRecentes(),
+                buildBodyListRecentes(),
+                buildBodyListRecentes(),
+              ],
+            ),
           ),
           logoutFirebase(context),
           testes()
@@ -80,39 +80,31 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Row rowCards(Size size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Componentsutils.cardInformation(
-          size: size,
-          icon: Icons.date_range,
-          title: 'Eventos',
-          color: kColorEventos,
-        ),
-        Componentsutils.cardInformation(
-          size: size,
-          icon: Icons.trending_up,
-          title: 'Receitas',
-          color: kColorReceitas,
-        ),
-        Componentsutils.cardInformation(
-          size: size,
-          icon: Icons.trending_down,
-          title: 'Despesas',
-          color: kColorDespesas,
-        ),
-      ],
-    );
-  }
-
-  Container textAcao() {
+  Container buttonsCards(Size size) {
     return Container(
-      alignment: Alignment.topLeft,
-      padding: const EdgeInsets.all(8.0),
-      child: const Text(
-        'Ações',
-        style: TextStyle(fontWeight: FontWeight.bold, color: ksecondaryColor),
+      padding: const EdgeInsets.only(left: 20.0, top: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Componentsutils.cardInformation(
+            size: size,
+            icon: Icons.date_range,
+            title: 'Eventos',
+            color: kColorEventos,
+          ),
+          Componentsutils.cardInformation(
+            size: size,
+            icon: Icons.trending_up,
+            title: 'Receitas',
+            color: kColorReceitas,
+          ),
+          Componentsutils.cardInformation(
+            size: size,
+            icon: Icons.trending_down,
+            title: 'Despesas',
+            color: kColorDespesas,
+          ),
+        ],
       ),
     );
   }
@@ -122,7 +114,7 @@ class HomeView extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       margin: EdgeInsets.only(bottom: 4.0),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: Colors.white,
         borderRadius: BorderRadius.circular(15),
       ),
       child: ListTile(
@@ -150,33 +142,34 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Row buildHeaderListRecentes() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text(
-          'Atividades Recente',
-          style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              color: ksecondaryColor),
-        ),
-        Container(
-          padding: EdgeInsets.zero,
-          margin: EdgeInsets.zero,
-          decoration: BoxDecoration(
-            color: Colors.purple[50],
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: TextButton(
-            onPressed: () {},
-            child: Text(
-              'Ver tudo',
-              style: TextStyle(color: Colors.purple[600]),
-            ),
-          ),
-        ),
-      ],
+  Container buildHeaderInfo(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      alignment: Alignment.topLeft,
+
+      child: Text(
+        text,
+        style: const TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.bold,
+            color: ksecondaryColor),
+      ),
+      //   Container(
+      //     padding: EdgeInsets.zero,
+      //     margin: EdgeInsets.zero,
+      //     decoration: BoxDecoration(
+      //       color: Colors.purple[50],
+      //       borderRadius: BorderRadius.circular(20),
+      //     ),
+      //     child: TextButton(
+      //       onPressed: () {},
+      //       child: Text(
+      //         'Ver tudo',
+      //         style: TextStyle(color: Colors.purple[600]),
+      //       ),
+      //     ),
+      //   ),
+      // ],
     );
   }
 
@@ -204,7 +197,7 @@ class HomeView extends StatelessWidget {
       children: [
         TextButton.icon(
           onPressed: () {},
-          icon: const Icon(Icons.arrow_drop_down),
+          icon: const Icon(Icons.filter_list_alt),
           label: const Text('Abril'),
         ),
         const Padding(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vanelliapp/app/components/app_bar.dart';
+import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/constants.dart';
 import 'package:vanelliapp/app/components/customSwitch.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
@@ -88,6 +89,7 @@ class _ReceitasViewState extends State<ReceitasView> {
           ],
         ),
       )),
+      bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }
 

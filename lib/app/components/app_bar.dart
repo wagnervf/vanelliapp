@@ -21,7 +21,7 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       brightness: Brightness.dark,
-      backgroundColor: kPrimaryColor,
+      backgroundColor: color,
       elevation: 0,
       // title: Text(
       //   title,
@@ -33,7 +33,7 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
         child: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: kColorDespesas,
+            color: kPrimaryLightColor,
           ),
           onPressed: () => Get.back(),
         ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vanelliapp/app/components/app_bar.dart';
+import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
+import 'package:vanelliapp/app/theme.dart';
 
 class EventView extends StatefulWidget {
   @override
@@ -48,32 +51,43 @@ class _EventViewState extends State<EventView> {
   @override
   Widget build(BuildContext context) {
     print(dateFormat(selectedDate));
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              dateFormat(selectedDate),
-              //.split(' ')[0],
-              style: TextStyle(fontSize: 55, fontWeight: FontWeight.bold),
+      backgroundColor: kPrimaryColor,
+      appBar: AppBarCustom(
+        title: 'Eventos',
+        color: kPrimaryColor,
+        voltar: false,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  dateFormat(selectedDate),
+                  //.split(' ')[0],
+                  style: TextStyle(fontSize: 55, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                RaisedButton(
+                  onPressed: () => _selectDate(context),
+                  child: Text(
+                    'Select date',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  color: Colors.greenAccent,
+                ),
+              ],
             ),
-            SizedBox(
-              height: 20.0,
-            ),
-            RaisedButton(
-              onPressed: () => _selectDate(context),
-              child: Text(
-                'Select date',
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              ),
-              color: Colors.greenAccent,
-            ),
-          ],
+          ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }
 }
