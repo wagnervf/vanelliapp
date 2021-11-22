@@ -1,13 +1,13 @@
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
+import 'package:vanelliapp/app/components/list_contas.dart';
+import 'package:vanelliapp/app/components/list_despesas.dart';
 import 'package:vanelliapp/app/components/select_date.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
-import 'package:vanelliapp/app/shared/list_contas.dart';
-import 'package:vanelliapp/app/shared/list_despesas.dart';
+import 'package:vanelliapp/app/theme.dart';
 import '../controllers/despesas_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:vanelliapp/app/components/app_bar.dart';
-import 'package:vanelliapp/app/components/bottomSheet.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/components/constants.dart';
 import 'package:vanelliapp/app/components/customSwitch.dart';
@@ -20,6 +20,8 @@ class DespesasView extends GetView<DespesasController> {
   final TextEditingController _controlDescricao = TextEditingController();
   final isSwitched = true;
   final isSwitchedC = false;
+
+  DespesasView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

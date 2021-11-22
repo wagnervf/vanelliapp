@@ -18,6 +18,7 @@ class _LoginSplashState extends State<LoginSplash>
     with TickerProviderStateMixin {
   late AnimationController controller;
   final LoginController loginController = Get.find();
+  late bool loading = true;
 
   @override
   void initState() {
@@ -30,7 +31,9 @@ class _LoginSplashState extends State<LoginSplash>
       vsync: this,
       duration: const Duration(seconds: 3),
     )..addListener(() {
-        setState(() {});
+        setState(() {
+          loading = false;
+        });
       });
     controller.repeat(reverse: true);
     super.initState();
@@ -45,9 +48,9 @@ class _LoginSplashState extends State<LoginSplash>
   _getUser() {
     setState(() {});
     //var user = FirebaseAuth.instance.currentUser;
-
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       print(user);
+
       if (user != null) {
         Get.off(() => HomeView());
       } else {
@@ -81,6 +84,7 @@ class _LoginSplashState extends State<LoginSplash>
                   width: getHeight(context) * .1,
                   child: CircularProgressIndicator(
                     value: controller.value,
+                    color: Colors.purpleAccent,
                   ),
                 ),
               ],

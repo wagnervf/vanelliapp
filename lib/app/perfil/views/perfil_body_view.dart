@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:vanelliapp/app/modules/login/views/login_view.dart';
-import 'package:vanelliapp/app/modules/login/views/login_view_2.dart';
 import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
 import 'package:vanelliapp/app/perfil/views/perfil_image_view.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';

@@ -2,30 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
 
-class ListDespesas extends StatelessWidget {
-  final titles = ["Churras", "Casório", "Niver"];
+// ignore: must_be_immutable
+class ListFormaPagamento extends StatelessWidget {
+  final titles = ["PIX", "CARTÃO", "DINHEIRO"];
 
-  final subtitles = [
-    "Churras no geral",
-    "Noivado ou Casamento",
-    "niver no geral"
-  ];
+  final subtitles = ["Pix na conta", "Crédito dividido", "Pago pessoalmente"];
 
   List<IconData> icons = [Icons.outdoor_grill, Icons.celebration, Icons.cake];
+
+  ListFormaPagamento({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return ListTile(
-      //contentPadding: EdgeInsets.zero,
       leading: const Icon(Icons.turned_in_not_outlined),
       title: Text(
-        'Tipo da Despesa',
+        'Forma de Pagamento',
         style: TextStyle(color: Colors.grey[600]),
       ),
-      trailing: const Icon(Icons.keyboard_arrow_right),
+      contentPadding: const EdgeInsets.all(2.0),
+      trailing: const Icon(Icons.arrow_drop_down),
       onTap: () => _openDialogBottom(size),
-      // selected: true,
     );
   }
 
@@ -45,6 +43,7 @@ class ListDespesas extends StatelessWidget {
                 subtitle: Text(subtitles[index]),
                 leading: Icon(icons[index]),
                 onTap: () {
+                  print(titles[index]);
                   Get.back();
                 },
                 hoverColor: Colors.amber,

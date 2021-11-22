@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:vanelliapp/app/application/controllerGlobal/controller_global.dart';
+import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 
 class BindingGlobal implements Bindings {
@@ -12,5 +13,6 @@ class BindingGlobal implements Bindings {
 
     Get.lazyPut(() => ControllerGlobal(), fenix: true);
     Get.lazyPut(() => LoginController(), fenix: true);
+    Get.lazyPut(() => EventoController(), fenix: true);
   }
 }

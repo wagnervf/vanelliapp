@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:vanelliapp/app/application/controllerGlobal/controller_global.dart';
 
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
-import 'package:vanelliapp/app/modules/event/views/event_view.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/perfil/views/perfil_view.dart';
@@ -72,7 +72,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
         break;
       case 1:
         Get.to(
-          () => EventView(),
+          () => EventoView(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 300),
         );
@@ -101,6 +101,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
     }
   }
 }
+
 
 // Container(
 //   padding: const EdgeInsets.symmetric(vertical: 14),

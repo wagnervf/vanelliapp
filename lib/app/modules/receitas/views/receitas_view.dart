@@ -4,9 +4,10 @@ import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/constants.dart';
 import 'package:vanelliapp/app/components/customSwitch.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
+import 'package:vanelliapp/app/components/list_contas.dart';
+import 'package:vanelliapp/app/components/list_forma_pagamento.dart';
+import 'package:vanelliapp/app/components/list_receitas.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
-import 'package:vanelliapp/app/shared/list_contas.dart';
-import 'package:vanelliapp/app/shared/list_receitas.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 

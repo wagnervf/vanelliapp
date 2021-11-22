@@ -46,11 +46,11 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
         ),
       ),
       actions: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Center(
-              child: Text(
-            'Alan',
+              child: const Text(
+            "Alan",
             style: TextStyle(color: kPrimaryLightColor),
           )),
         ),
@@ -59,6 +59,5 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(this.height);
+  Size get preferredSize => Size.fromHeight(height);
 }

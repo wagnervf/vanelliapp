@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:get/get.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:vanelliapp/app/application/bindingsGlobal/binding_global.dart';
 import 'package:vanelliapp/app/modules/login/views/login_splash.dart';
 
@@ -22,12 +23,14 @@ void main() async {
       getPages: AppPages.routes,
       initialBinding: BindingGlobal(),
       debugShowCheckedModeBanner: false,
-      supportedLocales: const [Locale('pt', 'BR')],
       // ignore: prefer_const_literals_to_create_immutables
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
+        GlobalWidgetsLocalizations.delegate,
+        SfGlobalLocalizations.delegate
       ],
+      supportedLocales: const [Locale('pt', 'BR')],
+      locale: const Locale('pt', 'BR'),
     ),
   );
 }

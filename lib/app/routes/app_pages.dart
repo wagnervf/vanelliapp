@@ -1,17 +1,18 @@
 import 'package:get/get.dart';
-
+import 'package:vanelliapp/app/modules/eventos/bindings/evento_binding.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
 import 'package:vanelliapp/app/modules/home/bindings/home_binding.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/login/bindings/login_binding.dart';
+import 'package:vanelliapp/app/modules/login/views/login_splash.dart';
 import 'package:vanelliapp/app/modules/login/views/login_view.dart';
-import 'package:vanelliapp/app/modules/login/views/login_view_2.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.LOGIN_SPLASH;
 
   static final routes = [
     GetPage(
@@ -20,9 +21,19 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
+      name: _Paths.LOGIN_SPLASH,
+      page: () => LoginSplash(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
       name: _Paths.LOGIN,
       page: () => LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.EVENTO,
+      page: () => EventoView(),
+      binding: EventoBinding(),
     ),
   ];
 }

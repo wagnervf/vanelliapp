@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
-import 'decorations.dart';
 
 class Componentsutils {
   // static Container builLabelValor() {
@@ -46,6 +45,48 @@ class Componentsutils {
     );
   }
 
+  static InputDecoration inputValorNormal(String hintText) {
+    return InputDecoration(
+      prefixIconConstraints: const BoxConstraints(
+        minHeight: 52,
+        minWidth: 32,
+      ),
+      hintText: hintText,
+      // contentPadding: const EdgeInsets.all(20),
+      enabledBorder: InputBorder.none,
+      //filled: true,
+    );
+  }
+  // static Container inputValorNormal(TextEditingController controller) {
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
+  //     child: TextFormField(
+  //       controller: controller,
+  //       keyboardType: TextInputType.number,
+  //       textAlign: TextAlign.left,
+  //       style: textStyle(),
+  //       decoration: const InputDecoration(
+  //         contentPadding: EdgeInsets.all(20),
+  //         enabledBorder: InputBorder.none,
+  //         icon: Icon(Icons.monetization_on),
+  //         prefixIconConstraints: BoxConstraints(
+  //           minHeight: 52,
+  //           minWidth: 32,
+  //         ),
+  //         //filled: true
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  static TextStyle textStyle() {
+    return const TextStyle(
+      color: kTextColor,
+      fontSize: 22.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
   static InputDecoration inputDecorationValor() {
     return const InputDecoration(
       contentPadding: EdgeInsets.all(5),
@@ -54,14 +95,15 @@ class Componentsutils {
 
   static InputDecoration buildInputDecoration(String hintText) {
     return InputDecoration(
-      prefixIcon: const Icon(Icons.description_outlined),
+      icon: const Icon(Icons.description_outlined),
       prefixIconConstraints: const BoxConstraints(
         minHeight: 52,
         minWidth: 32,
       ),
       hintText: hintText,
-      contentPadding: const EdgeInsets.all(25),
-      filled: true,
+      contentPadding: const EdgeInsets.all(20),
+      enabledBorder: InputBorder.none,
+      //filled: true,
     );
   }
 
