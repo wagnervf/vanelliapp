@@ -95,7 +95,7 @@ class Componentsutils {
 
   static InputDecoration buildInputDecoration(String hintText) {
     return InputDecoration(
-      icon: const Icon(Icons.description_outlined),
+      icon: const Icon(Icons.subject),
       prefixIconConstraints: const BoxConstraints(
         minHeight: 52,
         minWidth: 32,

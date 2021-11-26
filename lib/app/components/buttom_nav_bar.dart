@@ -66,15 +66,15 @@ class BottomNavigationBarCustom extends StatelessWidget {
       case 0:
         Get.to(
           () => HomeView(),
-          transition: Transition.fadeIn,
-          duration: const Duration(milliseconds: 300),
+          transition: Transition.fade,
+          //  duration: const Duration(milliseconds: 300),
         );
         break;
       case 1:
         Get.to(
           () => EventoView(),
-          transition: Transition.fadeIn,
-          duration: const Duration(milliseconds: 300),
+          transition: Transition.cupertino,
+          // duration: const Duration(milliseconds: 500),
         );
         break;
       case 2:

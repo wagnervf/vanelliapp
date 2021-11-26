@@ -37,6 +37,7 @@ dev_dependencies:
 
 flutter: 
   assets: 
-    - assets/firebase_logo.png
+    - assets/firebase_logo.png    
+    - assets/img/
   uses-material-design: true
 

@@ -1,27 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
+import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
+import 'package:vanelliapp/app/theme.dart';
 
-// ignore: must_be_immutable
-class ListFormaPagamento extends StatelessWidget {
+class ListFormaPagamento extends StatefulWidget {
+  const ListFormaPagamento({Key? key}) : super(key: key);
+
+  @override
+  State<ListFormaPagamento> createState() => _ListFormaPagamentoState();
+}
+
+class _ListFormaPagamentoState extends State<ListFormaPagamento> {
+  final EventoController _controller = Get.find();
+
   final titles = ["PIX", "CARTÃO", "DINHEIRO"];
-
   final subtitles = ["Pix na conta", "Crédito dividido", "Pago pessoalmente"];
 
-  List<IconData> icons = [Icons.outdoor_grill, Icons.celebration, Icons.cake];
+  List<IconData> icons = [Icons.api, Icons.payment, Icons.attach_money];
 
-  ListFormaPagamento({Key? key}) : super(key: key);
+  late IconData iconeSelecionado;
+
+  @override
+  void initState() {
+    _setIcon(Icons.request_quote);
+    super.initState();
+  }
+
+  void _setIcon(IconData icon) {
+    setState(() {
+      iconeSelecionado = icon;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool formaPagamentoSelecionado = _controller.formaPagamentoEvento == "";
     return ListTile(
-      leading: const Icon(Icons.turned_in_not_outlined),
-      title: Text(
-        'Forma de Pagamento',
-        style: TextStyle(color: Colors.grey[600]),
+      leading: Icon(
+        iconeSelecionado,
+        color: formaPagamentoSelecionado ? kTextLightColor : kPrimaryColor,
       ),
-      contentPadding: const EdgeInsets.all(2.0),
+      title: Text(
+        formaPagamentoSelecionado
+            ? 'Forma de Pagamento'
+            : _controller.formaPagamentoEvento,
+        style: const TextStyle(
+          color: kTextLightColor,
+        ),
+      ),
+      contentPadding: const EdgeInsets.all(10.0),
       trailing: const Icon(Icons.arrow_drop_down),
       onTap: () => _openDialogBottom(size),
     );
@@ -42,16 +71,19 @@ class ListFormaPagamento extends StatelessWidget {
                 title: Text(titles[index]),
                 subtitle: Text(subtitles[index]),
                 leading: Icon(icons[index]),
-                onTap: () {
-                  print(titles[index]);
-                  Get.back();
-                },
+                onTap: () =>
+                    _setFormaPagamentoEventoList(titles[index], icons[index]),
                 hoverColor: Colors.amber,
-                //trailing: Icon(Icons.star),
               );
             }),
       ),
       isDismissible: true,
     );
+  }
+
+  void _setFormaPagamentoEventoList(String tipo, IconData icon) {
+    _controller.setFormaPagamentoEvento(tipo);
+    _setIcon(icon);
+    Get.back();
   }
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_add.dart';
+import 'package:vanelliapp/app/theme.dart';
 
 class CalendarViewPage extends StatefulWidget {
   const CalendarViewPage({Key? key}) : super(key: key);
@@ -27,23 +28,33 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
       locale: const Locale('pt', 'BR'),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: SfCalendar(
-          view: CalendarView.month,
-          initialDisplayDate: DateTime.now(),
-          initialSelectedDate: DateTime.now(),
-          cellBorderColor: Colors.grey[200],
-          allowViewNavigation: false,
-          monthViewSettings: const MonthViewSettings(
-            agendaItemHeight: 14.0,
-            showAgenda: true,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: SfCalendar(
+              view: CalendarView.month,
+              initialDisplayDate: DateTime.now(),
+              initialSelectedDate: DateTime.now(),
+              cellBorderColor: Colors.grey[200],
+              //selectionDecoration: const BoxDecoration(
+              //color: kPrimaryColor,
+
+              //borderRadius: BorderRadius.all(1.0),
+              //     ),
+
+              allowViewNavigation: false,
+              monthViewSettings: const MonthViewSettings(
+                agendaItemHeight: 14.0,
+                showAgenda: true,
+              ),
+              showDatePickerButton: true,
+              onTap: (CalendarTapDetails details) {
+                _clickDate(details);
+              },
+            ),
           ),
-          showDatePickerButton: true,
-          onTap: (CalendarTapDetails details) {
-            _clickDate(details);
-          },
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => Get.to(() => EventoAdd()),
+          onPressed: () => Get.to(() => const EventoAdd()),
           label: const Text("Novo Evento"),
           icon: const Icon(Icons.add),
         ),
@@ -52,7 +63,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   }
 
   void _clickDate(CalendarTapDetails details) {
-    _controller.selecionarDia(details.date);
+    _controller.selecionarDiaEvento(details.date);
     // Get.to(() => EventoAdd());
   }
 }
