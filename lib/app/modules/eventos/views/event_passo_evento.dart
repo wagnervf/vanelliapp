@@ -34,13 +34,15 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(10.0),
-      // color: Colors.amber,
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 1),
+      height: MediaQuery.of(context).size.height * .6,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           const SelectDateEvento(),
+          const Divider(height: 2.0, thickness: 1.0),
           buildValor(),
           const Divider(height: 2.0, thickness: 1.0),
           ListTipoEvento(),
@@ -49,15 +51,15 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
           const Divider(height: 2.0, thickness: 1.0),
           const ListFormaPagamento(),
           const Divider(height: 2.0, thickness: 1.0),
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            margin: const EdgeInsets.all(6.0),
-            child: TextFormField(
-              controller: _controlDescricao,
-              decoration:
-                  Componentsutils.buildInputDecoration('Adicionar Descrição'),
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.all(10.0),
+          //   margin: const EdgeInsets.all(6.0),
+          //   child: TextFormField(
+          //     controller: _controlDescricao,
+          //     decoration:
+          //         Componentsutils.buildInputDecoration('Adicionar Descrição'),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -66,18 +68,22 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   ListTile buildValor() {
     return ListTile(
         contentPadding: const EdgeInsets.all(10.0),
-        leading: const Icon(Icons.monetization_on_sharp),
+        leading: const Icon(
+          Icons.monetization_on_sharp,
+          color: kPrimaryColor,
+        ),
         dense: true,
         visualDensity: VisualDensity.comfortable,
         title: TextFormField(
           controller: controlValor,
-          onEditingComplete: () => _saveValor,
+          onChanged: (value) => _saveValor(),
           style: textStyle(),
           decoration: Componentsutils.inputValorNormal('Valor'),
         ),
-        trailing: CloseButton(
-          onPressed: () => controlValor.text = '',
-        ),
+        trailing: CloseButton(onPressed: () {
+          controlValor.text = '';
+          _controller.setValorEvento("");
+        }),
         onTap: () {});
   }
 

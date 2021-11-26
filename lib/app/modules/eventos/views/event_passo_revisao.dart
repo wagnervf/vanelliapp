@@ -20,7 +20,9 @@ class _EventPassoRevisaoState extends State<EventPassoRevisao> {
         Text(_controller.valorDoEvento.toString()),
         Text(_controller.tipoEvento.toString()),
         Text(_controller.descricaoDoEvento.toString()),
-        Text('Entrada Pago: ${_controller.entradaPagoEvento ? 'SIM' : 'NÃO'}')
+        Text('Entrada Pago: ${_controller.entradaPagoEvento ? 'SIM' : 'NÃO'}'),
+        Text(_controller.nomeClienteEvento.toString()),
+        Text(_controller.contatoClienteEvento.toString()),
       ],
     );
   }

@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:get/get.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
-import 'package:vanelliapp/app/components/components_utils.dart';
-import 'package:vanelliapp/app/components/constants.dart';
-import 'package:vanelliapp/app/components/list_forma_pagamento.dart';
-import 'package:vanelliapp/app/components/list_tipo_evento.dart';
-import 'package:vanelliapp/app/components/select_date_evento.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/views/event_model.dart';
 import 'package:vanelliapp/app/modules/eventos/views/event_passo_cliente.dart';
 import 'package:vanelliapp/app/modules/eventos/views/event_passo_revisao.dart';
-import 'package:vanelliapp/app/modules/eventos/views/evento_passo_evento.dart';
+import 'package:vanelliapp/app/modules/eventos/views/event_passo_evento.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -44,28 +38,33 @@ class _EventoAddState extends State<EventoAdd> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 40.0,
         title: const Text(
           'Novo Evento',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: kTextLightColor,
+            fontSize: 16.0,
+          ),
+          textAlign: TextAlign.center,
         ),
         centerTitle: true,
         leading: CloseButton(
           onPressed: () => _cancelarCriacaoEvento(),
-          color: Colors.redAccent,
+          color: kTextLightColor,
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
+          child: SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * .9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 headerStepers(),
                 steppersBody(),
@@ -78,44 +77,58 @@ class _EventoAddState extends State<EventoAdd> {
     );
   }
 
-  Container headerStepers() {
+  Column headerStepers() {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: Colors.grey[50],
-      height: size.height * .10,
-      padding: EdgeInsets.zero,
-      margin: const EdgeInsets.only(bottom: 12),
-      child: IconStepper(
-        icons: [
-          Icon(
-            Icons.paid_outlined,
-            color: activeStep == 0 ? Colors.white : ksecondaryColor,
-            size: 48,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          //  color: Colors.grey[50],
+          height: size.height * .10,
+          padding: EdgeInsets.zero,
+          margin: const EdgeInsets.only(bottom: 2),
+          child: IconStepper(
+            icons: [
+              Icon(
+                Icons.paid_outlined,
+                color: activeStep == 0 ? Colors.white : ksecondaryColor,
+                size: 48,
+              ),
+              Icon(
+                Icons.person,
+                color: activeStep == 1 ? Colors.white : ksecondaryColor,
+              ),
+              Icon(
+                Icons.check,
+                color: activeStep == 2 ? Colors.white : ksecondaryColor,
+              ),
+            ],
+            lineDotRadius: 2.0,
+            stepRadius: 24,
+            activeStepColor: kColorEventos,
+            enableNextPreviousButtons: false,
+            stepColor: Colors.white,
+            activeStepBorderColor: Colors.transparent,
+            activeStep: activeStep,
+            stepReachedAnimationEffect: Curves.bounceOut,
+            stepPadding: 4.0,
+            onStepReached: (index) {
+              setState(() {
+                activeStep = index;
+              });
+            },
           ),
-          Icon(
-            Icons.person,
-            color: activeStep == 1 ? Colors.white : ksecondaryColor,
+        ),
+        const Text(
+          'Informe os dados\ndo Evento',
+          style: TextStyle(
+            color: kTextLightColor,
+            fontSize: 16.0,
           ),
-          Icon(
-            Icons.check,
-            color: activeStep == 2 ? Colors.white : ksecondaryColor,
-          ),
-        ],
-        lineDotRadius: 2.0,
-        stepRadius: 24,
-        activeStepColor: kColorEventos,
-        enableNextPreviousButtons: false,
-        stepColor: Colors.white,
-        activeStepBorderColor: Colors.transparent,
-        activeStep: activeStep,
-        stepReachedAnimationEffect: Curves.bounceOut,
-        stepPadding: 4.0,
-        onStepReached: (index) {
-          setState(() {
-            activeStep = index;
-          });
-        },
-      ),
+          textAlign: TextAlign.center,
+        ),
+        const Divider()
+      ],
     );
   }
 
@@ -137,7 +150,7 @@ class _EventoAddState extends State<EventoAdd> {
 
   Widget buttonProximo() {
     return Container(
-      width: getWidth(context) * .9,
+      width: getWidth(context),
       height: getHeight(context) * .07,
       margin: const EdgeInsets.all(10.0),
       child: ElevatedButton(

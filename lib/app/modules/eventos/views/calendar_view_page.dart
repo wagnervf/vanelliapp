@@ -30,26 +30,24 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
       home: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
-            child: SfCalendar(
-              view: CalendarView.month,
-              initialDisplayDate: DateTime.now(),
-              initialSelectedDate: DateTime.now(),
-              cellBorderColor: Colors.grey[200],
-              //selectionDecoration: const BoxDecoration(
-              //color: kPrimaryColor,
-
-              //borderRadius: BorderRadius.all(1.0),
-              //     ),
-
-              allowViewNavigation: false,
-              monthViewSettings: const MonthViewSettings(
-                agendaItemHeight: 14.0,
-                showAgenda: true,
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * .7,
+              width: double.infinity,
+              child: SfCalendar(
+                view: CalendarView.month,
+                initialDisplayDate: DateTime.now(),
+                initialSelectedDate: DateTime.now(),
+                cellBorderColor: Colors.grey[200],
+                allowViewNavigation: false,
+                monthViewSettings: const MonthViewSettings(
+                  agendaItemHeight: 14.0,
+                  showAgenda: true,
+                ),
+                showDatePickerButton: true,
+                onTap: (CalendarTapDetails details) {
+                  _clickDate(details);
+                },
               ),
-              showDatePickerButton: true,
-              onTap: (CalendarTapDetails details) {
-                _clickDate(details);
-              },
             ),
           ),
         ),
@@ -67,6 +65,5 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
     // Get.to(() => EventoAdd());
   }
 }
-
 
 //https://www.syncfusion.com/kb/12328/how-to-override-the-localization-in-the-flutter-calendar

@@ -72,7 +72,10 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: const EdgeInsets.all(10.0),
-      leading: const Icon(Icons.date_range),
+      leading: const Icon(
+        Icons.date_range,
+        color: kPrimaryColor,
+      ),
       dense: true,
       visualDensity: VisualDensity.comfortable,
       title: Text(

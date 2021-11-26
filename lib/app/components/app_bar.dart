@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vanelliapp/app/components/constants.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 class AppBarCustom extends StatelessWidget with PreferredSizeWidget {

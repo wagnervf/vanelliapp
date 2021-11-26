@@ -47,8 +47,7 @@ class _ListFormaPagamentoState extends State<ListFormaPagamento> {
             ? 'Forma de Pagamento'
             : _controller.formaPagamentoEvento,
         style: const TextStyle(
-          color: kTextLightColor,
-        ),
+            color: kTextLightColor, fontWeight: FontWeight.bold),
       ),
       contentPadding: const EdgeInsets.all(10.0),
       trailing: const Icon(Icons.arrow_drop_down),
