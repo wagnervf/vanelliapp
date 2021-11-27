@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
-import 'package:vanelliapp/app/modules/eventos/views/event_model.dart';
+import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 import 'package:vanelliapp/app/modules/eventos/views/event_passo_cliente.dart';
 import 'package:vanelliapp/app/modules/eventos/views/event_passo_revisao.dart';
 import 'package:vanelliapp/app/modules/eventos/views/event_passo_evento.dart';
@@ -68,7 +68,7 @@ class _EventoAddState extends State<EventoAdd> {
               children: [
                 headerStepers(),
                 steppersBody(),
-                buttonProximo(),
+                buttonSelected(),
               ],
             ),
           ),
@@ -83,7 +83,6 @@ class _EventoAddState extends State<EventoAdd> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          //  color: Colors.grey[50],
           height: size.height * .10,
           padding: EdgeInsets.zero,
           margin: const EdgeInsets.only(bottom: 2),
@@ -132,6 +131,83 @@ class _EventoAddState extends State<EventoAdd> {
     );
   }
 
+  Widget buttonSelected() {
+    return Container(
+        width: getWidth(context),
+        height: getHeight(context) * .07,
+        margin: const EdgeInsets.all(10.0),
+        child: Visibility(
+          visible: activeStep < 2,
+          child: buttonNext(),
+          replacement: buttonConfirmar(),
+        ));
+  }
+
+  ElevatedButton buttonConfirmar() {
+    return ElevatedButton.icon(
+        label: Text(
+          'Confirmar',
+          style: TextStyle(
+            fontSize: getHeight(context) * .03,
+            color: Colors.white,
+          ),
+        ),
+        style: styleButton(),
+        onPressed: () => _acaoConfirmar(),
+        icon: const Icon(Icons.check));
+  }
+
+  void _acaoConfirmar() {
+    _controller.setEventoModel();
+    Get.back();
+    messageAlert('Evento Salvo!');
+  }
+
+  ElevatedButton buttonNext() {
+    return ElevatedButton(
+      child: Text(
+        'Próximo',
+        style: TextStyle(
+          fontSize: getHeight(context) * .03,
+          color: Colors.white,
+        ),
+      ),
+      style: styleButton(),
+      onPressed: () => _acoeBotaoNext(),
+    );
+  }
+
+  void _acoeBotaoNext() {
+    late bool dia = _controller.diaSelecionado.toString() == "";
+    late bool valor = _controller.valorDoEvento == "";
+    late bool tipo = _controller.tipoEvento == "";
+    late bool forma = _controller.formaPagamentoEvento == "";
+    late bool nome = _controller.nomeClienteEvento == "";
+    late bool contato = _controller.contatoClienteEvento == "";
+
+    if (activeStep == 0) {
+      if (dia || valor || tipo || forma) {
+        messageAlert('Verificar os campos não preenchidos!');
+      } else {
+        _avancar();
+      }
+    } else if (activeStep == 1) {
+      if (nome || contato) {
+        messageAlert('Verificar os campos não preenchidos!');
+      } else {
+        _avancar();
+      }
+    }
+  }
+
+  void _avancar() {
+    if (activeStep < upperBound) {
+      setState(() {
+        activeStep++;
+      });
+    }
+  }
+
   steppersBody() {
     switch (activeStep) {
       case 0:
@@ -141,43 +217,33 @@ class _EventoAddState extends State<EventoAdd> {
         return const EventPassoCliente();
 
       case 2:
-        return const EventPassoRevisao();
+        return EventPassoRevisao();
 
       default:
         return const EventPassoEvento();
     }
   }
 
-  Widget buttonProximo() {
-    return Container(
-      width: getWidth(context),
-      height: getHeight(context) * .07,
-      margin: const EdgeInsets.all(10.0),
-      child: ElevatedButton(
-        child: Text(
-          'Próximo',
-          style: TextStyle(
-            fontSize: getHeight(context) * .03,
-            color: Colors.white,
-          ),
-        ),
-        style: styleButton(),
-        onPressed: () => _acoeBotaoNext(),
-      ),
-    );
-  }
-
-  void _acoeBotaoNext() {
-    if (activeStep < upperBound) {
-      setState(() {
-        activeStep++;
-      });
-    }
-  }
-
   void _cancelarCriacaoEvento() {
     _controller.cancelarCriacaoEvento();
     Get.back();
+  }
+
+  void messageAlert(String title) {
+    return Get.rawSnackbar(
+        icon: const Icon(
+          Icons.info_outline,
+          color: Colors.deepOrange,
+        ),
+        messageText: Text(
+          title,
+          style: TextStyle(color: Colors.white70),
+        ),
+        duration: const Duration(seconds: 5),
+        margin: const EdgeInsets.all(8.0),
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
+        isDismissible: true,
+        snackPosition: SnackPosition.TOP);
   }
 
   ButtonStyle styleButton() {

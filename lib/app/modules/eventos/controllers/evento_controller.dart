@@ -1,6 +1,8 @@
 import 'dart:core';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 
 class EventoController extends GetxController {
   //late DateTime _diaSelecionado = DateTime.obs;
@@ -13,7 +15,10 @@ class EventoController extends GetxController {
   final Rx<String> _nomeClienteEvento = "".obs;
   final Rx<String> _contatoClienteEvento = "".obs;
 
+  final _eventos = <EventoModel>[].obs;
+
   Rx<DateTime> get diaSelecionado => _diaSelecionado;
+  get diaFomatado => DateFormat('dd/MM/yy').format(_diaSelecionado.value);
   get tipoEvento => _tipoEvento.value;
   get valorDoEvento => _valorEvento.value;
   get descricaoDoEvento => _descricaoEvento.value;
@@ -21,6 +26,8 @@ class EventoController extends GetxController {
   get formaPagamentoEvento => _formaPagamentoEvento.value;
   get nomeClienteEvento => _nomeClienteEvento.value;
   get contatoClienteEvento => _contatoClienteEvento.value;
+
+  List<EventoModel> get eventos => _eventos.toList();
 
   selecionarDiaEvento(value) {
     _diaSelecionado.value = value;
@@ -67,6 +74,21 @@ class EventoController extends GetxController {
     _contatoClienteEvento.refresh();
   }
 
+  setEventoModel() {
+    final evento = EventoModel(
+      dia: diaFomatado,
+      valor: valorDoEvento,
+      tipo: tipoEvento,
+      formaPagamento: formaPagamentoEvento,
+      nomeCliente: nomeClienteEvento,
+      contatoCliente: contatoClienteEvento,
+      entradaPago: entradaPagoEvento,
+    );
+
+    _eventos.add(evento);
+    _eventos.refresh();
+  }
+
   cancelarCriacaoEvento() {
     limparDia();
     setValorEvento(0.0);
@@ -74,5 +96,7 @@ class EventoController extends GetxController {
     setDescricaoEvento("");
     setEntradaPagoEvento(false);
     setFormaPagamentoEvento("");
+    setNomeClienteEvento("");
+    setContatoClienteEvento("");
   }
 }

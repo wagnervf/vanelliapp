@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 
 import '../../../theme.dart';
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for registering via Email/Password.
 class EventPassoCliente extends StatefulWidget {

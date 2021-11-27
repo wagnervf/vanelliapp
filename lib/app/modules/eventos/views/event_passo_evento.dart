@@ -28,6 +28,11 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   @override
   void initState() {
     controlValor.text = '600,00';
+    _controller.setValorEvento(
+      double.parse(
+        controlValor.text.replaceAll(',', '.').replaceAll('R\$ ', ''),
+      ),
+    );
     super.initState();
   }
 
@@ -45,7 +50,7 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
           const Divider(height: 2.0, thickness: 1.0),
           buildValor(),
           const Divider(height: 2.0, thickness: 1.0),
-          ListTipoEvento(),
+          const ListTipoEvento(),
           const Divider(height: 2.0, thickness: 1.0),
           entraPago(),
           const Divider(height: 2.0, thickness: 1.0),
@@ -88,8 +93,6 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   }
 
   void _saveValor() {
-    print(controlValor.text.toString());
-
     _controller.setValorEvento(
       double.parse(
         controlValor.text.replaceAll(',', '.').replaceAll('R\$ ', ''),

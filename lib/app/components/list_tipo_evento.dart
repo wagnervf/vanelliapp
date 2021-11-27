@@ -5,7 +5,7 @@ import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dar
 import 'package:vanelliapp/app/theme.dart';
 
 class ListTipoEvento extends StatefulWidget {
-  ListTipoEvento({Key? key}) : super(key: key);
+  const ListTipoEvento({Key? key}) : super(key: key);
 
   @override
   State<ListTipoEvento> createState() => _ListTipoEventoState();
@@ -14,7 +14,7 @@ class ListTipoEvento extends StatefulWidget {
 class _ListTipoEventoState extends State<ListTipoEvento> {
   final EventoController _controller = Get.find();
 
-  final titles = ["Churras", "Casório", "Niver"];
+  final titles = ["CHURRAS", "CASAMENTO", "ANIVERSÁRIO"];
   final subtitles = [
     "Churras no geral",
     "Noivado ou Casamento",

@@ -42,14 +42,14 @@ class BottomNavigationBarCustom extends StatelessWidget {
           icon: Icon(Icons.date_range),
           label: 'Eventos',
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.trending_down),
-          label: 'Despesas',
-        ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.trending_up),
-          label: 'Receitas',
-        ),
+        // const BottomNavigationBarItem(
+        //   icon: Icon(Icons.trending_down),
+        //   label: 'Despesas',
+        // ),
+        // const BottomNavigationBarItem(
+        //   icon: Icon(Icons.trending_up),
+        //   label: 'Receitas',
+        // ),
         const BottomNavigationBarItem(
           icon: Icon(Icons.more_vert),
           label: 'Mais',
