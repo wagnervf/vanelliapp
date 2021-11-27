@@ -22,7 +22,7 @@ class _EventViewState extends State<EventoView> {
         title: title(),
         elevation: 2.0,
       ),
-      body: const CalendarViewPage(),
+      body: CalendarViewPage(),
       bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }

@@ -89,6 +89,8 @@ class EventoController extends GetxController {
     _eventos.refresh();
   }
 
+  setEvento() {}
+
   cancelarCriacaoEvento() {
     limparDia();
     setValorEvento(0.0);
