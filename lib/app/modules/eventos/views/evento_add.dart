@@ -25,8 +25,7 @@ class _EventoAddState extends State<EventoAdd> {
   late EventoModel? evento;
   late DateTime from;
   late DateTime to;
-  late String dataSelecionada = DateFormat("dd/MM/yyyy")
-      .format(DateTime.parse(_controller.diaSelecionado.toString()));
+  late String dataSelecionada = _controller.diaSelecionado;
   final TextEditingController _controlDescricao = TextEditingController();
   int activeStep = 0;
   int upperBound = 2;
@@ -158,7 +157,7 @@ class _EventoAddState extends State<EventoAdd> {
   }
 
   void _acaoConfirmar() {
-    _controller.setEventoModel();
+    _controller.setAppointment();
     Get.back();
     messageAlert('Evento Salvo!');
   }

@@ -14,14 +14,8 @@ class _EventViewState extends State<EventoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: Container(),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: title(),
-        elevation: 2.0,
-      ),
+      primary: true,
+      backgroundColor: kPrimaryColor,
       body: CalendarViewPage(),
       bottomNavigationBar: BottomNavigationBarCustom(),
     );
