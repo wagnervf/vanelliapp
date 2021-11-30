@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
+import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/views/calendar_view_page.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -11,12 +13,20 @@ class EventoView extends StatefulWidget {
 }
 
 class _EventViewState extends State<EventoView> {
+  // ignore: unused_field
+  final EventoController _controller = Get.put(EventoController());
+  @override
+  void initState() {
+    setState(() {});
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       primary: true,
       backgroundColor: kPrimaryColor,
-      body: CalendarViewPage(),
+      body: const CalendarViewPage(),
       bottomNavigationBar: BottomNavigationBarCustom(),
     );
   }

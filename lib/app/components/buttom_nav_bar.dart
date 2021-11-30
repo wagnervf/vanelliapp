@@ -64,28 +64,22 @@ class BottomNavigationBarCustom extends StatelessWidget {
 
     switch (index) {
       case 0:
-        Get.to(
-          () => HomeView(),
-          transition: Transition.fade,
-          //  duration: const Duration(milliseconds: 300),
-        );
+        // Get.until((route) => Get.currentRoute == '/home');
+        Get.to(() => HomeView());
         break;
       case 1:
-        Get.to(
-          () => EventoView(),
-          transition: Transition.cupertino,
-          // duration: const Duration(milliseconds: 500),
-        );
+        // Get.until((route) => Get.currentRoute != '/evento');
+        Get.to(() => const EventoView());
         break;
       case 2:
         Get.to(
-          () => DespesasView(),
+          () => PerfilView(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 300),
         );
         break;
       case 3:
-        Get.to(
+        Get.off(
           () => ReceitasView(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 300),
@@ -101,7 +95,6 @@ class BottomNavigationBarCustom extends StatelessWidget {
     }
   }
 }
-
 
 // Container(
 //   padding: const EdgeInsets.symmetric(vertical: 14),

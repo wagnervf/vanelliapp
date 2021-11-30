@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
-import 'package:vanelliapp/app/modules/eventos/model/event_data_souce.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_add.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -17,17 +16,22 @@ class CalendarViewPage extends StatefulWidget {
 class _CalendarViewPageState extends State<CalendarViewPage> {
   final EventoController _controller = Get.put(EventoController());
   late bool showEvento = false;
-  late EventDataSource listDeEventos;
   late CalendarController _calendarController;
   @override
   void initState() {
-    _calendarController = CalendarController();
-
-    setState(() {
-      listDeEventos = _controller.listaAppointments;
-    });
-
     super.initState();
+    setState(() {});
+    _calendarController = CalendarController();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
+  }
+
+  loadDataEventos() {
+    return _controller.listaAppointments;
   }
 
   @override
@@ -71,17 +75,13 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   Container builCalendario() {
     return Container(
       // color: Colors.cyan,
-      height: MediaQuery.of(context).size.height * .6,
+      height: MediaQuery.of(context).size.height * .55,
       width: double.infinity,
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
+
       alignment: Alignment.topCenter,
       child: SfCalendar(
         controller: _calendarController,
-        dataSource: listDeEventos,
-        //dataSource: _getCalendarDataSource(),
-        //dataSource: _controller.getCalendarDataSource,
-        //dataSource: _getCalendarDataSource(),
+        dataSource: loadDataEventos(),
         view: CalendarView.month,
         monthCellBuilder: (context, details) {
           return details.appointments.isEmpty
@@ -98,10 +98,8 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
         headerHeight: 50,
         viewHeaderHeight: 60,
         viewHeaderStyle: headerDiaSemana(),
-
         monthViewSettings: configMes(),
         showDatePickerButton: true,
-
         onTap: (CalendarTapDetails details) {
           _clickDate(details);
         },
@@ -110,7 +108,6 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   }
 
   void _clickDate(details) {
-    print(details.date);
     _controller.selecionarDiaEvento(details.date);
 
     if (details.appointments.isEmpty) {
@@ -248,11 +245,12 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   FloatingActionButton buttonAddEvento() {
     return FloatingActionButton.extended(
       onPressed: () {
+        print(_controller.diaSelecionado);
         if (_controller.diaSelecionado == "") {
           _controller.selecionarDiaEvento(DateTime.now());
         }
 
-        Get.to(() => const EventoAdd());
+        Get.to(() => EventoAdd());
       },
       label: const Text("Novo Evento"),
       icon: const Icon(Icons.add),
@@ -267,12 +265,6 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
           color: Colors.white,
           fontSize: 22.0,
         ));
-  }
-}
-
-class DataSource extends CalendarDataSource {
-  DataSource(List<Appointment> source) {
-    appointments = source;
   }
 }
 

@@ -43,12 +43,13 @@ class EventoController extends GetxController {
 
   @override
   void onInit() {
-    // called immediately after the widget is allocated memory
+    print('***onInit***');
     getEventoCollection();
     super.onInit();
   }
 
   selecionarDiaEvento(value) {
+    print('selecionarDiaEvento $value');
     //_dia = value;
     //print('_dia ${DateFormat('yyyy-MM-dd').format(value)}');
     _diaSelecionado.value = DateFormat('yyyy-MM-dd').format(value);
@@ -165,26 +166,19 @@ class EventoController extends GetxController {
 
   //buscar usuário banco do firebase
   void getEventoCollection() async {
-    //var evento;
+    print('****getEventoCollection******');
     try {
       buscando.value = true;
+      _appointments.clear();
 
       await firestore.collection("eventos").get().then((value) {
         var document = value.docs;
         if (document.isNotEmpty) {
           for (int i = 0; i < document.length; i++) {
-            print('**********');
             setAppointmentBD(document[i]);
           }
         }
       });
-
-      // if (querySnapshot.docs.isNotEmpty) {
-      //   for (int i = 0; i < querySnapshot.docs.length; i++) {
-      //     print('**********');
-      //     setAppointmentBD(querySnapshot.docs[i]);
-      //   }
-      // }
 
       buscando.value = false;
       buscando.refresh();

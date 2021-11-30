@@ -205,7 +205,7 @@ class LoginController extends GetxController {
   void loginSucess() {
     setLogged(true);
     setLoading(false);
-    Get.to(() => HomeView());
+    Get.off(() => HomeView());
   }
 
   void loginError() {
@@ -238,7 +238,7 @@ class LoginController extends GetxController {
       if (user == "google") await googleSignIn.disconnect();
       clearUser();
       loginError();
-      Get.to(() => LoginView());
+      Get.off(() => LoginView());
     } catch (e) {
       MessagesSnackbar.show('Erro ao sair');
     }

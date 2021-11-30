@@ -12,7 +12,7 @@ class SelectDateEvento extends StatefulWidget {
 }
 
 class _SelectDateEventoState extends State<SelectDateEvento> {
-  final EventoController _controller = Get.find();
+  final EventoController _controller = Get.put(EventoController());
   late DateTime selectedDate;
   @override
   void initState() {
@@ -21,6 +21,8 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   }
 
   void _carregaDiaSelecionado() {
+    print('_carregaDiaSelecionado: ${_controller.diaSelecionado.toString()}');
+
     setState(() {
       selectedDate = DateTime.parse(_controller.diaSelecionado.toString());
     });

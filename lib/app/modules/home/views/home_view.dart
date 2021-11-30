@@ -3,21 +3,15 @@ import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
-import 'package:vanelliapp/app/components/constants.dart';
-import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
+import 'package:vanelliapp/app/components/get_list_eventos_firebase.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
-import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
-import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
-import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
-import 'package:vanelliapp/app/shared/size_config.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 class HomeView extends StatelessWidget {
-  final loginController = Get.put(LoginController());
-
   //Chama o Evento controller para buscar os eventos e preencher o calendário antes de abrir a tela de eventos...
   //Isso ajuda ao abrir a tela e eventos todos os eventos já foram buscandos no banco.
-  final EventoController eventoController = Get.find();
+  // ignore: unused_field
+  final EventoController _controller = Get.put(EventoController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +24,7 @@ class HomeView extends StatelessWidget {
         voltar: false,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildHeaderHome(context),
-              buildBodyHome(size, context),
-            ],
-          ),
-        ),
+        child: buildBodyHome(size, context),
       ),
       bottomNavigationBar: BottomNavigationBarCustom(),
     );
@@ -56,9 +42,11 @@ class HomeView extends StatelessWidget {
     return Container(
       color: Colors.white,
       width: double.infinity,
-      // padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      height: MediaQuery.of(context).size.height,
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
           buildBalanco(),
           const SizedBox(height: 20),
@@ -66,20 +54,7 @@ class HomeView extends StatelessWidget {
           buttonsCards(size),
           const Divider(),
           buildHeaderInfo('Atividades Recente'),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            color: Colors.grey[50],
-            child: Column(
-              children: [
-                buildBodyListRecentes(),
-                buildBodyListRecentes(),
-                buildBodyListRecentes(),
-                buildBodyListRecentes(),
-              ],
-            ),
-          ),
-          logoutFirebase(context),
-          testes()
+          const GetListEventosFirabase(),
         ],
       ),
     );
@@ -110,39 +85,6 @@ class HomeView extends StatelessWidget {
             color: kColorDespesas,
           ),
         ],
-      ),
-    );
-  }
-
-  Container buildBodyListRecentes() {
-    return Container(
-      padding: const EdgeInsets.all(4.0),
-      margin: EdgeInsets.only(bottom: 4.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: Colors.purple[50],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Icon(
-            Icons.shopping_basket,
-            color: Colors.purple[600],
-          ),
-        ),
-        title: const Text('Festa'),
-        subtitle: const Text('Churras no gelera'),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('R\$ 500,00'),
-            Text('10:00 AM'),
-          ],
-        ),
       ),
     );
   }
@@ -217,58 +159,6 @@ class HomeView extends StatelessWidget {
           style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
         ),
       ],
-    );
-  }
-
-  Column testes() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: GetX<UserController>(builder: (_) {
-            return Column(
-              children: [
-                Text(_.user.displayName.toString()),
-                Text(_.user.email.toString()),
-              ],
-            );
-          }),
-        ),
-        TextButton(
-          onPressed: () => loginController.logoutGoogle(),
-          child: const Text('Google Logout'),
-        ),
-        TextButton(
-          onPressed: () => Get.to(() => DespesasView()),
-          child: const Text('Despesas'),
-        ),
-        TextButton(
-          onPressed: () => Get.to(() => ReceitasView()),
-          child: const Text('Receitas'),
-        ),
-      ],
-    );
-  }
-
-  SizedBox logoutFirebase(BuildContext context) {
-    return SizedBox(
-      width: getWidth(context) * .7,
-      height: getHeight(context) * .07,
-      child: Obx(
-        () => ElevatedButton(
-          onPressed: () => loginController.setLogoutAll(),
-          child: loginController.loading
-              ? showLoading()
-              : Text(
-                  'Logout Firebase',
-                  style: TextStyle(
-                    fontSize: getHeight(context) * .03,
-                    color: Colors.white,
-                  ),
-                ),
-          style: styleElevatedButton(),
-        ),
-      ),
     );
   }
 }

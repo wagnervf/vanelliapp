@@ -18,7 +18,9 @@ class EventPassoEvento extends StatefulWidget {
 
 class _EventPassoEventoState extends State<EventPassoEvento> {
   StepperType stepperType = StepperType.vertical;
-  final EventoController _controller = Get.find();
+  // final EventoController _controller = Get.find();
+  final EventoController _controller = Get.put(EventoController());
+
   late String dataSelecionada = DateFormat("dd/MM/yyyy")
       .format(DateTime.parse(_controller.diaSelecionado.toString()));
   final TextEditingController _controlDescricao = TextEditingController();
