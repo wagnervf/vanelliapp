@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:vanelliapp/app/components/header_widget.dart';
+import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 import 'package:vanelliapp/app/modules/login/views/login_componentes.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';

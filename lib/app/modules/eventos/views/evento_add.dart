@@ -10,6 +10,8 @@ import 'package:vanelliapp/app/modules/eventos/views/event_passo_evento.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
 import 'package:vanelliapp/app/theme.dart';
 
+import 'evento_view.dart';
+
 class EventoAdd extends StatefulWidget {
   const EventoAdd({Key? key}) : super(key: key);
 
@@ -30,9 +32,14 @@ class _EventoAddState extends State<EventoAdd> {
   int activeStep = 0;
   int upperBound = 2;
 
+  bool salvando = false;
+
   @override
   void initState() {
     super.initState();
+    setState(() {
+      salvando = false;
+    });
   }
 
   @override
@@ -57,16 +64,18 @@ class _EventoAddState extends State<EventoAdd> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: SizedBox(
+          child: Container(
+            //color: Colors.purple,
             width: double.infinity,
             height: MediaQuery.of(context).size.height * .9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
                 headerStepers(),
                 steppersBody(),
+                const Spacer(),
                 buttonSelected(),
               ],
             ),
@@ -153,13 +162,32 @@ class _EventoAddState extends State<EventoAdd> {
         ),
         style: styleButton(),
         onPressed: () => _acaoConfirmar(),
-        icon: const Icon(Icons.check));
+        icon: Visibility(
+          visible: salvando,
+          replacement: const Icon(Icons.check),
+          child: const CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ));
   }
 
-  void _acaoConfirmar() {
-    _controller.setAppointment();
-    Get.back();
-    messageAlert('Evento Salvo!');
+  void _acaoConfirmar() async {
+    //_controller.setAppointment();
+    bool result = await _controller.saveEventoInCollectionFirebase();
+    setState(() {
+      salvando = true;
+    });
+    if (result) {
+      Get.to(
+        () => EventoView(),
+        transition: Transition.cupertino,
+        // duration: const Duration(milliseconds: 500),
+      );
+      messageAlert('Evento Salvo!');
+      setState(() {
+        salvando = false;
+      });
+    }
   }
 
   ElevatedButton buttonNext() {

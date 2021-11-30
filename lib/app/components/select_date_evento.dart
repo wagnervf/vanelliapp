@@ -50,8 +50,8 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   }
 
   bool _decideWhichDayToEnable(DateTime day) {
-    if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
-        day.isBefore(DateTime.now().add(Duration(days: 10))))) {
+    if ((day.isAfter(DateTime.now().subtract(const Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(const Duration(days: 10))))) {
       return true;
     }
     return false;
@@ -71,14 +71,14 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: const EdgeInsets.all(10.0),
+      title: const Text('Data'),
       leading: const Icon(
         Icons.date_range,
         color: kPrimaryColor,
       ),
       dense: true,
       visualDensity: VisualDensity.comfortable,
-      title: Text(
+      subtitle: Text(
         _dateFormat(selectedDate),
         style: textStyle(),
       ),
@@ -92,7 +92,7 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   TextStyle textStyle() {
     return const TextStyle(
       color: kPrimaryColor,
-      fontSize: 22.0,
+      fontSize: 26.0,
       fontWeight: FontWeight.bold,
     );
   }

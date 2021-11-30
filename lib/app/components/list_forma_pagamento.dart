@@ -42,14 +42,15 @@ class _ListFormaPagamentoState extends State<ListFormaPagamento> {
         iconeSelecionado,
         color: formaPagamentoSelecionado ? kTextLightColor : kPrimaryColor,
       ),
-      title: Text(
-        formaPagamentoSelecionado
-            ? 'Forma de Pagamento'
-            : _controller.formaPagamentoEvento,
+      title: const Text('Forma de Pagamento'),
+      subtitle: Text(
+        formaPagamentoSelecionado ? '' : _controller.formaPagamentoEvento,
         style: const TextStyle(
-            color: kTextLightColor, fontWeight: FontWeight.bold),
+          color: kTextLightColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 22,
+        ),
       ),
-      contentPadding: const EdgeInsets.all(10.0),
       trailing: const Icon(Icons.arrow_drop_down),
       onTap: () => _openDialogBottom(size),
     );

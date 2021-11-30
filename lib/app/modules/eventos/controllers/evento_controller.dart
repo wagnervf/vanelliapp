@@ -21,6 +21,8 @@ class EventoController extends GetxController {
   final Rx<String> _nomeClienteEvento = "".obs;
   final Rx<String> _contatoClienteEvento = "".obs;
 
+  final RxBool buscando = false.obs;
+
   // final _eventos = <EventoModel>[].obs;
 
   get diaSelecionado => _diaSelecionado.value;
@@ -35,6 +37,16 @@ class EventoController extends GetxController {
 
   // List<EventoModel> get eventos => _eventos.toList();
   List<Appointment> _appointments = <Appointment>[].obs;
+  //List<Appointment> get listaAppointments => _appointments.toList();
+  EventDataSource get listaAppointments =>
+      EventDataSource(_appointments.toList());
+
+  @override
+  void onInit() {
+    // called immediately after the widget is allocated memory
+    getEventoCollection();
+    super.onInit();
+  }
 
   selecionarDiaEvento(value) {
     //_dia = value;
@@ -99,32 +111,31 @@ class EventoController extends GetxController {
   //   _eventos.refresh();
   // }
 
-  void setAppointment() {
-    _appointments.add(
-      Appointment(
-        startTime: DateTime.parse(diaSelecionado),
-        endTime: DateTime.parse(diaSelecionado),
-        isAllDay: true,
-        id: EventoModel(
-          dia: diaSelecionado,
-          valor: valorDoEvento,
-          tipo: tipoEvento,
-          formaPagamento: formaPagamentoEvento,
-          nomeCliente: nomeClienteEvento,
-          contatoCliente: contatoClienteEvento,
-          entradaPago: entradaPagoEvento,
-        ),
-      ),
-    );
+  // void setAppointment() {
+  //   _appointments.add(
+  //     Appointment(
+  //       startTime: DateTime.parse(diaSelecionado),
+  //       endTime: DateTime.parse(diaSelecionado),
+  //       isAllDay: true,
+  //       id: EventoModel(
+  //         dia: diaSelecionado,
+  //         valor: valorDoEvento,
+  //         tipo: tipoEvento,
+  //         formaPagamento: formaPagamentoEvento,
+  //         nomeCliente: nomeClienteEvento,
+  //         contatoCliente: contatoClienteEvento,
+  //         entradaPago: entradaPagoEvento,
+  //       ),
+  //     ),
+  //   );
 
-    _saveEventoInCollectionFirebase();
-  }
+  //   _saveEventoInCollectionFirebase();
+  // }
 
-  EventDataSource get getCalendarDataSource => EventDataSource(_appointments);
-
-  // Salva usuário no banco do firebase
-  Future<bool> _saveEventoInCollectionFirebase() async {
+  // Salva o Evento no banco do firebase
+  Future<bool> saveEventoInCollectionFirebase() async {
     try {
+      //salvando no banco
       await firestore.collection("eventos").doc(diaSelecionado).set({
         'startTime': diaSelecionado,
         'endTime': diaSelecionado,
@@ -139,6 +150,10 @@ class EventoController extends GetxController {
           'entradaPago': entradaPagoEvento,
         }
       });
+
+      //Após salvar Busca no BR
+      getEventoCollection();
+
       return true;
     } catch (e) {
       print(e);
@@ -149,45 +164,55 @@ class EventoController extends GetxController {
   }
 
   //buscar usuário banco do firebase
-  getEventoCollection() async {
-    var evento;
+  void getEventoCollection() async {
+    //var evento;
     try {
-      //  evento = await firestore.collection("eventos").get();
-      //  var querySnapshot = await firestore.collection("eventos").snapshots();
-      // var list = querySnapshot.docs;
-      //  print('value.docs ${value.docs.first}');
-      QuerySnapshot querySnapshot = await firestore.collection("eventos").get();
+      buscando.value = true;
 
-      for (int i = 0; i < querySnapshot.docs.length; i++) {
-        var a = querySnapshot.docs[i];
-        print('**********');
-        print(mapedAppointment(a));
-        setAppointmentBD(a);
-      }
+      await firestore.collection("eventos").get().then((value) {
+        var document = value.docs;
+        if (document.isNotEmpty) {
+          for (int i = 0; i < document.length; i++) {
+            print('**********');
+            setAppointmentBD(document[i]);
+          }
+        }
+      });
 
-      return evento;
+      // if (querySnapshot.docs.isNotEmpty) {
+      //   for (int i = 0; i < querySnapshot.docs.length; i++) {
+      //     print('**********');
+      //     setAppointmentBD(querySnapshot.docs[i]);
+      //   }
+      // }
+
+      buscando.value = false;
+      buscando.refresh();
+      update();
+
+      // return evento;
     } catch (e) {
       MessagesSnackbar.show('Usuário não encontrado');
       rethrow;
     }
   }
 
-  Appointment mapedAppointment(doc) {
-    return Appointment(
-      startTime: DateTime.parse(doc["startTime"]),
-      endTime: DateTime.parse(doc["endTime"]),
-      isAllDay: doc["isAllDay"],
-      id: EventoModel(
-        dia: doc["id"]["dia"],
-        valor: doc["id"]["valor"],
-        tipo: doc["id"]["tipo"],
-        formaPagamento: doc["id"]["formaPagamento"],
-        nomeCliente: doc["id"]["nomeCliente"],
-        contatoCliente: doc["id"]["contatoCliente"],
-        entradaPago: doc["id"]["entradaPago"],
-      ),
-    );
-  }
+  // Appointment mapedAppointment(doc) {
+  //   return Appointment(
+  //     startTime: DateTime.parse(doc["startTime"]),
+  //     endTime: DateTime.parse(doc["endTime"]),
+  //     isAllDay: doc["isAllDay"],
+  //     id: EventoModel(
+  //       dia: doc["id"]["dia"],
+  //       valor: doc["id"]["valor"],
+  //       tipo: doc["id"]["tipo"],
+  //       formaPagamento: doc["id"]["formaPagamento"],
+  //       nomeCliente: doc["id"]["nomeCliente"],
+  //       contatoCliente: doc["id"]["contatoCliente"],
+  //       entradaPago: doc["id"]["entradaPago"],
+  //     ),
+  //   );
+  // }
 
   void setAppointmentBD(doc) {
     _appointments.add(
@@ -206,19 +231,7 @@ class EventoController extends GetxController {
         ),
       ),
     );
-
-    //  _saveEventoInCollectionFirebase();
   }
-
-  // EventDataSource.fromDocumentSnapshot(doc) {
-  //   startTime = doc["startTime"];
-  //   displayName = doc["displayName"] ?? "";
-  //   email = doc["email"] ?? '';
-  //   emailVerified = doc["emailVerified"] ?? false;
-  //   isAnonymous = doc["isAnonymous"] ?? false;
-  //   photoURL = doc["photoURL"] ?? '';
-  //   providerId = doc["providerId"] ?? '';
-  // }
 
   cancelarCriacaoEvento() {
     limparDia();

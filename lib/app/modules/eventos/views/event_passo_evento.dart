@@ -39,11 +39,12 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 1),
-      height: MediaQuery.of(context).size.height * .6,
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+      height: MediaQuery.of(context).size.height * .5,
+      // color: Colors.amber,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           const SelectDateEvento(),
@@ -72,14 +73,14 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
 
   ListTile buildValor() {
     return ListTile(
-        contentPadding: const EdgeInsets.all(10.0),
+        title: const Text('Valor'),
         leading: const Icon(
           Icons.monetization_on_sharp,
-          color: kPrimaryColor,
+          color: kTextLightColor,
         ),
         dense: true,
         visualDensity: VisualDensity.comfortable,
-        title: TextFormField(
+        subtitle: TextFormField(
           controller: controlValor,
           onChanged: (value) => _saveValor(),
           style: textStyle(),
@@ -98,10 +99,6 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
         controlValor.text.replaceAll(',', '.').replaceAll('R\$ ', ''),
       ),
     );
-
-    //  _controller.setDescricaoEvento(_controlDescricao.text);
-
-    //_controller.setTipoEvento(value)
   }
 
   ListTile entraPago() {
@@ -110,14 +107,12 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
         Icons.price_check,
         color: isSwitched ? kPrimaryColor : kTextLightColor,
       ),
-      title: const Text(
-        'Entrada Pago',
-        style: TextStyle(
-          color: kTextLightColor,
-          fontWeight: FontWeight.bold,
-        ),
+      title: const Text('Entrada Pago'),
+      subtitle: Text(
+        isSwitched ? 'SIM' : 'NÃO',
+        style: const TextStyle(
+            color: kTextLightColor, fontWeight: FontWeight.bold, fontSize: 22),
       ),
-      contentPadding: const EdgeInsets.all(10.0),
       trailing: Switch(
         value: isSwitched,
         onChanged: (value) {
@@ -135,7 +130,7 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   TextStyle textStyle() {
     return const TextStyle(
       color: kTextLightColor,
-      fontSize: 22.0,
+      fontSize: 24.0,
       fontWeight: FontWeight.bold,
     );
   }

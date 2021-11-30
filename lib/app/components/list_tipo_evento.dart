@@ -42,16 +42,17 @@ class _ListTipoEventoState extends State<ListTipoEvento> {
     Size size = MediaQuery.of(context).size;
     bool tipoSelecionado = _controller.tipoEvento == "";
     return ListTile(
-      contentPadding: const EdgeInsets.all(10.0),
+      title: const Text('Tipo do Evento'),
       leading: Icon(
         iconeSelecionado,
         color: tipoSelecionado ? kTextLightColor : kPrimaryColor,
       ),
-      title: Text(
-        tipoSelecionado ? 'Tipo do Evento' : _controller.tipoEvento,
+      subtitle: Text(
+        tipoSelecionado ? '' : _controller.tipoEvento,
         style: TextStyle(
           color: kTextLightColor,
           fontWeight: tipoSelecionado ? FontWeight.normal : FontWeight.bold,
+          fontSize: 22,
         ),
       ),
       trailing: const Icon(Icons.arrow_drop_down),

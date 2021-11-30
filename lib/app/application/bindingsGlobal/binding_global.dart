@@ -13,6 +13,6 @@ class BindingGlobal implements Bindings {
 
     Get.lazyPut(() => ControllerGlobal(), fenix: true);
     Get.lazyPut(() => LoginController(), fenix: true);
-    Get.lazyPut(() => EventoController(), fenix: true);
+    Get.lazyPut(() => EventoController());
   }
 }

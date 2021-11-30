@@ -5,6 +5,7 @@ import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/components/constants.dart';
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
+import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
@@ -13,6 +14,10 @@ import 'package:vanelliapp/app/theme.dart';
 
 class HomeView extends StatelessWidget {
   final loginController = Get.put(LoginController());
+
+  //Chama o Evento controller para buscar os eventos e preencher o calendário antes de abrir a tela de eventos...
+  //Isso ajuda ao abrir a tela e eventos todos os eventos já foram buscandos no banco.
+  final EventoController eventoController = Get.find();
 
   @override
   Widget build(BuildContext context) {

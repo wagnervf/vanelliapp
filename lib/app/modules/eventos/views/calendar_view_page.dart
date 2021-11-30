@@ -1,40 +1,31 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_data_souce.dart';
-import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_add.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 class CalendarViewPage extends StatefulWidget {
-  CalendarViewPage({Key? key}) : super(key: key);
+  const CalendarViewPage({Key? key}) : super(key: key);
 
   @override
   State<CalendarViewPage> createState() => _CalendarViewPageState();
 }
 
 class _CalendarViewPageState extends State<CalendarViewPage> {
-  final EventoController _controller = Get.find();
+  final EventoController _controller = Get.put(EventoController());
   late bool showEvento = false;
-//  late Employee eventoSelecionado;
-  late CalendarController _controllerC;
-  late List<String> _eventNameCollection;
-
+  late EventDataSource listDeEventos;
+  late CalendarController _calendarController;
   @override
   void initState() {
+    _calendarController = CalendarController();
+
     setState(() {
-      //  eventos.add(getEventos());
+      listDeEventos = _controller.listaAppointments;
     });
-    _controllerC = CalendarController();
-    _controller.getEventoCollection();
 
     super.initState();
   }
@@ -54,17 +45,84 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
       home: SafeArea(
         child: Scaffold(
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                builCalendario(),
-                listEvento(),
-              ],
+            child: Obx(
+              () => Visibility(
+                visible: _controller.buscando.value,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: kPrimaryColor,
+                  ),
+                ),
+                replacement: Column(
+                  children: [
+                    builCalendario(),
+                    listEvento(),
+                  ],
+                ),
+              ),
             ),
           ),
           floatingActionButton: buttonAddEvento(),
         ),
       ),
     );
+  }
+
+  Container builCalendario() {
+    return Container(
+      // color: Colors.cyan,
+      height: MediaQuery.of(context).size.height * .6,
+      width: double.infinity,
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
+      alignment: Alignment.topCenter,
+      child: SfCalendar(
+        controller: _calendarController,
+        dataSource: listDeEventos,
+        //dataSource: _getCalendarDataSource(),
+        //dataSource: _controller.getCalendarDataSource,
+        //dataSource: _getCalendarDataSource(),
+        view: CalendarView.month,
+        monthCellBuilder: (context, details) {
+          return details.appointments.isEmpty
+              ? cellNormal(details)
+              : cellAgendado(details);
+        },
+        backgroundColor: Colors.transparent,
+        firstDayOfWeek: 1,
+        todayHighlightColor: Colors.deepOrange,
+        headerStyle: calendarHeader(),
+        initialDisplayDate: DateTime.now(),
+        initialSelectedDate: DateTime.now(),
+        cellBorderColor: Colors.grey[200],
+        headerHeight: 50,
+        viewHeaderHeight: 60,
+        viewHeaderStyle: headerDiaSemana(),
+
+        monthViewSettings: configMes(),
+        showDatePickerButton: true,
+
+        onTap: (CalendarTapDetails details) {
+          _clickDate(details);
+        },
+      ),
+    );
+  }
+
+  void _clickDate(details) {
+    print(details.date);
+    _controller.selecionarDiaEvento(details.date);
+
+    if (details.appointments.isEmpty) {
+      setState(() {
+        showEvento = false;
+      });
+      return;
+    }
+
+    setState(() {
+      showEvento = true;
+    });
   }
 
   Visibility listEvento() {
@@ -110,137 +168,6 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
         ));
   }
 
-  Container builCalendario() {
-    return Container(
-      // color: Colors.cyan,
-      height: MediaQuery.of(context).size.height * .6,
-      width: double.infinity,
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
-      alignment: Alignment.topCenter,
-      child: SfCalendar(
-        //dataSource: getEventos(),
-        dataSource: _controller.getCalendarDataSource,
-        //dataSource: _getCalendarDataSource(),
-
-        view: CalendarView.month,
-        monthCellBuilder: (context, details) {
-          return details.appointments.isEmpty
-              ? cellNormal(details)
-              : cellAgendado(details);
-        },
-        firstDayOfWeek: 1,
-        todayHighlightColor: Colors.deepOrange,
-
-        headerStyle: calendarHeader(),
-        initialDisplayDate: DateTime.now(),
-        initialSelectedDate: DateTime.now(),
-        cellBorderColor: Colors.grey[200],
-        headerHeight: 50,
-        viewHeaderHeight: 50,
-        backgroundColor: Colors.transparent,
-        viewHeaderStyle: headerDiaSemana(),
-        monthViewSettings: configMes(),
-        showDatePickerButton: true,
-
-        onTap: (CalendarTapDetails details) {
-          _clickDate(details);
-        },
-      ),
-    );
-  }
-
-  Appointment getEventos() {
-    //late List<Appointment> eventos = <Appointment>[];
-    // eventos.add(_controller.getEventoCollection());
-    return _controller.getEventoCollection();
-    //  print(eve);
-    // return eve;
-  }
-
-  void _clickDate(details) {
-    print(details.date);
-
-    _controller.selecionarDiaEvento(details.date);
-
-    if (details.appointments.isEmpty) {
-      setState(() {
-        showEvento = false;
-      });
-      return;
-    }
-
-    print('antes: $showEvento');
-
-    setState(() {
-      showEvento = true;
-    });
-  }
-
-  EventDataSource _getCalendarDataSource() {
-    //  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    List<Appointment> appointments = <Appointment>[];
-
-    //QuerySnapshot querySnapshot = await firestore.collection("eventos").get();
-    // for (int i = 0; i < querySnapshot.docs.length; i++) {
-    //  var a = querySnapshot.docs[i];
-    // appointments.add(
-    appointments.add(
-      Appointment(
-        startTime: DateTime(2021, 11, 16),
-        endTime: DateTime(2021, 11, 16),
-        isAllDay: true,
-        id: EventoModel(
-          dia: DateTime(2021, 11, 16).toString(),
-          valor: 1000,
-          tipo: 'CHURRAS',
-          formaPagamento: 'pix',
-          nomeCliente: 'WAGNER',
-          contatoCliente: '67991081150',
-          entradaPago: true,
-        ),
-      ),
-    );
-
-    //  print(appointments);
-
-    return EventDataSource(appointments);
-
-    // appointments.add(getEventos()
-
-    // Appointment(
-    //   startTime: DateTime(2021, 11, 16),
-    //   endTime: DateTime(2021, 11, 16),
-    //   isAllDay: true,
-    //   id: EventoModel(
-    //     dia: DateTime(2021, 11, 16).toString(),
-    //     valor: 1000,
-    //     tipo: 'CHURRAS',
-    //     formaPagamento: 'pix',
-    //     nomeCliente: 'WAGNER',
-    //     contatoCliente: '67991081150',
-    //     entradaPago: true,
-    //   ),
-    // ),
-  }
-
-  // Appointment mapedAppointment(doc) {
-  //   return Appointment(
-  //     startTime: DateTime.parse(doc["startTime"]),
-  //     endTime: DateTime.parse(doc["endTime"]),
-  //     isAllDay: doc["isAllDay"],
-  //     id: EventoModel(
-  //       dia: doc["id"]["dia"],
-  //       valor: doc["id"]["valor"],
-  //       tipo: doc["id"]["tipo"],
-  //       formaPagamento: doc["id"]["formaPagamento"],
-  //       nomeCliente: doc["id"]["nomeCliente"],
-  //       contatoCliente: doc["id"]["contatoCliente"],
-  //       entradaPago: doc["id"]["entradaPago"],
-  //     ),
-  //   );
-  // }
-
   Container cellAgendado(MonthCellDetails details) {
     return Container(
       decoration: BoxDecoration(
@@ -284,7 +211,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
 
   MonthViewSettings configMes() {
     return const MonthViewSettings(
-      showTrailingAndLeadingDates: true,
+      showTrailingAndLeadingDates: false,
       // agendaViewHeight: 70,
       dayFormat: 'EEE',
       numberOfWeeksInView: 6,
@@ -305,9 +232,14 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   ViewHeaderStyle headerDiaSemana() {
     return const ViewHeaderStyle(
       backgroundColor: Colors.transparent,
+      dateTextStyle: TextStyle(
+        color: Colors.purpleAccent,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
       dayTextStyle: TextStyle(
         color: kPrimaryColor,
-        fontSize: 15,
+        fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -315,7 +247,13 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
 
   FloatingActionButton buttonAddEvento() {
     return FloatingActionButton.extended(
-      onPressed: () => Get.to(() => const EventoAdd()),
+      onPressed: () {
+        if (_controller.diaSelecionado == "") {
+          _controller.selecionarDiaEvento(DateTime.now());
+        }
+
+        Get.to(() => const EventoAdd());
+      },
       label: const Text("Novo Evento"),
       icon: const Icon(Icons.add),
     );
@@ -329,6 +267,12 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
           color: Colors.white,
           fontSize: 22.0,
         ));
+  }
+}
+
+class DataSource extends CalendarDataSource {
+  DataSource(List<Appointment> source) {
+    appointments = source;
   }
 }
 
