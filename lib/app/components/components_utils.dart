@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 
 import '../theme.dart';
 
@@ -152,6 +154,46 @@ class Componentsutils {
           ],
         ),
       ),
+    );
+  }
+
+  static Card buildBodyListRecentes(EventoModel doc) {
+    String data =
+        DateFormat('dd/MM').format(DateTime.parse(doc.diaCompleto)).toString();
+    var part = data.split('/');
+
+    return Card(
+      elevation: 2,
+      shape: Border(
+          left: BorderSide(
+              color: doc.entradaPago
+                  ? const Color(0xFF81c784)
+                  : const Color(0xFFe57373),
+              width: 5)),
+      child: ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(6.0),
+            child: Text(
+              '${part[0]}\n${part[1]}',
+              textAlign: TextAlign.center,
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: kPrimaryColor),
+            ),
+          ),
+          title: Text(
+            doc.nomeCliente,
+            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(doc.tipo),
+          trailing: const Icon(
+            Icons.arrow_right,
+            color: kTextLightColor,
+          )),
     );
   }
 }

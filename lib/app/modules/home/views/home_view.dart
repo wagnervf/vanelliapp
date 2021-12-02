@@ -54,7 +54,7 @@ class HomeView extends StatelessWidget {
           buttonsCards(size),
           const Divider(),
           buildHeaderInfo('Atividades Recente'),
-          const GetListEventosFirabase(),
+          //const GetListEventosFirabase(),
         ],
       ),
     );
@@ -93,7 +93,6 @@ class HomeView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       alignment: Alignment.topLeft,
-
       child: Text(
         text,
         style: const TextStyle(
@@ -101,22 +100,6 @@ class HomeView extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: ksecondaryColor),
       ),
-      //   Container(
-      //     padding: EdgeInsets.zero,
-      //     margin: EdgeInsets.zero,
-      //     decoration: BoxDecoration(
-      //       color: Colors.purple[50],
-      //       borderRadius: BorderRadius.circular(20),
-      //     ),
-      //     child: TextButton(
-      //       onPressed: () {},
-      //       child: Text(
-      //         'Ver tudo',
-      //         style: TextStyle(color: Colors.purple[600]),
-      //       ),
-      //     ),
-      //   ),
-      // ],
     );
   }
 

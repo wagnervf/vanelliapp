@@ -259,7 +259,7 @@ class _EventoAddState extends State<EventoAdd> {
         ),
         messageText: Text(
           title,
-          style: TextStyle(color: Colors.white70),
+          style: const TextStyle(color: Colors.white70),
         ),
         duration: const Duration(seconds: 5),
         margin: const EdgeInsets.all(8.0),

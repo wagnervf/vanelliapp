@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vanelliapp/app/components/components_utils.dart';
+import 'package:vanelliapp/app/theme.dart';
 
 class GetListEventosFirabase extends StatefulWidget {
   const GetListEventosFirabase({Key? key}) : super(key: key);
@@ -20,11 +22,12 @@ class _GetListEventosFirabaseState extends State<GetListEventosFirabase> {
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text('Something went wrong');
+          return const Text('Erro ao carregar os dados do Banco');
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator(
+              backgroundColor: kPrimaryColor);
         }
         if (snapshot.hasData) {
           lists.clear();
@@ -34,60 +37,35 @@ class _GetListEventosFirabaseState extends State<GetListEventosFirabase> {
             lists.add(value);
           });
           return Container(
-            height: MediaQuery.of(context).size.height * .5,
-            // color: Colors.grey[100],
+            height: MediaQuery.of(context).size.height * .35,
+            margin: const EdgeInsets.only(top: 4.0),
+            color: Colors.grey[100],
             child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: lists.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return buildBodyListRecentes(lists[index]);
+                  return Componentsutils.buildBodyListRecentes(lists[index]);
                 }),
           );
         }
+
         return const CircularProgressIndicator();
       },
     );
   }
-
-  Card buildBodyListRecentes(doc) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(2.0),
-        margin: const EdgeInsets.only(bottom: 4.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: ListTile(
-          leading: Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              color:
-                  doc["id"]["entradaPago"] ? Colors.teal[50] : Colors.red[50],
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Icon(
-              doc["id"]["entradaPago"] ? Icons.check : Icons.info_outline,
-              color: doc["id"]["entradaPago"]
-                  ? Colors.teal
-                  : Colors.redAccent[200],
-            ),
-          ),
-          title: Text(
-            doc["id"]["nomeCliente"],
-            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(doc["id"]["tipo"]),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(doc["id"]["valor"].toString()),
-              Text(doc["id"]["entradaPago"].toString()),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
+
+
+// width: 50.0,
+            // height: 50.0,
+            // padding: EdgeInsets.all(12.0),
+            // alignment: Alignment.center,
+            // decoration: BoxDecoration(
+            //   // color: const Color(0xff7c94b6),
+            //   borderRadius: BorderRadius.all(Radius.circular(25.0)),
+            //   border: Border.all(
+            //     color: kPrimaryColor,
+            //     width: 1.0,
+            //   ),
+            // ),

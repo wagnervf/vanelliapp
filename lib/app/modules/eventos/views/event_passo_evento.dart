@@ -42,12 +42,11 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      height: MediaQuery.of(context).size.height * .5,
-      // color: Colors.amber,
+      height: MediaQuery.of(context).size.height * .6,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        //  mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           const SelectDateEvento(),
           const Divider(height: 2.0, thickness: 1.0),

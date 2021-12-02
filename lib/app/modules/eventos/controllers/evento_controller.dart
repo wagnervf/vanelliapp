@@ -11,7 +11,7 @@ import 'package:vanelliapp/app/services/messages_snackbar.dart';
 
 class EventoController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late DateTime _dia = DateTime.now();
+  //late DateTime _dia = DateTime.now();
   final _diaSelecionado = "".obs;
   final Rx<double> _valorEvento = 0.0.obs;
   final Rx<String> _tipoEvento = "".obs;
@@ -20,6 +20,10 @@ class EventoController extends GetxController {
   final Rx<String> _formaPagamentoEvento = "".obs;
   final Rx<String> _nomeClienteEvento = "".obs;
   final Rx<String> _contatoClienteEvento = "".obs;
+  final Rx<int> _dia = 0.obs;
+  final Rx<int> _mes = 0.obs;
+  final Rx<int> _ano = 0.obs;
+  final Rx<int> _idEvento = 0.obs;
 
   final RxBool buscando = false.obs;
 
@@ -41,19 +45,20 @@ class EventoController extends GetxController {
   EventDataSource get listaAppointments =>
       EventDataSource(_appointments.toList());
 
+  List eventosAll = [].obs;
+
   @override
   void onInit() {
-    print('***onInit***');
-    getEventoCollection();
+    // getEventoCollection();
     super.onInit();
   }
 
   selecionarDiaEvento(value) {
-    print('selecionarDiaEvento $value');
-    //_dia = value;
-    //print('_dia ${DateFormat('yyyy-MM-dd').format(value)}');
     _diaSelecionado.value = DateFormat('yyyy-MM-dd').format(value);
-    //print(' _diaSelecionado.value ${_diaSelecionado.value} ');
+    _idEvento.value = Timestamp.fromDate(value).seconds;
+    _dia.value = int.parse(DateFormat('dd').format(value));
+    _mes.value = int.parse(DateFormat('MM').format(value));
+    _ano.value = int.parse(DateFormat('yyyy').format(value));
     _diaSelecionado.refresh();
   }
 
@@ -97,60 +102,36 @@ class EventoController extends GetxController {
     _contatoClienteEvento.refresh();
   }
 
-  // setEventoModel() {
-  //   final evento = EventoModel(
-  //     dia: diaFomatado,
-  //     valor: valorDoEvento,
-  //     tipo: tipoEvento,
-  //     formaPagamento: formaPagamentoEvento,
-  //     nomeCliente: nomeClienteEvento,
-  //     contatoCliente: contatoClienteEvento,
-  //     entradaPago: entradaPagoEvento,
-  //   );
+  setDadosEvento() {
+    final Map<String, dynamic> evento = {
+      'id': _idEvento.value,
+      'dia': _dia.value,
+      'mes': _mes.value,
+      'ano': _ano.value,
+      'valor': valorDoEvento,
+      'tipo': tipoEvento,
+      'formaPagamento': formaPagamentoEvento,
+      'nomeCliente': nomeClienteEvento,
+      'contatoCliente': contatoClienteEvento,
+      'entradaPago': entradaPagoEvento,
+      'idUsuario': 'Wagner',
+      'dataCadastro': diaSelecionado,
+      'diaCompleto': diaSelecionado,
+      'isAllDay': true,
+    };
 
-  //   _eventos.add(evento);
-  //   _eventos.refresh();
-  // }
-
-  // void setAppointment() {
-  //   _appointments.add(
-  //     Appointment(
-  //       startTime: DateTime.parse(diaSelecionado),
-  //       endTime: DateTime.parse(diaSelecionado),
-  //       isAllDay: true,
-  //       id: EventoModel(
-  //         dia: diaSelecionado,
-  //         valor: valorDoEvento,
-  //         tipo: tipoEvento,
-  //         formaPagamento: formaPagamentoEvento,
-  //         nomeCliente: nomeClienteEvento,
-  //         contatoCliente: contatoClienteEvento,
-  //         entradaPago: entradaPagoEvento,
-  //       ),
-  //     ),
-  //   );
-
-  //   _saveEventoInCollectionFirebase();
-  // }
+    return (evento);
+  }
 
   // Salva o Evento no banco do firebase
+
   Future<bool> saveEventoInCollectionFirebase() async {
     try {
       //salvando no banco
-      await firestore.collection("eventos").doc(diaSelecionado).set({
-        'startTime': diaSelecionado,
-        'endTime': diaSelecionado,
-        'isAllDay': true,
-        'id': {
-          'dia': diaSelecionado,
-          'valor': valorDoEvento,
-          'tipo': tipoEvento,
-          'formaPagamento': formaPagamentoEvento,
-          'nomeCliente': nomeClienteEvento,
-          'contatoCliente': contatoClienteEvento,
-          'entradaPago': entradaPagoEvento,
-        }
-      });
+      await firestore
+          .collection("eventos")
+          .doc(_idEvento.value.toString())
+          .set(setDadosEvento());
 
       //Após salvar Busca no BR
       getEventoCollection();
@@ -165,24 +146,28 @@ class EventoController extends GetxController {
   }
 
   //buscar usuário banco do firebase
-  void getEventoCollection() async {
-    print('****getEventoCollection******');
+  Future<void> getEventoCollection() async {
     try {
-      buscando.value = true;
+      setBuscando(true);
       _appointments.clear();
+      var lista;
 
       await firestore.collection("eventos").get().then((value) {
         var document = value.docs;
         if (document.isNotEmpty) {
           for (int i = 0; i < document.length; i++) {
             setAppointmentBD(document[i]);
+
+            // lista = (document[i] as List)
+            //     .map<EventoModel>((e) => EventoModel.fromMap(e))
+            //     .toList();
           }
         }
       });
 
-      buscando.value = false;
-      buscando.refresh();
-      update();
+      //eventosAll.addAll(lista);
+
+      setBuscando(false);
 
       // return evento;
     } catch (e) {
@@ -191,40 +176,25 @@ class EventoController extends GetxController {
     }
   }
 
-  // Appointment mapedAppointment(doc) {
-  //   return Appointment(
-  //     startTime: DateTime.parse(doc["startTime"]),
-  //     endTime: DateTime.parse(doc["endTime"]),
-  //     isAllDay: doc["isAllDay"],
-  //     id: EventoModel(
-  //       dia: doc["id"]["dia"],
-  //       valor: doc["id"]["valor"],
-  //       tipo: doc["id"]["tipo"],
-  //       formaPagamento: doc["id"]["formaPagamento"],
-  //       nomeCliente: doc["id"]["nomeCliente"],
-  //       contatoCliente: doc["id"]["contatoCliente"],
-  //       entradaPago: doc["id"]["entradaPago"],
-  //     ),
-  //   );
-  // }
-
-  void setAppointmentBD(doc) {
+  void setAppointmentBD(map) {
     _appointments.add(
       Appointment(
-        startTime: DateTime.parse(doc["startTime"]),
-        endTime: DateTime.parse(doc["endTime"]),
-        isAllDay: doc["isAllDay"],
-        id: EventoModel(
-          dia: doc["id"]["dia"],
-          valor: doc["id"]["valor"],
-          tipo: doc["id"]["tipo"],
-          formaPagamento: doc["id"]["formaPagamento"],
-          nomeCliente: doc["id"]["nomeCliente"],
-          contatoCliente: doc["id"]["contatoCliente"],
-          entradaPago: doc["id"]["entradaPago"],
-        ),
+        startTime: DateTime.parse(map["dataCadastro"]),
+        endTime: DateTime.parse(map["dataCadastro"]),
+        isAllDay: map["isAllDay"],
+        id: EventoModel.fromMap(map),
       ),
     );
+
+    // eventosAll.add(
+    //     (doc as List).map<EventoModel>((e) => EventoModel.fromMap(e)).toList());
+
+    // eventosAll.add(EventoModel.fromMap(doc));
+  }
+
+  setBuscando(value) {
+    buscando.value = value;
+    buscando.refresh();
   }
 
   cancelarCriacaoEvento() {

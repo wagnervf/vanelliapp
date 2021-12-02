@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
+import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_add.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -17,10 +19,13 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   final EventoController _controller = Get.put(EventoController());
   late bool showEvento = false;
   late CalendarController _calendarController;
+  late List<EventoModel> listAppointmentDia = [];
+
   @override
   void initState() {
     super.initState();
     setState(() {});
+    listAppointmentDia = [];
     _calendarController = CalendarController();
   }
 
@@ -58,10 +63,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
                   ),
                 ),
                 replacement: Column(
-                  children: [
-                    builCalendario(),
-                    listEvento(),
-                  ],
+                  children: [builCalendario(), listEvento(), itensFirebase()],
                 ),
               ),
             ),
@@ -107,19 +109,63 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
     );
   }
 
-  void _clickDate(details) {
+  void _clickDate(CalendarTapDetails details) {
     _controller.selecionarDiaEvento(details.date);
+    print(details.appointments![0].id);
 
-    if (details.appointments.isEmpty) {
-      setState(() {
-        showEvento = false;
-      });
-      return;
-    }
+    listAppointmentDia.add(details.appointments![0].id as EventoModel);
+
+    // if (details.appointments.isEmpty) {
+    //   setState(() {
+    //     showEvento = false;
+    //     listAppointmentDia.addAll(details.appointments);
+    //   });
+    //   return;
+    // }
 
     setState(() {
       showEvento = true;
     });
+  }
+
+  // Future getClientes() async {
+  //   return _controller.listaAppointments;
+  // }
+
+  itensFirebase() {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: listAppointmentDia.length,
+        itemBuilder: (_, index) {
+          return Container(
+            height: 60,
+            margin: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                stops: [0.015, 0.015],
+                colors: [Colors.purple, Colors.purple],
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(5.0),
+              ),
+            ),
+            child: Card(
+              child: ListTile(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(listAppointmentDia[index].idUsuario),
+                  ],
+                ),
+                leading: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Image.network(
+                      "https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-128.png"),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Visibility listEvento() {
