@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 
@@ -59,32 +60,21 @@ class Componentsutils {
       //filled: true,
     );
   }
-  // static Container inputValorNormal(TextEditingController controller) {
-  //   return Container(
-  //     padding: const EdgeInsets.symmetric(vertical: 10.0),
-  //     child: TextFormField(
-  //       controller: controller,
-  //       keyboardType: TextInputType.number,
-  //       textAlign: TextAlign.left,
-  //       style: textStyle(),
-  //       decoration: const InputDecoration(
-  //         contentPadding: EdgeInsets.all(20),
-  //         enabledBorder: InputBorder.none,
-  //         icon: Icon(Icons.monetization_on),
-  //         prefixIconConstraints: BoxConstraints(
-  //           minHeight: 52,
-  //           minWidth: 32,
-  //         ),
-  //         //filled: true
-  //       ),
-  //     ),
-  //   );
-  // }
+
+  static Container iconList(IconData icon, Color cor) {
+    return Container(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Icon(
+        icon,
+        color: cor,
+      ),
+    );
+  }
 
   static TextStyle textStyle() {
     return const TextStyle(
       color: kTextColor,
-      fontSize: 22.0,
+      fontSize: 20.0,
       fontWeight: FontWeight.bold,
     );
   }
@@ -95,9 +85,9 @@ class Componentsutils {
     );
   }
 
-  static InputDecoration buildInputDecoration(String hintText) {
+  static InputDecoration buildInputDecoration(IconData icon, String hintText) {
     return InputDecoration(
-      icon: const Icon(Icons.subject),
+      icon: Icon(icon),
       prefixIconConstraints: const BoxConstraints(
         minHeight: 52,
         minWidth: 32,
@@ -108,6 +98,19 @@ class Componentsutils {
       //filled: true,
     );
   }
+
+  static TextStyle textValueList() {
+    return const TextStyle(
+      color: kTextLightColor,
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
+    );
+  }
+
+  static TextStyle textLabelList() => const TextStyle(
+        fontWeight: FontWeight.w300,
+        color: kTextLightColor,
+      );
 
   static Card cardInformation({
     required Size size,
@@ -166,7 +169,7 @@ class Componentsutils {
       elevation: 2,
       shape: Border(
           left: BorderSide(
-              color: doc.entradaPago
+              color: doc.reservaPago
                   ? const Color(0xFF81c784)
                   : const Color(0xFFe57373),
               width: 5)),
@@ -196,4 +199,81 @@ class Componentsutils {
           )),
     );
   }
+
+  static void messageAlert(String title) {
+    return Get.rawSnackbar(
+        icon: const Icon(
+          Icons.info_outline,
+          color: Colors.deepOrange,
+        ),
+        messageText: Text(
+          title,
+          style: const TextStyle(color: Colors.white70),
+        ),
+        duration: const Duration(seconds: 5),
+        margin: const EdgeInsets.all(8.0),
+        dismissDirection: SnackDismissDirection.HORIZONTAL,
+        isDismissible: true,
+        snackPosition: SnackPosition.TOP);
+  }
 }
+ // ElevatedButton buttonConfirmar() {
+  //   return ElevatedButton.icon(
+  //       label: Text(
+  //         'Confirmar',
+  //         style: TextStyle(
+  //           fontSize: getHeight(context) * .03,
+  //           color: Colors.white,
+  //         ),
+  //       ),
+  //       style: styleButton(),
+  //       onPressed: () => _acaoConfirmar(),
+  //       icon: Visibility(
+  //         visible: salvando,
+  //         replacement: const Icon(Icons.check),
+  //         child: const CircularProgressIndicator(
+  //           color: Colors.white,
+  //         ),
+  //       ));
+  // }
+
+
+//   ButtonStyle styleButton() {
+//     return ElevatedButton.styleFrom(
+//       primary: kPrimaryColor,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//     );
+//   }
+// }
+
+// Widget previousButton() {
+//   return Visibility(
+//       visible: activeStep > 0,
+//       child: SizedBox(
+//           width: getWidth(context) * 0.3,
+//           height: getHeight(context) * .05,
+//           child: OutlinedButton(
+//             onPressed: () {
+//               if (activeStep > 0) {
+//                 setState(() {
+//                   activeStep--;
+//                 });
+//               }
+//             },
+//             child: Text(
+//               'Voltar',
+//               style: TextStyle(
+//                 fontSize: getHeight(context) * .03,
+//                 color: kPrimaryColor,
+//               ),
+//             ),
+//             style: OutlinedButton.styleFrom(
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(25),
+//               ),
+//               side: const BorderSide(width: 1.0, color: kPrimaryColor),
+//             ),
+//           )));
+// }

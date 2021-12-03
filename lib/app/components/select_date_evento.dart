@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -21,8 +22,6 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   }
 
   void _carregaDiaSelecionado() {
-    print('_carregaDiaSelecionado: ${_controller.diaSelecionado.toString()}');
-
     setState(() {
       selectedDate = DateTime.parse(_controller.diaSelecionado.toString());
     });
@@ -73,19 +72,23 @@ class _SelectDateEventoState extends State<SelectDateEvento> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: const Text('Data'),
-      leading: const Icon(
-        Icons.date_range,
-        color: kPrimaryColor,
+      title: Text(
+        'Data',
+        style: Componentsutils.textLabelList(),
       ),
+      minVerticalPadding: 20.0,
+      leading: Componentsutils.iconList(Icons.date_range, kPrimaryColor),
       dense: true,
       visualDensity: VisualDensity.comfortable,
       subtitle: Text(
         _dateFormat(selectedDate),
         style: textStyle(),
       ),
-      trailing: CloseButton(
-        onPressed: _clearDate,
+      trailing: Padding(
+        padding: const EdgeInsets.only(top: 12.0, right: 0),
+        child: CloseButton(
+          onPressed: _clearDate,
+        ),
       ),
       onTap: () => _selectDate(context),
     );

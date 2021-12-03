@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
@@ -42,20 +43,22 @@ class _ListTipoEventoState extends State<ListTipoEvento> {
     Size size = MediaQuery.of(context).size;
     bool tipoSelecionado = _controller.tipoEvento == "";
     return ListTile(
-      title: const Text('Tipo do Evento'),
-      leading: Icon(
+      title: Text(
+        'Tipo do Evento',
+        style: Componentsutils.textLabelList(),
+      ),
+      leading: Componentsutils.iconList(
         iconeSelecionado,
-        color: tipoSelecionado ? kTextLightColor : kPrimaryColor,
+        tipoSelecionado ? kTextLightColor : kPrimaryColor,
       ),
       subtitle: Text(
         tipoSelecionado ? '' : _controller.tipoEvento,
-        style: TextStyle(
-          color: kTextLightColor,
-          fontWeight: tipoSelecionado ? FontWeight.normal : FontWeight.bold,
-          fontSize: 22,
-        ),
+        style: Componentsutils.textValueList(),
       ),
-      trailing: const Icon(Icons.arrow_drop_down),
+      trailing: const Padding(
+        padding: EdgeInsets.only(right: 12.0),
+        child: Icon(Icons.arrow_drop_down),
+      ),
       onTap: () => _openDialogBottom(size),
     );
   }

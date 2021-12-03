@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
@@ -38,20 +39,22 @@ class _ListFormaPagamentoState extends State<ListFormaPagamento> {
     Size size = MediaQuery.of(context).size;
     bool formaPagamentoSelecionado = _controller.formaPagamentoEvento == "";
     return ListTile(
-      leading: Icon(
+      leading: Componentsutils.iconList(
         iconeSelecionado,
-        color: formaPagamentoSelecionado ? kTextLightColor : kPrimaryColor,
+        formaPagamentoSelecionado ? kTextLightColor : kPrimaryColor,
       ),
-      title: const Text('Forma de Pagamento'),
+      title: Text(
+        'Forma de Pagamento',
+        style: Componentsutils.textLabelList(),
+      ),
       subtitle: Text(
         formaPagamentoSelecionado ? '' : _controller.formaPagamentoEvento,
-        style: const TextStyle(
-          color: kTextLightColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 22,
-        ),
+        style: Componentsutils.textValueList(),
       ),
-      trailing: const Icon(Icons.arrow_drop_down),
+      trailing: const Padding(
+        padding: EdgeInsets.only(right: 12.0),
+        child: Icon(Icons.arrow_drop_down),
+      ),
       onTap: () => _openDialogBottom(size),
     );
   }

@@ -16,7 +16,8 @@ class EventoController extends GetxController {
   final Rx<double> _valorEvento = 0.0.obs;
   final Rx<String> _tipoEvento = "".obs;
   final Rx<String> _descricaoEvento = "".obs;
-  final Rx<bool> _entradaPago = true.obs;
+  final Rx<bool> _totalEventoPago = false.obs;
+  final Rx<bool> _reservaPago = false.obs;
   final Rx<String> _formaPagamentoEvento = "".obs;
   final Rx<String> _nomeClienteEvento = "".obs;
   final Rx<String> _contatoClienteEvento = "".obs;
@@ -30,11 +31,13 @@ class EventoController extends GetxController {
   // final _eventos = <EventoModel>[].obs;
 
   get diaSelecionado => _diaSelecionado.value;
-  get diaFomatado => _diaSelecionado.value;
+  get diaFomatado =>
+      DateFormat('dd/MM/yyyy').format(DateTime.parse(_diaSelecionado.value));
   get tipoEvento => _tipoEvento.value;
   get valorDoEvento => _valorEvento.value;
   get descricaoDoEvento => _descricaoEvento.value;
-  get entradaPagoEvento => _entradaPago.value;
+  get reservaPagoEvento => _reservaPago.value;
+  get totalPagoEvento => _totalEventoPago.value;
   get formaPagamentoEvento => _formaPagamentoEvento.value;
   get nomeClienteEvento => _nomeClienteEvento.value;
   get contatoClienteEvento => _contatoClienteEvento.value;
@@ -49,7 +52,7 @@ class EventoController extends GetxController {
 
   @override
   void onInit() {
-    // getEventoCollection();
+    getEventoCollection();
     super.onInit();
   }
 
@@ -82,9 +85,14 @@ class EventoController extends GetxController {
     _descricaoEvento.refresh();
   }
 
-  setEntradaPagoEvento(value) {
-    _entradaPago.value = value;
-    _entradaPago.refresh();
+  setReservaPagoEvento(value) {
+    _reservaPago.value = value;
+    _reservaPago.refresh();
+  }
+
+  setTotalPagoEvento(value) {
+    _totalEventoPago.value = value;
+    _totalEventoPago.refresh();
   }
 
   setFormaPagamentoEvento(value) {
@@ -113,7 +121,8 @@ class EventoController extends GetxController {
       'formaPagamento': formaPagamentoEvento,
       'nomeCliente': nomeClienteEvento,
       'contatoCliente': contatoClienteEvento,
-      'entradaPago': entradaPagoEvento,
+      'reservaPago': reservaPagoEvento,
+      'totalPago': totalPagoEvento,
       'idUsuario': 'Wagner',
       'dataCadastro': diaSelecionado,
       'diaCompleto': diaSelecionado,
@@ -128,8 +137,11 @@ class EventoController extends GetxController {
   Future<bool> saveEventoInCollectionFirebase() async {
     try {
       //salvando no banco
+      String mesAno = '${_mes.value}-${_ano.value}';
       await firestore
           .collection("eventos")
+          .doc(mesAno)
+          .collection(mesAno)
           .doc(_idEvento.value.toString())
           .set(setDadosEvento());
 
@@ -140,36 +152,46 @@ class EventoController extends GetxController {
     } catch (e) {
       print(e);
       MessagesSnackbar.show('Não foi possível salvar o Evento!');
-
       return false;
     }
   }
 
   //buscar usuário banco do firebase
-  Future<void> getEventoCollection() async {
+  Future getEventoCollection() async {
+    print('****getEventoCollection******');
     try {
-      setBuscando(true);
-      _appointments.clear();
-      var lista;
+      int mes = int.parse(DateFormat('MM').format(DateTime.now()));
+      int ano = int.parse(DateFormat('yyyy').format(DateTime.now()));
+      String mesAno = '${mes}-${ano}';
+      //_appointments.clear();
 
-      await firestore.collection("eventos").get().then((value) {
-        var document = value.docs;
-        if (document.isNotEmpty) {
-          for (int i = 0; i < document.length; i++) {
-            setAppointmentBD(document[i]);
+      await firestore
+          .collection("eventos")
+          .doc(mesAno)
+          .collection(mesAno)
+          .get()
+          .then((querySnapshot) {
+        var document = querySnapshot.docs;
 
-            // lista = (document[i] as List)
-            //     .map<EventoModel>((e) => EventoModel.fromMap(e))
-            //     .toList();
-          }
+        for (var element in document) {
+          print(element.data());
+          //  setAppointmentBD(element.data());
+          _appointments.add(
+            Appointment(
+              startTime: DateTime.parse(element.data()["dataCadastro"]),
+              endTime: DateTime.parse(element.data()["dataCadastro"]),
+              isAllDay: element.data()["isAllDay"],
+              id: EventoModel.fromMap(element.data()),
+            ),
+          );
         }
       });
 
       //eventosAll.addAll(lista);
 
-      setBuscando(false);
+      //setBuscando(false);
 
-      // return evento;
+      return;
     } catch (e) {
       MessagesSnackbar.show('Usuário não encontrado');
       rethrow;
@@ -185,11 +207,7 @@ class EventoController extends GetxController {
         id: EventoModel.fromMap(map),
       ),
     );
-
-    // eventosAll.add(
-    //     (doc as List).map<EventoModel>((e) => EventoModel.fromMap(e)).toList());
-
-    // eventosAll.add(EventoModel.fromMap(doc));
+    update();
   }
 
   setBuscando(value) {
@@ -202,7 +220,8 @@ class EventoController extends GetxController {
     setValorEvento(0.0);
     setTipoEvento("");
     setDescricaoEvento("");
-    setEntradaPagoEvento(false);
+    setReservaPagoEvento(false);
+    setTotalPagoEvento(false);
     setFormaPagamentoEvento("");
     setNomeClienteEvento("");
     setContatoClienteEvento("");

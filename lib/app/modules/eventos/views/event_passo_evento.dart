@@ -25,7 +25,8 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
       .format(DateTime.parse(_controller.diaSelecionado.toString()));
   final TextEditingController _controlDescricao = TextEditingController();
   late TextEditingController controlValor = TextEditingController();
-  late bool isSwitched = true;
+  late bool reserva = false;
+  late bool total = false;
 
   @override
   void initState() {
@@ -40,58 +41,19 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-      height: MediaQuery.of(context).size.height * .6,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        //  mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          const SelectDateEvento(),
-          const Divider(height: 2.0, thickness: 1.0),
-          buildValor(),
-          const Divider(height: 2.0, thickness: 1.0),
-          const ListTipoEvento(),
-          const Divider(height: 2.0, thickness: 1.0),
-          entraPago(),
-          const Divider(height: 2.0, thickness: 1.0),
-          const ListFormaPagamento(),
-          const Divider(height: 2.0, thickness: 1.0),
-          // Container(
-          //   padding: const EdgeInsets.all(10.0),
-          //   margin: const EdgeInsets.all(6.0),
-          //   child: TextFormField(
-          //     controller: _controlDescricao,
-          //     decoration:
-          //         Componentsutils.buildInputDecoration('Adicionar Descrição'),
-          //   ),
-          // ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        const SelectDateEvento(),
+        buildValor(),
+        const ListTipoEvento(),
+        const Divider(height: 2.0, thickness: 1.0),
+        detailsPagamento(),
+        const ListFormaPagamento(),
+        const Divider(height: 2.0, thickness: 1.0),
+      ],
     );
-  }
-
-  ListTile buildValor() {
-    return ListTile(
-        title: const Text('Valor'),
-        leading: const Icon(
-          Icons.monetization_on_sharp,
-          color: kTextLightColor,
-        ),
-        dense: true,
-        visualDensity: VisualDensity.comfortable,
-        subtitle: TextFormField(
-          controller: controlValor,
-          onChanged: (value) => _saveValor(),
-          style: textStyle(),
-          decoration: Componentsutils.inputValorNormal('Valor'),
-        ),
-        trailing: CloseButton(onPressed: () {
-          controlValor.text = '';
-          _controller.setValorEvento("");
-        }),
-        onTap: () {});
   }
 
   void _saveValor() {
@@ -102,25 +64,63 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
     );
   }
 
-  ListTile entraPago() {
+  ListTile buildValor() {
     return ListTile(
-      leading: Icon(
-        Icons.price_check,
-        color: isSwitched ? kPrimaryColor : kTextLightColor,
+        title: Text('Valor', style: Componentsutils.textLabelList()),
+        leading: Componentsutils.iconList(
+            Icons.monetization_on_sharp, kTextLightColor),
+        visualDensity: VisualDensity.comfortable,
+        subtitle: TextFormField(
+          controller: controlValor,
+          onChanged: (value) => _saveValor(),
+          style: Componentsutils.textValueList(),
+          decoration: Componentsutils.inputValorNormal('Valor'),
+        ),
+        trailing: CloseButton(onPressed: () {
+          controlValor.text = '';
+          _controller.setValorEvento("");
+        }),
+        onTap: () {});
+  }
+
+  Padding detailsPagamento() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Pagamento',
+            textAlign: TextAlign.left,
+          ),
+          reservaPago(),
+          eventoTotalPago(),
+        ],
       ),
-      title: const Text('Entrada Pago'),
+    );
+  }
+
+  ListTile reservaPago() {
+    return ListTile(
+      leading: Componentsutils.iconList(
+        Icons.price_check,
+        reserva ? kPrimaryColor : kTextLightColor,
+      ),
+      title: Text(
+        'Entrada Pago',
+        style: Componentsutils.textLabelList(),
+      ),
       subtitle: Text(
-        isSwitched ? 'SIM' : 'NÃO',
-        style: const TextStyle(
-            color: kTextLightColor, fontWeight: FontWeight.bold, fontSize: 22),
+        reserva ? 'SIM' : '',
+        style: Componentsutils.textValueList(),
       ),
       trailing: Switch(
-        value: isSwitched,
+        value: reserva,
         onChanged: (value) {
           setState(() {
-            isSwitched = value;
+            reserva = value;
           });
-          _controller.setEntradaPagoEvento(value);
+          _controller.setReservaPagoEvento(value);
         },
         activeTrackColor: Colors.lightBlueAccent,
         activeColor: Colors.blueAccent,
@@ -128,11 +128,31 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
     );
   }
 
-  TextStyle textStyle() {
-    return const TextStyle(
-      color: kTextLightColor,
-      fontSize: 24.0,
-      fontWeight: FontWeight.bold,
+  ListTile eventoTotalPago() {
+    return ListTile(
+      leading: Componentsutils.iconList(
+        Icons.price_check,
+        total ? kPrimaryColor : kTextLightColor,
+      ),
+      title: Text(
+        'Total do Evento Pago',
+        style: Componentsutils.textLabelList(),
+      ),
+      subtitle: Text(
+        total ? 'SIM' : '',
+        style: Componentsutils.textValueList(),
+      ),
+      trailing: Switch(
+        value: total,
+        onChanged: (value) {
+          setState(() {
+            total = value;
+          });
+          _controller.setTotalPagoEvento(value);
+        },
+        activeTrackColor: Colors.lightBlueAccent,
+        activeColor: Colors.blueAccent,
+      ),
     );
   }
 }

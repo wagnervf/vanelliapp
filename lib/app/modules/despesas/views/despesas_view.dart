@@ -87,7 +87,8 @@ class DespesasView extends GetView<DespesasController> {
             child: TextFormField(
               controller: _controlDescricao,
               cursorColor: Colors.redAccent,
-              decoration: Componentsutils.buildInputDecoration('Descrição'),
+              decoration: Componentsutils.buildInputDecoration(
+                  Icons.details_rounded, 'Descrição'),
             ),
           ),
 

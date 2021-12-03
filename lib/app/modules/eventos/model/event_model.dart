@@ -13,7 +13,9 @@ class EventoModel {
   final String formaPagamento;
   final String nomeCliente;
   final String contatoCliente;
-  final bool entradaPago;
+  final bool reservaPago;
+  final bool totalPago;
+
   final String dataCadastro;
   final String idUsuario;
 
@@ -30,7 +32,8 @@ class EventoModel {
     required this.formaPagamento,
     required this.nomeCliente,
     required this.contatoCliente,
-    required this.entradaPago,
+    required this.reservaPago,
+    required this.totalPago,
     required this.dataCadastro,
     required this.idUsuario,
     required this.isAllDay,
@@ -50,7 +53,8 @@ class EventoModel {
       'formaPagamento': formaPagamento,
       'nomeCliente': nomeCliente,
       'contatoCliente': contatoCliente,
-      'entradaPago': entradaPago,
+      'reservaPago': reservaPago,
+      'totalPago': totalPago,
       'dataCadastro': dataCadastro,
       'idUsuario': idUsuario,
       'isAllDay': isAllDay,
@@ -69,7 +73,8 @@ class EventoModel {
       formaPagamento: map['formaPagamento'],
       nomeCliente: map['nomeCliente'],
       contatoCliente: map['contatoCliente'],
-      entradaPago: map['entradaPago'],
+      reservaPago: map['reservaPago'],
+      totalPago: map['totalPago'],
       dataCadastro: map['dataCadastro'],
       idUsuario: map['idUsuario'],
       isAllDay: map['isAllDay'],
