@@ -1,3 +1,7 @@
+// ignore_for_file: void_checks
+
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -16,6 +20,8 @@ class LoginController extends GetxController {
   GoogleSignInAccount? currentUserGoogle;
   GoogleSignIn googleSignIn = GoogleSignIn();
   Map<String, dynamic> userData = {};
+  //Rx<UserModel> _userLogadoModel = UserModel().obs;
+  //UserModel get userLogadoModel => _userLogadoModel.value;
 
   final Rxn<User?> _firebaseUser = Rxn<User>();
 
@@ -31,13 +37,40 @@ class LoginController extends GetxController {
 
   @override
   void onInit() {
-    _firebaseUser.bindStream(_auth.authStateChanges());
-    /*
-    ever(_userFirebase, (_) {
-      userIsLogged();
-    });
-  */
+    //  getUserLogged();
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    var firebaseUser = Rx<User?>(_auth.currentUser);
+    var googleSignInAccount =
+        Rx<GoogleSignInAccount?>(googleSignIn.currentUser);
+
+    firebaseUser.bindStream(_auth.userChanges());
+    ever(firebaseUser, _setInitialScreen);
+
+    googleSignInAccount.bindStream(googleSignIn.onCurrentUserChanged);
+    ever(googleSignInAccount, _setInitialScreenGoogle);
+  }
+
+  _setInitialScreen(User? usuario) async {
+    if (usuario == null) {
+      Get.offAll(() => const LoginView());
+    } else {
+      Get.to(() => HomeView());
+
+      Get.find<UserController>().user = await getUserCollection(usuario!.uid);
+    }
+  }
+
+  _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount) {
+    print(googleSignInAccount);
+    if (googleSignInAccount == null) {
+      Get.offAll(() => const LoginView());
+    }
+    Get.offAll(() => HomeView());
   }
 
   //Criar usuário no Firebase e salvar ele na colletions
@@ -84,7 +117,7 @@ class LoginController extends GetxController {
 
       //buscado o usuário que foi salvo no BD
       Get.find<UserController>().user =
-          await _getUserCollection(result.user!.uid);
+          await getUserCollection(result.user!.uid);
       loginSucess();
 
       //
@@ -153,15 +186,16 @@ class LoginController extends GetxController {
   }
 
   //buscar usuário banco do firebase
-  Future<UserModel> _getUserCollection(String uid) async {
+  Future<UserModel> getUserCollection(String uid) async {
     var user;
     try {
-      return await firestore.collection("users").doc(uid).get().then((value) {
+      await firestore.collection("users").doc(uid).get().then((value) {
         if (value.exists) {
           user = UserModel.fromDocumentSnapshot(value.data());
         }
-        return user;
       });
+
+      return user;
     } catch (e) {
       MessagesSnackbar.show('Usuário não encontrado');
       rethrow;

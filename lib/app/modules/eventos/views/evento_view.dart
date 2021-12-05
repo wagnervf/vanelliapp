@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
-
-import 'package:vanelliapp/app/theme.dart';
-
+import '../../../theme.dart';
 import 'calendar_config.dart';
 import 'evento_add.dart';
 
@@ -20,36 +19,14 @@ class EventoView extends StatefulWidget {
 }
 
 class _EventViewState extends State<EventoView> {
-  // ignore: unused_field
-  // final EventoController _controller = Get.put(EventoController());
-  // @override
-  // void initState() {
-  //   setState(() {});
-  //   super.initState();
-  // }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     primary: true,
-  //     backgroundColor: kPrimaryColor,
-  //     body: const CalendarViewPage(),
-  //     bottomNavigationBar: BottomNavigationBarCustom(),
-  //   );
-  // }
-
   final EventoController _controller = Get.put(EventoController());
-  late bool showEvento;
+  late bool showEvento = false;
   late CalendarController _calendarController;
   late List<EventoModel> listAppointmentDia = [];
 
   @override
   void initState() {
-    setState(() {
-      showEvento = false;
-    });
-
-    listAppointmentDia = [];
+    verificaEventoDoDia();
     _calendarController = CalendarController();
     super.initState();
   }
@@ -74,15 +51,19 @@ class _EventViewState extends State<EventoView> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
+          appBar: AppBarCustom(
+            title: 'Eventos',
+            color: kPrimaryColor,
+            voltar: false,
+          ),
           primary: true,
           body: SingleChildScrollView(
             child: Column(
               children: [
                 buildCalendario(),
                 showEvento
-                    ? Componentsutils.buildBodyListRecentes(
-                        listAppointmentDia.first)
-                    : naoHaEventos(),
+                    ? Componentsutils.cardEventoAtual(listAppointmentDia.first)
+                    : CalendarConfig.naoHaEventos(),
               ],
             ),
           ),
@@ -99,6 +80,7 @@ class _EventViewState extends State<EventoView> {
         height: MediaQuery.of(context).size.height * .55,
         width: double.infinity,
         alignment: Alignment.topCenter,
+        margin: EdgeInsets.zero,
         child: Obx(
           () => SfCalendar(
             controller: _calendarController,
@@ -111,7 +93,7 @@ class _EventViewState extends State<EventoView> {
             },
             backgroundColor: Colors.transparent,
             firstDayOfWeek: 1,
-            todayHighlightColor: Colors.deepOrange,
+            // todayHighlightColor: Colors.deepOrange,
             headerStyle: CalendarConfig.calendarHeader(),
             initialDisplayDate: DateTime.now(),
             initialSelectedDate: DateTime.now(),
@@ -124,8 +106,25 @@ class _EventViewState extends State<EventoView> {
             onTap: (CalendarTapDetails details) {
               _clickDate(details);
             },
+
+            // onViewChanged: (ViewChangedDetails details) {
+            //   print('details');
+            //   print(details);
+            //   _clickDate(details);
+            // },
           ),
         ));
+  }
+
+  void verificaEventoDoDia() {
+    var value = _controller.checkEventoDoDia();
+
+    if (value.length > 0) {
+      setDataList(value.appointments![0].id);
+      return;
+    }
+    showEvento = false;
+    setState(() {});
   }
 
   void _clickDate(CalendarTapDetails details) {
@@ -134,28 +133,19 @@ class _EventViewState extends State<EventoView> {
     //print(details.appointments);
 
     if (details.appointments!.isNotEmpty) {
-      listAppointmentDia.clear();
-      listAppointmentDia.add(details.appointments![0].id as EventoModel);
-      setState(() {
-        showEvento = true;
-      });
+      setDataList(details.appointments![0].id);
       return;
     }
 
-    setState(() {
-      showEvento = false;
-    });
+    showEvento = false;
+    setState(() {});
   }
 
-  Container naoHaEventos() {
-    return Container(
-      width: double.infinity,
-      height: 60,
-      padding: const EdgeInsets.all(12.0),
-      margin: const EdgeInsets.all(12.0),
-      color: Colors.grey[100],
-      child: const Text('Não há evento nesse dia'),
-    );
+  void setDataList(EventoModel value) {
+    listAppointmentDia.clear();
+    listAppointmentDia.add(value);
+    showEvento = true;
+    setState(() {});
   }
 
   FloatingActionButton buttonAddEvento() {

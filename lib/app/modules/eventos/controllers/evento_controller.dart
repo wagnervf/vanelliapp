@@ -42,17 +42,19 @@ class EventoController extends GetxController {
   get nomeClienteEvento => _nomeClienteEvento.value;
   get contatoClienteEvento => _contatoClienteEvento.value;
 
-  // List<EventoModel> get eventos => _eventos.toList();
-  List<Appointment> _appointments = <Appointment>[].obs;
-  //List<Appointment> get listaAppointments => _appointments.toList();
+  final List<Appointment> _appointments = <Appointment>[].obs;
   EventDataSource get listaAppointments =>
       EventDataSource(_appointments.toList());
+  final List<Appointment> _appointmentsDoDia = <Appointment>[].obs;
+  EventDataSource get listaAppointmentsDoDia =>
+      EventDataSource(_appointmentsDoDia.toList());
 
   List eventosAll = [].obs;
 
   @override
   void onInit() {
     getEventoCollection();
+    checkEventoDoDia();
     super.onInit();
   }
 
@@ -132,11 +134,22 @@ class EventoController extends GetxController {
     return (evento);
   }
 
+  checkEventoDoDia() {
+    var hoje = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    for (var i = 0; i < _appointments.length; i++) {
+      var start = DateFormat('yyyy-MM-dd').format(_appointments[i].startTime);
+      if (start == hoje) {
+        _appointmentsDoDia.add(_appointments[i]);
+        return listaAppointmentsDoDia;
+      }
+    }
+    return [];
+    // print(_appointmentsDoDia);
+  }
   // Salva o Evento no banco do firebase
 
   Future<bool> saveEventoInCollectionFirebase() async {
     try {
-      //salvando no banco
       String mesAno = '${_mes.value}-${_ano.value}';
       await firestore
           .collection("eventos")
@@ -145,7 +158,7 @@ class EventoController extends GetxController {
           .doc(_idEvento.value.toString())
           .set(setDadosEvento());
 
-      //Após salvar Busca no BR
+      //Após salvar Busca no BD
       getEventoCollection();
 
       return true;
@@ -162,9 +175,7 @@ class EventoController extends GetxController {
     try {
       int mes = int.parse(DateFormat('MM').format(DateTime.now()));
       int ano = int.parse(DateFormat('yyyy').format(DateTime.now()));
-      String mesAno = '${mes}-${ano}';
-      //_appointments.clear();
-
+      String mesAno = '$mes-$ano';
       await firestore
           .collection("eventos")
           .doc(mesAno)
@@ -174,22 +185,9 @@ class EventoController extends GetxController {
         var document = querySnapshot.docs;
 
         for (var element in document) {
-          print(element.data());
-          //  setAppointmentBD(element.data());
-          _appointments.add(
-            Appointment(
-              startTime: DateTime.parse(element.data()["dataCadastro"]),
-              endTime: DateTime.parse(element.data()["dataCadastro"]),
-              isAllDay: element.data()["isAllDay"],
-              id: EventoModel.fromMap(element.data()),
-            ),
-          );
+          setAppointmentBD(element.data());
         }
       });
-
-      //eventosAll.addAll(lista);
-
-      //setBuscando(false);
 
       return;
     } catch (e) {

@@ -1,37 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HeaderWidget extends StatefulWidget {
-  final double _height;
-  final bool _showIcon;
-  final IconData _icon;
-
-  const HeaderWidget(this._height, this._showIcon, this._icon, {Key? key})
-      : super(key: key);
-
-  @override
-  _HeaderWidgetState createState() =>
-      // ignore: no_logic_in_create_state
-      _HeaderWidgetState(_height, _showIcon, _icon);
-}
-
-class _HeaderWidgetState extends State<HeaderWidget> {
-  double _height;
-  bool _showIcon;
-  IconData _icon;
-
-  _HeaderWidgetState(this._height, this._showIcon, this._icon);
+class HeaderWidgetSplash extends StatelessWidget {
+  const HeaderWidgetSplash({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    var size = MediaQuery.of(context).size;
 
     return Container(
-      width: width,
+      width: size.width,
+      //height: size.height,
       child: Stack(
         children: [
           ClipPath(
             child: Container(
-              height: 100,
+              height: 350,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [
@@ -45,15 +29,15 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               ),
             ),
             clipper: ShapeClipper([
-              Offset(width / 5, 100),
-              Offset(width / 10 * 5, 100 - 60),
-              Offset(width / 5 * 4, 100 + 20),
-              Offset(width, 100 - 18)
+              Offset(size.width / 5, 350),
+              Offset(size.width / 10 * 5, 350 - 60),
+              Offset(size.width / 5 * 4, 350 + 20),
+              Offset(size.width, 350 - 18)
             ]),
           ),
           ClipPath(
             child: Container(
-              height: 100,
+              height: 350,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [
@@ -67,15 +51,15 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               ),
             ),
             clipper: ShapeClipper([
-              Offset(width / 3, 100 + 20),
-              Offset(width / 10 * 8, 100 - 60),
-              Offset(width / 5 * 4, 100 - 60),
-              Offset(width, 100 - 20)
+              Offset(size.width / 3, 350 + 20),
+              Offset(size.width / 10 * 8, 350 - 60),
+              Offset(size.width / 5 * 4, 350 - 60),
+              Offset(size.width, 350 - 20)
             ]),
           ),
           ClipPath(
             child: Container(
-              height: 100,
+              height: 350,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                     colors: [
@@ -89,45 +73,27 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               ),
             ),
             clipper: ShapeClipper([
-              Offset(width / 5, 100),
-              Offset(width / 2, 100 - 40),
-              Offset(width / 5 * 4, 100 - 80),
-              Offset(width, 100 - 20)
+              Offset(size.width / 5, 350),
+              Offset(size.width / 2, 350 - 40),
+              Offset(size.width / 5 * 4, 350 - 80),
+              Offset(size.width, 350 - 20)
             ]),
           ),
-
-          // Visibility(
-          //   visible: _showIcon,
-          //   child: Container(
-          //     height: _height - 40,
-          //     child: Center(
-          //       child: Container(
-          //         margin: const EdgeInsets.all(20),
-          //         padding: EdgeInsets.only(
-          //           left: 5.0,
-          //           top: 20.0,
-          //           right: 5.0,
-          //           bottom: 20.0,
-          //         ),
-          //         decoration: BoxDecoration(
-          //           // borderRadius: BorderRadius.circular(20),
-          //           borderRadius: BorderRadius.only(
-          //             topLeft: Radius.circular(100),
-          //             topRight: Radius.circular(100),
-          //             bottomLeft: Radius.circular(60),
-          //             bottomRight: Radius.circular(60),
-          //           ),
-          //           border: Border.all(width: 5, color: Colors.white),
-          //         ),
-          //         child: Icon(
-          //           _icon,
-          //           color: Colors.white,
-          //           size: 40.0,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          Center(
+            heightFactor: 4,
+            child: Column(
+              children: [
+                SizedBox(height: size.height * .03),
+                Image.asset(
+                  "assets/img/icon6.png",
+                  alignment: Alignment.center,
+                  fit: BoxFit.fill,
+                  width: size.width * .5,
+                  height: size.height * .1,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

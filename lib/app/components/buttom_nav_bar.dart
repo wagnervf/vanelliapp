@@ -8,8 +8,8 @@ import 'package:vanelliapp/app/application/controllerGlobal/controller_global.da
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
+import 'package:vanelliapp/app/modules/perfil/views/perfil_view.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
-import 'package:vanelliapp/app/perfil/views/perfil_view.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 import 'constants.dart';
@@ -23,7 +23,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50],
       unselectedItemColor: ksecondaryColor,
       selectedItemColor: kPrimaryColor,
       onTap: _changePage,
@@ -31,7 +31,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
       iconSize: 24.0,
       showSelectedLabels: true,
       showUnselectedLabels: true,
-      elevation: 2,
+      elevation: 5,
       // ignore: prefer_const_literals_to_create_immutables
       items: [
         const BottomNavigationBarItem(

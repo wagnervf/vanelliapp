@@ -18,7 +18,7 @@ void main() async {
     GetMaterialApp(
       title: "Vanelli Manager",
       theme: theme(),
-      home: const LoginSplash(),
+      home: LoginSplash(),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       initialBinding: BindingGlobal(),

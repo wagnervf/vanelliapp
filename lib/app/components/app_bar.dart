@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
+import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
@@ -7,7 +9,7 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final Color color;
   final bool voltar;
-
+  final LoginController loginController = Get.find();
   AppBarCustom({
     Key? key,
     this.height = 35,
@@ -18,6 +20,8 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Get.find();
+
     return AppBar(
       brightness: Brightness.dark,
       backgroundColor: color,
@@ -48,9 +52,11 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: Center(
-              child: const Text(
-            "Alan",
-            style: TextStyle(color: kPrimaryLightColor),
+              child: Obx(
+            () => Text(
+              '${userController.user.displayName}',
+              style: const TextStyle(color: kPrimaryLightColor),
+            ),
           )),
         ),
       ],

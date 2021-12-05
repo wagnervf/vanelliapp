@@ -45,13 +45,11 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        const SelectDateEvento(),
-        buildValor(),
-        const ListTipoEvento(),
-        const Divider(height: 2.0, thickness: 1.0),
+        detailsDataValor(),
+        // const Divider(height: 1.0, thickness: 1.0),
         detailsPagamento(),
-        const ListFormaPagamento(),
-        const Divider(height: 2.0, thickness: 1.0),
+
+        // const Divider(height: 2.0, thickness: 1.0),
       ],
     );
   }
@@ -60,6 +58,44 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
     _controller.setValorEvento(
       double.parse(
         controlValor.text.replaceAll(',', '.').replaceAll('R\$ ', ''),
+      ),
+    );
+  }
+
+  Padding detailsDataValor() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //const Divider(height: 15.0, thickness: 1.0),
+          const Text(
+            'Evento',
+            textAlign: TextAlign.left,
+          ),
+          const SelectDateEvento(),
+          buildValor(),
+          const ListTipoEvento(),
+        ],
+      ),
+    );
+  }
+
+  Padding detailsPagamento() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Divider(height: 15.0, thickness: 1.0),
+          const Text(
+            'Pagamento',
+            textAlign: TextAlign.left,
+          ),
+          reservaPago(),
+          eventoTotalPago(),
+          const ListFormaPagamento(),
+        ],
       ),
     );
   }
@@ -81,23 +117,6 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
           _controller.setValorEvento("");
         }),
         onTap: () {});
-  }
-
-  Padding detailsPagamento() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Pagamento',
-            textAlign: TextAlign.left,
-          ),
-          reservaPago(),
-          eventoTotalPago(),
-        ],
-      ),
-    );
   }
 
   ListTile reservaPago() {

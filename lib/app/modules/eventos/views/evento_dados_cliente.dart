@@ -42,6 +42,11 @@ class _EventPassoClienteState extends State<EventPassoCliente> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          const Divider(height: 15.0, thickness: 1.0),
+          const Text(
+            'Cliente',
+            textAlign: TextAlign.left,
+          ),
           Container(
             padding: const EdgeInsets.all(10.0),
             margin: const EdgeInsets.symmetric(horizontal: 6.0),

@@ -4,10 +4,9 @@ import 'package:im_stepper/stepper.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
-import 'package:vanelliapp/app/modules/eventos/views/event_passo_cliente.dart';
-import 'package:vanelliapp/app/modules/eventos/views/event_passo_revisao.dart';
-import 'package:vanelliapp/app/modules/eventos/views/event_passo_evento.dart';
-import 'package:vanelliapp/app/shared/size_config.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_dados_cliente.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_revisao.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_dados_evento.dart';
 import 'package:vanelliapp/app/theme.dart';
 
 class EventoAdd extends StatefulWidget {
@@ -50,7 +49,7 @@ class _EventoAddState extends State<EventoAdd> {
             //  color: Colors.purple,
             width: double.infinity,
             //  height: MediaQuery.of(context).size.height,
-            margin: const EdgeInsets.fromLTRB(12, 12, 0, 0),
+            margin: const EdgeInsets.fromLTRB(6, 12, 6, 0),
             child: Column(
               children: const [
                 EventPassoEvento(),
@@ -77,17 +76,29 @@ class _EventoAddState extends State<EventoAdd> {
         textAlign: TextAlign.center,
       ),
       actions: [
-        IconButton(
-            icon: const Icon(
-              Icons.check,
-            ),
-            tooltip: 'Salvar',
-            onPressed: () => _acaoConfirmar()),
+        buttonSalvar(),
       ],
       centerTitle: true,
       leading: CloseButton(
         onPressed: () => _cancelarCriacaoEvento(),
         color: kTextLightColor,
+      ),
+    );
+  }
+
+  Container buttonSalvar() {
+    return Container(
+      margin: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        child: const Text('Salvar'),
+        style: ElevatedButton.styleFrom(
+          visualDensity: VisualDensity.comfortable,
+          padding: const EdgeInsets.all(2.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onPressed: () => _acaoConfirmar(),
       ),
     );
   }

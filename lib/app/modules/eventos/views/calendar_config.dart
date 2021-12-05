@@ -4,6 +4,17 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../../theme.dart';
 
 class CalendarConfig {
+  static Container naoHaEventos() {
+    return Container(
+      width: double.infinity,
+      height: 60,
+      padding: const EdgeInsets.all(12.0),
+      margin: const EdgeInsets.all(12.0),
+      color: Colors.grey[100],
+      child: const Text('Não há evento nesse dia'),
+    );
+  }
+
   static Container cellAgendado(MonthCellDetails details) {
     return Container(
       decoration: BoxDecoration(

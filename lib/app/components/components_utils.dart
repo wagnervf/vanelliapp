@@ -200,6 +200,108 @@ class Componentsutils {
     );
   }
 
+  static Container itenList(IconData icon, String title, String value) {
+    return Container(
+      padding: const EdgeInsets.all(0),
+      margin: const EdgeInsets.only(bottom: 8.0),
+      height: 50,
+      alignment: Alignment.topLeft,
+      child: ListTile(
+        dense: true,
+        leading: Icon(icon),
+        title: Text(
+          title,
+          style: const TextStyle(fontSize: 14),
+        ),
+        subtitle: Text(
+          value,
+          style: TextStyle(
+            color: Colors.black.withOpacity(0.6),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Card cardEventoAtual(EventoModel doc) {
+    String data = DateFormat('dd/MM/yyyy')
+        .format(DateTime.parse(doc.diaCompleto))
+        .toString();
+    var part = data.split('/');
+    Color color =
+        doc.reservaPago ? const Color(0xFF81c784) : const Color(0xFFe57373);
+
+    return Card(
+      elevation: 3,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          ListTile(
+            dense: true,
+            leading: Icon(
+              Icons.person,
+              color: color,
+            ),
+            title: Text(
+              doc.nomeCliente,
+              style: const TextStyle(fontSize: 18),
+            ),
+            tileColor: Colors.grey[100],
+            trailing: IconButton(
+              icon: const Icon(
+                Icons.edit,
+                color: kPrimaryColor,
+              ),
+              onPressed: () {},
+            ),
+            subtitle: Text(
+              doc.contatoCliente,
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.6),
+              ),
+            ),
+          ),
+          itenList(Icons.date_range, 'Dia', data),
+          itenList(Icons.turned_in, 'Tipo', doc.tipo),
+          itenList(Icons.payment, 'Pagamento', doc.formaPagamento),
+        ],
+      ),
+    );
+    // Card(
+    //   elevation: 2,
+    //   shape: Border(
+    //       left: BorderSide(
+    //           color: doc.reservaPago
+    //               ? const Color(0xFF81c784)
+    //               : const Color(0xFFe57373),
+    //           width: 5)),
+    //   child: ListTile(
+    //       leading: Container(
+    //         padding: const EdgeInsets.all(6.0),
+    //         child: Text(
+    //           '${part[0]}\n${part[1]}',
+    //           textAlign: TextAlign.center,
+    //           softWrap: true,
+    //           maxLines: 2,
+    //           overflow: TextOverflow.ellipsis,
+    //           style: const TextStyle(
+    //               fontSize: 20,
+    //               fontWeight: FontWeight.bold,
+    //               color: kPrimaryColor),
+    //         ),
+    //       ),
+    //       title: Text(
+    //         doc.nomeCliente,
+    //         style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+    //       ),
+    //       subtitle: Text(doc.tipo),
+    //       trailing: const Icon(
+    //         Icons.arrow_right,
+    //         color: kTextLightColor,
+    //       )),
+    // );
+  }
+
   static void messageAlert(String title) {
     return Get.rawSnackbar(
         icon: const Icon(
