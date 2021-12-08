@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
-import 'package:vanelliapp/app/components/get_list_eventos_firebase.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -13,16 +11,19 @@ class HomeView extends StatelessWidget {
   // ignore: unused_field
   final EventoController _controller = Get.put(EventoController());
 
+  HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      appBar: AppBarCustom(
-        title: 'Vanelli Mananger',
-        color: kPrimaryColor,
-        voltar: false,
-      ),
+      // appBar:
+      //  AppBarCustom(
+      //   title: '',
+      //   color: kPrimaryColor,
+      //   voltar: false,
+      // ),
       body: SafeArea(
         child: buildBodyHome(size, context),
       ),
@@ -43,7 +44,7 @@ class HomeView extends StatelessWidget {
       color: Colors.white,
       width: double.infinity,
       height: MediaQuery.of(context).size.height,
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      // padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
@@ -120,28 +121,34 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Column buildBalanco() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        TextButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.filter_list_alt),
-          label: const Text('Abril'),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(2.0),
-          child: Text(
-            'Balanço do Mês',
-            style: TextStyle(color: ksecondaryColor),
+  Container buildBalanco() {
+    return Container(
+      //  color: kPrimaryColor,
+      // width: double.infinity,
+      //  alignment: Alignment.topCenter,
+      decoration: Componentsutils.borderCustom,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TextButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.filter_list_alt),
+            label: const Text('Abril'),
           ),
-        ),
-        const Text(
-          'R\$ 5569,39',
-          style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
-        ),
-      ],
+          const Padding(
+            padding: EdgeInsets.all(2.0),
+            child: Text(
+              'Balanço do Mês',
+              style: TextStyle(color: ksecondaryColor),
+            ),
+          ),
+          const Text(
+            'R\$ 5569,39',
+            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 }

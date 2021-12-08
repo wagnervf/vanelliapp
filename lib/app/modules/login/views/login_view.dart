@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:vanelliapp/app/components/header_widget.dart';
-import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 import 'package:vanelliapp/app/modules/login/views/login_componentes.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
@@ -64,18 +63,22 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      FlutterLogo(size: getHeight(context) * .1),
-                      const Text(
-                        'Bem-Vindo ao\nVanelli Manager',
-                        style: titleStyle,
-                        textAlign: TextAlign.center,
+                      Image.asset(
+                        "assets/img/icon7.png",
+                        alignment: Alignment.center,
+                        fit: BoxFit.fill,
+                        width: getWidth(context) * .6,
+                        height: getHeight(context) * .1,
                       ),
+
+                      SizedBox(height: getHeight(context) * 0.04),
+
                       const Text(
                         'Entre com seu usuário e senha',
                         style: subTitleLightStyle,
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: getHeight(context) * 0.02),
+
                       buildTextFormFieldEmail(),
                       buildTextFormFieldSenha(),
                       SizedBox(height: getHeight(context) * 0.02),
@@ -109,9 +112,10 @@ class _LoginViewState extends State<LoginView> {
   TextFormField buildTextFormFieldEmail() {
     return TextFormField(
       decoration: inputDecorationTextForm(
-          label: "E-mail",
-          hint: "digite seu e-mail",
-          icon: Icons.email_outlined),
+        label: "E-mail",
+        hint: "digite seu e-mail",
+        icon: Icons.email_outlined,
+      ),
       keyboardType: TextInputType.emailAddress,
       controller: _email,
       validator: Validatorless.multiple(

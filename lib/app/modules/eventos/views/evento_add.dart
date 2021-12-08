@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_dados_cliente.dart';
-import 'package:vanelliapp/app/modules/eventos/views/evento_revisao.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_dados_evento.dart';
 import 'package:vanelliapp/app/theme.dart';
 

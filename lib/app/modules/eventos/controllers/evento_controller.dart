@@ -1,12 +1,12 @@
 import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_data_souce.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
+import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
 import 'package:vanelliapp/app/services/messages_snackbar.dart';
 
 class EventoController extends GetxController {
@@ -25,10 +25,14 @@ class EventoController extends GetxController {
   final Rx<int> _mes = 0.obs;
   final Rx<int> _ano = 0.obs;
   final Rx<int> _idEvento = 0.obs;
-
   final RxBool buscando = false.obs;
+  final List<Appointment> _appointments = <Appointment>[].obs;
+  final Rxn<List<EventoModel>> _todosEventos = Rxn<List<EventoModel>>([]);
+  List<EventoModel>? get todosEventos => _todosEventos.value;
 
-  // final _eventos = <EventoModel>[].obs;
+  final Rx<int> _mesFiltro =
+      int.parse(DateFormat('MM').format(DateTime.now())).obs;
+  int get mesSelecionado => _mesFiltro.value;
 
   get diaSelecionado => _diaSelecionado.value;
   get diaFomatado =>
@@ -42,20 +46,60 @@ class EventoController extends GetxController {
   get nomeClienteEvento => _nomeClienteEvento.value;
   get contatoClienteEvento => _contatoClienteEvento.value;
 
-  final List<Appointment> _appointments = <Appointment>[].obs;
+//https://www.youtube.com/watch?v=PQ_sxDjPUzU
+
   EventDataSource get listaAppointments =>
       EventDataSource(_appointments.toList());
+
   final List<Appointment> _appointmentsDoDia = <Appointment>[].obs;
+
   EventDataSource get listaAppointmentsDoDia =>
       EventDataSource(_appointmentsDoDia.toList());
 
+  final UserController userController = Get.find();
   List eventosAll = [].obs;
 
   @override
   void onInit() {
+    _todosEventos.bindStream(getEventosStream(mesSelecionado));
+
     getEventoCollection();
     checkEventoDoDia();
     super.onInit();
+  }
+
+  void selecionarMesFiltro(value) {
+    int mes = int.parse(DateFormat('MM').format(value));
+
+    print('%%%%$mes%%%%%');
+
+    _mesFiltro.value = mes;
+    _mesFiltro.refresh();
+    _todosEventos.bindStream(getEventosStream(mesSelecionado));
+  }
+
+  Stream<List<EventoModel>> getEventosStream(int mes) {
+    print('****getEventosStream******');
+
+    // int mes = int.parse(DateFormat('MM').format(DateTime.now()));
+
+    int ano = int.parse(DateFormat('yyyy').format(DateTime.now()));
+
+    String mesAno = '$mes-$ano';
+    print(mesAno);
+    List<EventoModel> retVal = [];
+    return firestore
+        .collection("eventos")
+        .doc(mesAno)
+        .collection(mesAno)
+        .orderBy("id")
+        .snapshots()
+        .map((query) {
+      for (var element in query.docs) {
+        retVal.add(EventoModel.fromMap(element.data()));
+      }
+      return retVal;
+    });
   }
 
   selecionarDiaEvento(value) {
@@ -125,7 +169,7 @@ class EventoController extends GetxController {
       'contatoCliente': contatoClienteEvento,
       'reservaPago': reservaPagoEvento,
       'totalPago': totalPagoEvento,
-      'idUsuario': 'Wagner',
+      'idUsuario': userController.user.displayName.toString(),
       'dataCadastro': diaSelecionado,
       'diaCompleto': diaSelecionado,
       'isAllDay': true,
@@ -134,20 +178,20 @@ class EventoController extends GetxController {
     return (evento);
   }
 
-  checkEventoDoDia() {
+  List? checkEventoDoDia() {
     var hoje = DateFormat('yyyy-MM-dd').format(DateTime.now());
     for (var i = 0; i < _appointments.length; i++) {
       var start = DateFormat('yyyy-MM-dd').format(_appointments[i].startTime);
       if (start == hoje) {
         _appointmentsDoDia.add(_appointments[i]);
-        return listaAppointmentsDoDia;
+        return listaAppointmentsDoDia.appointments;
       }
     }
     return [];
     // print(_appointmentsDoDia);
   }
-  // Salva o Evento no banco do firebase
 
+  // Salva o Evento no banco do firebase
   Future<bool> saveEventoInCollectionFirebase() async {
     try {
       String mesAno = '${_mes.value}-${_ano.value}';
@@ -160,6 +204,8 @@ class EventoController extends GetxController {
 
       //Após salvar Busca no BD
       getEventoCollection();
+
+      checkEventoDoDia();
 
       return true;
     } catch (e) {

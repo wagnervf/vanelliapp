@@ -129,7 +129,7 @@ class Componentsutils {
         padding: const EdgeInsets.fromLTRB(8, 2, 8, 8),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(22),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -160,65 +160,68 @@ class Componentsutils {
     );
   }
 
+  static BoxDecoration borderCustom = const BoxDecoration(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(40),
+      topRight: Radius.circular(40),
+    ),
+    color: Colors.white,
+  );
+
   static Card buildBodyListRecentes(EventoModel doc) {
-    String data =
-        DateFormat('dd/MM').format(DateTime.parse(doc.diaCompleto)).toString();
-    var part = data.split('/');
+    String diaSemana = DateFormat.E('pt')
+        .format(DateTime.parse(doc.diaCompleto))
+        .toString()
+        .toUpperCase();
 
     return Card(
-      elevation: 2,
-      shape: Border(
-          left: BorderSide(
-              color: doc.reservaPago
-                  ? const Color(0xFF81c784)
-                  : const Color(0xFFe57373),
-              width: 5)),
+      elevation: 0.5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: ListTile(
-          leading: Container(
-            padding: const EdgeInsets.all(6.0),
-            child: Text(
-              '${part[0]}\n${part[1]}',
-              textAlign: TextAlign.center,
-              softWrap: true,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: kPrimaryColor),
-            ),
-          ),
-          title: Text(
-            doc.nomeCliente,
-            style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(doc.tipo),
-          trailing: const Icon(
-            Icons.arrow_right,
-            color: kTextLightColor,
-          )),
+        leading: Container(margin: EdgeInsets.zero, child: diaDaSemana(doc)),
+        title: Text(
+          doc.nomeCliente,
+          style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(doc.tipo),
+        trailing: const Icon(
+          Icons.arrow_right,
+          color: kTextLightColor,
+        ),
+      ),
     );
   }
 
-  static Container itenList(IconData icon, String title, String value) {
+  static Container diaDaSemana(EventoModel doc) {
+    String diaSemana = DateFormat.E('pt')
+        .format(DateTime.parse(doc.diaCompleto))
+        .toString()
+        .toUpperCase();
     return Container(
-      padding: const EdgeInsets.all(0),
-      margin: const EdgeInsets.only(bottom: 8.0),
-      height: 50,
-      alignment: Alignment.topLeft,
-      child: ListTile(
-        dense: true,
-        leading: Icon(icon),
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 14),
-        ),
-        subtitle: Text(
-          value,
-          style: TextStyle(
-            color: Colors.black.withOpacity(0.6),
+      padding: const EdgeInsets.only(top: 10, left: 12, right: 12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            diaSemana,
+            style: const TextStyle(
+              color: kTextColor,
+              fontSize: 14.0,
+            ),
+            textAlign: TextAlign.center,
           ),
-        ),
+          Text(
+            doc.dia.toString(),
+            style: TextStyle(
+                color: doc.reservaPago ? Colors.teal : Colors.red,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
@@ -249,7 +252,7 @@ class Componentsutils {
             tileColor: Colors.grey[100],
             trailing: IconButton(
               icon: const Icon(
-                Icons.edit,
+                Icons.arrow_right,
                 color: kPrimaryColor,
               ),
               onPressed: () {},
@@ -261,45 +264,12 @@ class Componentsutils {
               ),
             ),
           ),
-          itenList(Icons.date_range, 'Dia', data),
-          itenList(Icons.turned_in, 'Tipo', doc.tipo),
-          itenList(Icons.payment, 'Pagamento', doc.formaPagamento),
+          //  itenList(Icons.date_range, 'Dia', data),
+          // itenList(Icons.turned_in, 'Tipo', doc.tipo),
+          //  itenList(Icons.payment, 'Pagamento', doc.formaPagamento),
         ],
       ),
     );
-    // Card(
-    //   elevation: 2,
-    //   shape: Border(
-    //       left: BorderSide(
-    //           color: doc.reservaPago
-    //               ? const Color(0xFF81c784)
-    //               : const Color(0xFFe57373),
-    //           width: 5)),
-    //   child: ListTile(
-    //       leading: Container(
-    //         padding: const EdgeInsets.all(6.0),
-    //         child: Text(
-    //           '${part[0]}\n${part[1]}',
-    //           textAlign: TextAlign.center,
-    //           softWrap: true,
-    //           maxLines: 2,
-    //           overflow: TextOverflow.ellipsis,
-    //           style: const TextStyle(
-    //               fontSize: 20,
-    //               fontWeight: FontWeight.bold,
-    //               color: kPrimaryColor),
-    //         ),
-    //       ),
-    //       title: Text(
-    //         doc.nomeCliente,
-    //         style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-    //       ),
-    //       subtitle: Text(doc.tipo),
-    //       trailing: const Icon(
-    //         Icons.arrow_right,
-    //         color: kTextLightColor,
-    //       )),
-    // );
   }
 
   static void messageAlert(String title) {

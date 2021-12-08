@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
-import 'package:vanelliapp/app/theme.dart';
+import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_details.dart';
 
 class GetListEventosFirabase extends StatefulWidget {
   const GetListEventosFirabase({Key? key}) : super(key: key);
@@ -12,60 +13,42 @@ class GetListEventosFirabase extends StatefulWidget {
 }
 
 class _GetListEventosFirabaseState extends State<GetListEventosFirabase> {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('eventos').snapshots();
   late List lists = [];
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return const Text('Erro ao carregar os dados do Banco');
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(
-              backgroundColor: kPrimaryColor);
-        }
-        if (snapshot.hasData) {
-          lists.clear();
-          late List<QueryDocumentSnapshot<Object?>> values =
-              snapshot.data!.docs;
-          values.forEach((value) {
-            lists.add(value);
-          });
-          return Container(
-            height: MediaQuery.of(context).size.height * .35,
-            margin: const EdgeInsets.only(top: 4.0),
-            color: Colors.grey[100],
-            child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: lists.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Componentsutils.buildBodyListRecentes(lists[index]);
-                }),
+    return GetX<EventoController>(
+      init: Get.put<EventoController>(EventoController()),
+      builder: (EventoController _controller) {
+        if (_controller.todosEventos == null) {
+          return const CircularProgressIndicator();
+        } else if (_controller.todosEventos!.isEmpty) {
+          return const Text('Nenhum Evento');
+        } else {
+          return ListView.builder(
+            shrinkWrap: true,
+            //physics: const NeverScrollableScrollPhysics(),
+            itemCount: _controller.todosEventos!.length,
+            itemBuilder: (_, index) {
+              return InkWell(
+                child: Componentsutils.buildBodyListRecentes(
+                  _controller.todosEventos![index],
+                ),
+                onTap: () => _goToEventoDetails(
+                  _controller.todosEventos![index],
+                ),
+              );
+            },
           );
         }
-
-        return const CircularProgressIndicator();
       },
     );
   }
+
+  _goToEventoDetails(doc) {
+    return Get.to(
+      () => const EventoDetails(),
+      arguments: doc,
+    );
+  }
 }
-
-
-// width: 50.0,
-            // height: 50.0,
-            // padding: EdgeInsets.all(12.0),
-            // alignment: Alignment.center,
-            // decoration: BoxDecoration(
-            //   // color: const Color(0xff7c94b6),
-            //   borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            //   border: Border.all(
-            //     color: kPrimaryColor,
-            //     width: 1.0,
-            //   ),
-            // ),

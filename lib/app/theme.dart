@@ -159,9 +159,10 @@ ButtonStyle styleElevatedButton() {
 Center showLoading() {
   return Center(
       child: Container(
+    //height: 80,
     margin: const EdgeInsets.all(8.0),
     child: const CircularProgressIndicator(
-      color: kPrimaryColor,
+      color: Colors.white,
     ),
   ));
 }

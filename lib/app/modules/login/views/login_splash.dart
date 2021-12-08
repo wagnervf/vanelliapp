@@ -19,6 +19,7 @@ class _LoginSplashState extends State<LoginSplash>
   @override
   void initState() {
     super.initState();
+    loginController.getUserLogged();
   }
 
   @override

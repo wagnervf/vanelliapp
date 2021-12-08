@@ -42,7 +42,7 @@ class CalendarConfig {
       decoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(
-          color: Colors.grey.shade200,
+          color: Colors.grey.shade300,
           width: 0.5,
         ),
       ),
@@ -59,10 +59,8 @@ class CalendarConfig {
   static MonthViewSettings configMes() {
     return const MonthViewSettings(
       showTrailingAndLeadingDates: false,
-      // agendaViewHeight: 70,
       dayFormat: 'EEE',
       numberOfWeeksInView: 6,
-
       appointmentDisplayCount: 1,
       monthCellStyle: MonthCellStyle(
         trailingDatesTextStyle: TextStyle(color: Colors.purple),

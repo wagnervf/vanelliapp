@@ -7,6 +7,7 @@ import 'package:vanelliapp/app/application/controllerGlobal/controller_global.da
 
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
+import 'package:vanelliapp/app/modules/home/views/home_list.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/perfil/views/perfil_view.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
@@ -51,8 +52,8 @@ class BottomNavigationBarCustom extends StatelessWidget {
         //   label: 'Receitas',
         // ),
         const BottomNavigationBarItem(
-          icon: Icon(Icons.more_vert),
-          label: 'Mais',
+          icon: Icon(Icons.person),
+          label: 'Perfil',
         ),
       ],
     );
@@ -65,7 +66,8 @@ class BottomNavigationBarCustom extends StatelessWidget {
     switch (index) {
       case 0:
         // Get.until((route) => Get.currentRoute == '/home');
-        Get.to(() => HomeView());
+        //Get.to(() => HomeView());
+        Get.to(() => HomeList());
         break;
       case 1:
         // Get.until((route) => Get.currentRoute != '/evento');

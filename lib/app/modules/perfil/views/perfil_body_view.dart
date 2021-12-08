@@ -20,24 +20,48 @@ class PerfilBodyView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
           listDataUser(),
-          SizedBox(height: getHeight(context) * .1),
-          ProfileMenuView(
-            text: "Settings",
-            //icon: Icon(Icons.settings),
-            press: () {},
-          ),
-          ProfileMenuView(
-            text: "Sair",
-            //  icon: "assets/icons/Log out.svg",
-            press: () => Get.to(() => LoginView()),
-          ),
-          logoutFirebase(context),
-          testes()
+          SizedBox(height: getHeight(context) * .4),
+
+          buttonSair()
+          // ProfileMenuView(
+          //   text: "Settings",
+          //   //icon: Icon(Icons.settings),
+          //   press: () {},
+          // ),
+          // ProfileMenuView(
+          //   text: "Sair",
+          //   //  icon: "assets/icons/Log out.svg",
+          //   press: () => Get.to(() => LoginView()),
+          // ),
         ],
+      ),
+    );
+  }
+
+  Padding buttonSair() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: const Color(0xFFF5F6F9),
+        ),
+        child: ListTile(
+          leading: const Icon(Icons.logout, color: kTextLightColor),
+          title: loginController.loading
+              ? showLoading()
+              : const Text(
+                  'Sair',
+                  style: TextStyle(
+                      color: kPrimaryColor, fontWeight: FontWeight.bold),
+                ),
+          onTap: () => loginController.setLogoutAll(),
+        ),
       ),
     );
   }
@@ -70,55 +94,25 @@ class PerfilBodyView extends StatelessWidget {
     );
   }
 
-  Column testes() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: GetX<UserController>(builder: (_) {
-            return Column(
-              children: [
-                Text(_.user.displayName.toString()),
-                Text(_.user.email.toString()),
-              ],
-            );
-          }),
-        ),
-        TextButton(
-          onPressed: () => loginController.logoutGoogle(),
-          child: const Text('Google Logout'),
-        ),
-        TextButton(
-          onPressed: () => Get.to(() => DespesasView()),
-          child: const Text('Despesas'),
-        ),
-        TextButton(
-          onPressed: () => Get.to(() => ReceitasView()),
-          child: const Text('Receitas'),
-        ),
-      ],
-    );
-  }
-
-  SizedBox logoutFirebase(BuildContext context) {
-    return SizedBox(
-      width: getWidth(context) * .7,
-      height: getHeight(context) * .07,
-      child: Obx(
-        () => ElevatedButton(
-          onPressed: () => loginController.setLogoutAll(),
-          child: loginController.loading
-              ? showLoading()
-              : Text(
-                  'Logout Firebase',
-                  style: TextStyle(
-                    fontSize: getHeight(context) * .03,
-                    color: Colors.white,
-                  ),
-                ),
-          style: styleElevatedButton(),
-        ),
-      ),
-    );
-  }
+  // SizedBox logoutFirebase(BuildContext context) {
+  //   return SizedBox(
+  //     width: getWidth(context) * .7,
+  //     height: getHeight(context) * .07,
+  //     child: Obx(
+  //       () => ElevatedButton(
+  //         onPressed: () => loginController.setLogoutAll(),
+  //         child: loginController.loading
+  //             ? showLoading()
+  //             : Text(
+  //                 'Logout Firebase',
+  //                 style: TextStyle(
+  //                   fontSize: getHeight(context) * .03,
+  //                   color: Colors.white,
+  //                 ),
+  //               ),
+  //         style: styleElevatedButton(),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
