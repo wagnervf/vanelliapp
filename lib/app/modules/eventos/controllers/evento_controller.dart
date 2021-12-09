@@ -29,6 +29,7 @@ class EventoController extends GetxController {
   final List<Appointment> _appointments = <Appointment>[].obs;
   final Rxn<List<EventoModel>> _todosEventos = Rxn<List<EventoModel>>([]);
   List<EventoModel>? get todosEventos => _todosEventos.value;
+  final Rx<double> _totalEventoMes = 0.0.obs;
 
   final Rx<int> _mesFiltro =
       int.parse(DateFormat('MM').format(DateTime.now())).obs;
@@ -45,6 +46,7 @@ class EventoController extends GetxController {
   get formaPagamentoEvento => _formaPagamentoEvento.value;
   get nomeClienteEvento => _nomeClienteEvento.value;
   get contatoClienteEvento => _contatoClienteEvento.value;
+  get totalEventoMes => _totalEventoMes.value;
 
 //https://www.youtube.com/watch?v=PQ_sxDjPUzU
 
@@ -80,14 +82,10 @@ class EventoController extends GetxController {
 
   Stream<List<EventoModel>> getEventosStream(int mes) {
     print('****getEventosStream******');
-
-    // int mes = int.parse(DateFormat('MM').format(DateTime.now()));
-
     int ano = int.parse(DateFormat('yyyy').format(DateTime.now()));
-
     String mesAno = '$mes-$ano';
-    print(mesAno);
     List<EventoModel> retVal = [];
+
     return firestore
         .collection("eventos")
         .doc(mesAno)
@@ -95,11 +93,34 @@ class EventoController extends GetxController {
         .orderBy("id")
         .snapshots()
         .map((query) {
-      for (var element in query.docs) {
-        retVal.add(EventoModel.fromMap(element.data()));
+      if (query.docs.isNotEmpty) {
+        for (var element in query.docs) {
+          retVal.add(EventoModel.fromMap(element.data()));
+          somarTotalEventoMes(element.data());
+        }
+        return retVal;
+      } else {
+        setTotalEventoMes(0);
+        return [];
       }
-      return retVal;
     });
+  }
+
+  void somarTotalEventoMes(Map<String, dynamic> map) {
+    double valorTotal = 0;
+    for (var i = 0; i < map.length; i++) {
+      valorTotal += map['valor'];
+    }
+    if (valorTotal != 0) {
+      setTotalEventoMes(valorTotal);
+    } else {
+      setTotalEventoMes(0);
+    }
+  }
+
+  setTotalEventoMes(double value) {
+    _totalEventoMes.value = value;
+    _totalEventoMes.refresh();
   }
 
   selecionarDiaEvento(value) {

@@ -6,17 +6,6 @@ import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 import '../theme.dart';
 
 class Componentsutils {
-  // static Container builLabelValor() {
-  //   return Container(
-  //     padding: const EdgeInsets.all(4.0),
-  //     alignment: Alignment.topLeft,
-  //     child: const Text(
-  //       'Valor',
-  //       textAlign: TextAlign.left,
-  //     ),
-  //   );
-  // }
-
   static Container buildInputValor(TextEditingController controller) {
     return Container(
       padding: const EdgeInsets.all(12.0),

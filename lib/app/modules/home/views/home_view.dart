@@ -52,7 +52,7 @@ class HomeView extends StatelessWidget {
           buildBalanco(),
           const SizedBox(height: 20),
           buildHeaderInfo('Ações'),
-          buttonsCards(size),
+          //buttonsCards(size),
           const Divider(),
           buildHeaderInfo('Atividades Recente'),
           //const GetListEventosFirabase(),
@@ -61,34 +61,34 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Container buttonsCards(Size size) {
-    return Container(
-      padding: const EdgeInsets.only(left: 20.0, top: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Componentsutils.cardInformation(
-            size: size,
-            icon: Icons.date_range,
-            title: 'Eventos',
-            color: kColorEventos,
-          ),
-          Componentsutils.cardInformation(
-            size: size,
-            icon: Icons.trending_up,
-            title: 'Receitas',
-            color: kColorReceitas,
-          ),
-          Componentsutils.cardInformation(
-            size: size,
-            icon: Icons.trending_down,
-            title: 'Despesas',
-            color: kColorDespesas,
-          ),
-        ],
-      ),
-    );
-  }
+  // Container buttonsCards(Size size) {
+  //   return Container(
+  //     padding: const EdgeInsets.only(left: 20.0, top: 8.0),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: [
+  //         Componentsutils.cardInformation(
+  //           size: size,
+  //           icon: Icons.date_range,
+  //           title: 'Eventos',
+  //           color: kColorEventos,
+  //         ),
+  //         Componentsutils.cardInformation(
+  //           size: size,
+  //           icon: Icons.trending_up,
+  //           title: 'Receitas',
+  //           color: kColorReceitas,
+  //         ),
+  //         Componentsutils.cardInformation(
+  //           size: size,
+  //           icon: Icons.trending_down,
+  //           title: 'Despesas',
+  //           color: kColorDespesas,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Container buildHeaderInfo(String text) {
     return Container(
@@ -123,9 +123,6 @@ class HomeView extends StatelessWidget {
 
   Container buildBalanco() {
     return Container(
-      //  color: kPrimaryColor,
-      // width: double.infinity,
-      //  alignment: Alignment.topCenter,
       decoration: Componentsutils.borderCustom,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -143,10 +140,13 @@ class HomeView extends StatelessWidget {
               style: TextStyle(color: ksecondaryColor),
             ),
           ),
-          const Text(
-            'R\$ 5569,39',
-            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
-          ),
+          // Obx(
+          //   () => Text(
+          //     'R\$ ${_controller.totalEventoMes.toString().replaceAll('.', ',')}',
+          //     style:
+          //         const TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
+          //   ),
+          // ),
         ],
       ),
     );

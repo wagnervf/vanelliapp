@@ -45,16 +45,15 @@ class HomeList extends StatelessWidget {
 
   Container buildBalanco(BuildContext context) {
     return Container(
-      // height: MediaQuery.of(context).size.height * .2,
       padding: const EdgeInsets.symmetric(vertical: 18.0),
       color: Colors.white,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          SizedBox(height: 4.0),
-          Padding(
+        children: [
+          const SizedBox(height: 4.0),
+          const Padding(
             padding: EdgeInsets.all(2.0),
             child: Text(
               'Balanço do Mês',
@@ -62,13 +61,15 @@ class HomeList extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'R\$ 5569,39',
-              style: TextStyle(
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.teal),
+            padding: const EdgeInsets.all(8.0),
+            child: Obx(
+              () => Text(
+                'R\$ ${_controller.totalEventoMes.toString().replaceAll('.', ',')}',
+                style: const TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal),
+              ),
             ),
           ),
         ],
@@ -78,7 +79,6 @@ class HomeList extends StatelessWidget {
 
   Container buildHeaderInfo(BuildContext context) {
     return Container(
-      // height: MediaQuery.of(context).size.height * .05,
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
       alignment: Alignment.topLeft,
       color: Colors.grey[50],
