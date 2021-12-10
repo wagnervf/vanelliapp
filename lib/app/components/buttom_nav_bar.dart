@@ -5,21 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vanelliapp/app/application/controllerGlobal/controller_global.dart';
 
-import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_relatorios.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
 import 'package:vanelliapp/app/modules/home/views/home_list.dart';
-import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/perfil/views/perfil_view.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/theme.dart';
 
-import 'constants.dart';
-
 class BottomNavigationBarCustom extends StatelessWidget {
   final ControllerGlobal dashController = Get.put(ControllerGlobal());
 
-  int _selectedIndex = 0;
   BottomNavigationBarCustom({Key? key}) : super(key: key);
 
   @override
@@ -62,7 +57,6 @@ class BottomNavigationBarCustom extends StatelessWidget {
 
   void _changePage(int index) {
     dashController.changeTabIndex(index);
-    print(index);
 
     switch (index) {
       case 0:
@@ -76,14 +70,14 @@ class BottomNavigationBarCustom extends StatelessWidget {
         break;
       case 2:
         Get.to(
-          () => EventoRelatorios(),
+          () => const EventoRelatorios(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 300),
         );
         break;
       case 3:
         Get.off(
-          () => ReceitasView(),
+          () => const ReceitasView(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 300),
         );

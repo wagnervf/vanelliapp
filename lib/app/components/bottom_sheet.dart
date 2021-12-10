@@ -3,20 +3,21 @@ import 'package:get/get.dart';
 
 import 'decorations.dart';
 
-class Bottomsheet extends StatelessWidget {
+class BottomSheet extends StatelessWidget {
   final String label;
   final List<String> titles;
   final List<String> subtitles;
   final List<IconData> icons;
   final IconData iconList;
 
-  Bottomsheet({
+  const BottomSheet({
+    Key? key,
     required this.titles,
     required this.subtitles,
     required this.icons,
     required this.label,
     required this.iconList,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

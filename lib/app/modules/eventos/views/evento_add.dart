@@ -130,7 +130,6 @@ class _EventoAddState extends State<EventoAdd> {
 
       return;
     } catch (e) {
-      print(e);
       Componentsutils.messageAlert('Erro ao salvar Evento!');
       return;
     }

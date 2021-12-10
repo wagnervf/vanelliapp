@@ -12,6 +12,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
+  // ignore: constant_identifier_names
   static const INITIAL = Routes.LOGIN_SPLASH;
 
   static final routes = [
@@ -22,17 +23,17 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN_SPLASH,
-      page: () => LoginSplash(),
+      page: () => const LoginSplash(),
       binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => LoginView(),
+      page: () => const LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.EVENTO,
-      page: () => EventoView(),
+      page: () => const EventoView(),
       binding: EventoBinding(),
     ),
   ];

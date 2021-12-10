@@ -15,9 +15,12 @@ class HeaderWidget extends StatefulWidget {
 }
 
 class _HeaderWidgetState extends State<HeaderWidget> {
-  double _height;
-  bool _showIcon;
-  IconData _icon;
+  // ignore: unused_field
+  final double _height;
+  // ignore: unused_field
+  final bool _showIcon;
+  // ignore: unused_field
+  final IconData _icon;
 
   _HeaderWidgetState(this._height, this._showIcon, this._icon);
 
@@ -25,7 +28,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       width: width,
       child: Stack(
         children: [
@@ -36,7 +39,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 gradient: LinearGradient(
                     colors: [
                       Theme.of(context).primaryColor.withOpacity(0.4),
-                      Theme.of(context).accentColor.withOpacity(0.4),
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.4),
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
@@ -58,11 +61,11 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 gradient: LinearGradient(
                     colors: [
                       Theme.of(context).primaryColor.withOpacity(0.4),
-                      Theme.of(context).accentColor.withOpacity(0.4),
+                      Theme.of(context).colorScheme.secondary.withOpacity(0.4),
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
+                    stops: const [0.0, 1.0],
                     tileMode: TileMode.clamp),
               ),
             ),
@@ -80,11 +83,11 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 gradient: LinearGradient(
                     colors: [
                       Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
+                      Theme.of(context).colorScheme.secondary,
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
+                    stops: const [0.0, 1.0],
                     tileMode: TileMode.clamp),
               ),
             ),
@@ -135,11 +138,12 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 }
 
 class ShapeClipper extends CustomClipper<Path> {
+  // ignore: prefer_final_fields
   List<Offset> _offsets = [];
   ShapeClipper(this._offsets);
   @override
   Path getClip(Size size) {
-    var path = new Path();
+    var path = Path();
 
     path.lineTo(0.0, size.height - 20);
 

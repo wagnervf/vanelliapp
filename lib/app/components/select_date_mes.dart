@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
@@ -37,7 +36,6 @@ class _SelectDateMesState extends State<SelectDateMes> {
       locale: const Locale("pt", "BR"),
     ).then((date) {
       if (date != null && date != selectedDate) {
-        print('####$date#####');
         _controller.selecionarMesFiltro(date);
         setState(() {
           selectedDate = date;

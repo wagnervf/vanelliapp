@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData theme() {
   return ThemeData(
@@ -15,10 +16,14 @@ AppBarTheme appBarTheme() {
   return const AppBarTheme(
     color: Colors.white,
     elevation: 0,
-    brightness: Brightness.light,
     iconTheme: IconThemeData(color: Colors.black),
-    textTheme: TextTheme(
-        headline6: TextStyle(color: Color(0xff8b8b8b), fontSize: 16.0)),
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
+    // toolbarTextStyle: TextTheme(
+    //         headline6: TextStyle(color: Color(0xff8b8b8b), fontSize: 16.0))
+    //     .bodyText2,
+    // titleTextStyle: TextTheme(
+    //         headline6: TextStyle(color: Color(0xff8b8b8b), fontSize: 16.0))
+    //     .headline6,
   );
 }
 
@@ -88,7 +93,7 @@ final otpInputDecoration = InputDecoration(
 OutlineInputBorder buildOutlineInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(28),
-    borderSide: BorderSide(color: kTextColor),
+    borderSide: const BorderSide(color: kTextColor),
     gapPadding: 10,
   );
 }

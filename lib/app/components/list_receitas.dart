@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
 
+// ignore: must_be_immutable
 class ListReceitas extends StatelessWidget {
   final titles = ["Churras", "Casório", "Niver"];
 
@@ -12,6 +13,8 @@ class ListReceitas extends StatelessWidget {
   ];
 
   List<IconData> icons = [Icons.outdoor_grill, Icons.celebration, Icons.cake];
+
+  ListReceitas({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -9,8 +9,7 @@ import '../controllers/despesas_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
-import 'package:vanelliapp/app/components/constants.dart';
-import 'package:vanelliapp/app/components/customSwitch.dart';
+import 'package:vanelliapp/app/components/custom_switch.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
 import 'package:vanelliapp/app/components/order_button.dart';
 
@@ -73,7 +72,7 @@ class DespesasView extends GetView<DespesasController> {
           ),
           const Divider(),
           //Data
-          SelectDate(),
+          const SelectDate(),
           const Divider(),
           ListDespesas(),
           const Divider(),

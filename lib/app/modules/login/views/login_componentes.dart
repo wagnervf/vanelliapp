@@ -75,8 +75,8 @@ class LoginComponentes {
       child: ElevatedButton.icon(
         label: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
+          children: const [
+            Text(
               'Acessar com o E-mail',
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
@@ -95,7 +95,7 @@ class LoginComponentes {
           FontAwesomeIcons.envelope,
           color: kTextColor,
         ),
-        onPressed: () => {Get.to(() => LoginView())},
+        onPressed: () => {Get.to(() => const LoginView())},
       ),
     );
   }
@@ -133,8 +133,8 @@ class LoginComponentes {
   static Row textGoogle() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
+      children: const [
+        Text(
           'Acessar com o Google',
           style: TextStyle(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,

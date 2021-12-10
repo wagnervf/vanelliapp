@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../theme.dart';
-
 class Decorations {
   static BoxDecoration decorationTextField() {
     return BoxDecoration(
@@ -9,7 +7,7 @@ class Decorations {
       // border: Border.all(
       //     color: Colors.grey, // set border color
       //     width: 1.0), // set border width
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
         Radius.circular(25),
       ), // set rounded corner radius
     );

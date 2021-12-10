@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 
+// ignore: must_be_immutable
 class GoogleSignInProvider extends StatelessWidget {
   //final loginController = Get.put(LoginController());
   final LoginController loginController = Get.find();

@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatelessWidget {
@@ -22,7 +21,7 @@ class CustomSwitch extends StatelessWidget {
             color: Colors.grey[600],
           ),
         ),
-        contentPadding: EdgeInsets.all(2.0),
+        contentPadding: const EdgeInsets.all(2.0),
         trailing: Switch(
           value: isSwitched,
           onChanged: (value) {},

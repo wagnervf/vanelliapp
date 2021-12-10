@@ -158,10 +158,10 @@ class Componentsutils {
   );
 
   static Card buildBodyListRecentes(EventoModel doc) {
-    String diaSemana = DateFormat.E('pt')
-        .format(DateTime.parse(doc.diaCompleto))
-        .toString()
-        .toUpperCase();
+    // String diaSemana = DateFormat.E('pt')
+    //     .format(DateTime.parse(doc.diaCompleto))
+    //     .toString()
+    //     .toUpperCase();
 
     return Card(
       elevation: 0.5,
@@ -216,10 +216,10 @@ class Componentsutils {
   }
 
   static Card cardEventoAtual(EventoModel doc) {
-    String data = DateFormat('dd/MM/yyyy')
-        .format(DateTime.parse(doc.diaCompleto))
-        .toString();
-    var part = data.split('/');
+    //  String data = DateFormat('dd/MM/yyyy')
+    //     .format(DateTime.parse(doc.diaCompleto))
+    //     .toString();
+    //  var part = data.split('/');
     Color color =
         doc.reservaPago ? const Color(0xFF81c784) : const Color(0xFFe57373);
 
@@ -278,26 +278,25 @@ class Componentsutils {
         snackPosition: SnackPosition.TOP);
   }
 }
- // ElevatedButton buttonConfirmar() {
-  //   return ElevatedButton.icon(
-  //       label: Text(
-  //         'Confirmar',
-  //         style: TextStyle(
-  //           fontSize: getHeight(context) * .03,
-  //           color: Colors.white,
-  //         ),
-  //       ),
-  //       style: styleButton(),
-  //       onPressed: () => _acaoConfirmar(),
-  //       icon: Visibility(
-  //         visible: salvando,
-  //         replacement: const Icon(Icons.check),
-  //         child: const CircularProgressIndicator(
-  //           color: Colors.white,
-  //         ),
-  //       ));
-  // }
-
+// ElevatedButton buttonConfirmar() {
+//   return ElevatedButton.icon(
+//       label: Text(
+//         'Confirmar',
+//         style: TextStyle(
+//           fontSize: getHeight(context) * .03,
+//           color: Colors.white,
+//         ),
+//       ),
+//       style: styleButton(),
+//       onPressed: () => _acaoConfirmar(),
+//       icon: Visibility(
+//         visible: salvando,
+//         replacement: const Icon(Icons.check),
+//         child: const CircularProgressIndicator(
+//           color: Colors.white,
+//         ),
+//       ));
+// }
 
 //   ButtonStyle styleButton() {
 //     return ElevatedButton.styleFrom(

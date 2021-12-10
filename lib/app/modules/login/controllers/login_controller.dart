@@ -36,12 +36,6 @@ class LoginController extends GetxController {
   bool get userLogged => _logged.value;
   bool get loading => _loading.value;
 
-  @override
-  void onInit() {
-    //  getUserLogged();
-    super.onInit();
-  }
-
   //@override
   // void onReady() {
 //super.onReady();
@@ -69,7 +63,6 @@ class LoginController extends GetxController {
   }
 
   _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount) {
-    print(googleSignInAccount);
     if (googleSignInAccount == null) {
       Get.offAll(() => const LoginView());
     }
@@ -153,7 +146,6 @@ class LoginController extends GetxController {
         loginSucess();
       }
     } catch (error) {
-      print(error);
       MessagesSnackbar.show('Não foi possível realizar o login');
     }
   }
@@ -163,8 +155,7 @@ class LoginController extends GetxController {
     try {
       await _auth.signInWithCredential(credential);
       loginSucess();
-    } on FirebaseAuthException catch (e) {
-      print(e);
+    } on FirebaseAuthException {
       MessagesSnackbar.show('Não foi possível salvar o usuário');
       loginError();
     }
@@ -190,6 +181,7 @@ class LoginController extends GetxController {
 
   //buscar usuário banco do firebase
   Future<UserModel> getUserCollection(String uid) async {
+    // ignore: prefer_typing_uninitialized_variables
     var user;
     try {
       await firestore.collection("users").doc(uid).get().then((value) {

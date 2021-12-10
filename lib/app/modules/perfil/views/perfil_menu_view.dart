@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vanelliapp/app/theme.dart';
 
 class ProfileMenuView extends StatelessWidget {
   const ProfileMenuView({

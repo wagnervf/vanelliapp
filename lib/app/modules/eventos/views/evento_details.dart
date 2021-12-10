@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +11,6 @@ class EventoDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     final EventoModel data = Get.arguments;
 
     return SafeArea(
@@ -36,27 +34,25 @@ class EventoDetails extends StatelessWidget {
 
   SingleChildScrollView listItens(EventoModel data) {
     return SingleChildScrollView(
-      child: Container(
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(height: 8),
-              dataEvento(data),
-              const Divider(),
-              itensEvento(Icons.person, 'Cliente', data.nomeCliente),
-              itensEvento(Icons.phone, 'Contato', data.contatoCliente),
-              itensEvento(Icons.monetization_on_sharp, 'Valor',
-                  "R\$ ${data.valor.toString().replaceAll('.', ',')}0"),
-              itensEvento(Icons.timeline, 'Tipo', data.tipo),
-              itensEvento(Icons.api, 'Tipo', data.formaPagamento),
-              const Divider(),
-              itensEvento(Icons.person_outlined, 'Usuário', data.idUsuario),
-              itensEvento(Icons.domain_verification_outlined,
-                  'Data do Cadastro', data.dataCadastro),
-            ],
-          ),
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(height: 8),
+            dataEvento(data),
+            const Divider(),
+            itensEvento(Icons.person, 'Cliente', data.nomeCliente),
+            itensEvento(Icons.phone, 'Contato', data.contatoCliente),
+            itensEvento(Icons.monetization_on_sharp, 'Valor',
+                "R\$ ${data.valor.toString().replaceAll('.', ',')}0"),
+            itensEvento(Icons.timeline, 'Tipo', data.tipo),
+            itensEvento(Icons.api, 'Tipo', data.formaPagamento),
+            const Divider(),
+            itensEvento(Icons.person_outlined, 'Usuário', data.idUsuario),
+            itensEvento(Icons.domain_verification_outlined, 'Data do Cadastro',
+                data.dataCadastro),
+          ],
         ),
       ),
     );

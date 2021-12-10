@@ -72,9 +72,6 @@ class EventoController extends GetxController {
 
   void selecionarMesFiltro(value) {
     int mes = int.parse(DateFormat('MM').format(value));
-
-    print('%%%%$mes%%%%%');
-
     _mesFiltro.value = mes;
     _mesFiltro.refresh();
     _todosEventos.bindStream(getEventosStream(mesSelecionado));
@@ -230,7 +227,6 @@ class EventoController extends GetxController {
 
       return true;
     } catch (e) {
-      print(e);
       MessagesSnackbar.show('Não foi possível salvar o Evento!');
       return false;
     }

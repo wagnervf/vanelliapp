@@ -23,7 +23,7 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
 
   late String dataSelecionada = DateFormat("dd/MM/yyyy")
       .format(DateTime.parse(_controller.diaSelecionado.toString()));
-  final TextEditingController _controlDescricao = TextEditingController();
+  // final TextEditingController _controlDescricao = TextEditingController();
   late TextEditingController controlValor = TextEditingController();
   late bool reserva = false;
   late bool total = false;

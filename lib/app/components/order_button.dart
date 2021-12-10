@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
 
 class ButtonSalvar extends StatelessWidget {
   const ButtonSalvar(
@@ -27,9 +26,9 @@ class ButtonSalvar extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(width: 10),
-                const Text(
+              children: const <Widget>[
+                SizedBox(width: 10),
+                Text(
                   "Salvar",
                   style: TextStyle(
                     color: Colors.white,

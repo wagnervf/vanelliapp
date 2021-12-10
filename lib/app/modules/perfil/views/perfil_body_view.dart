@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
-import 'package:vanelliapp/app/modules/login/views/login_view.dart';
 
-import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
 import 'package:get/get.dart';
 
 import '../../../theme.dart';
-import 'perfil_menu_view.dart';
 
 // ignore: use_key_in_widget_constructors
 class PerfilBodyView extends StatelessWidget {

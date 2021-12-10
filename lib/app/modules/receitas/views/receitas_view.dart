@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
-import 'package:vanelliapp/app/components/constants.dart';
-import 'package:vanelliapp/app/components/customSwitch.dart';
+import 'package:vanelliapp/app/components/custom_switch.dart';
 import 'package:vanelliapp/app/components/decorations.dart';
 import 'package:vanelliapp/app/components/list_contas.dart';
-import 'package:vanelliapp/app/components/list_forma_pagamento.dart';
 import 'package:vanelliapp/app/components/list_receitas.dart';
 import 'package:vanelliapp/app/modules/login/controllers/login_controller.dart';
 import 'package:vanelliapp/app/shared/size_config.dart';
@@ -16,9 +14,10 @@ import 'package:intl/intl.dart';
 import 'package:validatorless/validatorless.dart';
 
 import '../../../theme.dart';
-import '../controllers/receitas_controller.dart';
 
 class ReceitasView extends StatefulWidget {
+  const ReceitasView({Key? key}) : super(key: key);
+
   @override
   State<ReceitasView> createState() => _ReceitasViewState();
 }
@@ -34,7 +33,7 @@ class _ReceitasViewState extends State<ReceitasView> {
 
   final icons = [Icons.ac_unit, Icons.access_alarm, Icons.access_time];
 
-  final TextEditingController _controlDescricao = TextEditingController();
+  //final TextEditingController _controlDescricao = TextEditingController();
 
   final isSwitched = true;
 
@@ -269,16 +268,14 @@ class _ReceitasViewState extends State<ReceitasView> {
   _submit(_formKey) {
     var formValid = _formKey.currentState?.validate() ?? false;
     if (formValid) {
-      Map<String, dynamic> userData = {
-        "pago": _pago.text,
-        "valor": _valor.text,
-        "data": _data.text,
-        "categoria": _categoria.text,
-        "conta": _conta.text,
-        "descricao": _descricao.text,
-      };
-
-      print(userData);
+      // Map<String, dynamic> userData = {
+      //   "pago": _pago.text,
+      //   "valor": _valor.text,
+      //   "data": _data.text,
+      //   "categoria": _categoria.text,
+      //   "conta": _conta.text,
+      //   "descricao": _descricao.text,
+      // };
 
       // loginController.createUserFirebase(
       //   userData: userData,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class SelectDate extends StatefulWidget {
+  const SelectDate({Key? key}) : super(key: key);
+
   @override
   _SelectDateState createState() => _SelectDateState();
 }
@@ -27,15 +29,16 @@ class _SelectDateState extends State<SelectDate> {
       fieldLabelText: 'Booking date',
       fieldHintText: 'Month/Date/Year',
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
       });
+    }
   }
 
   bool _decideWhichDayToEnable(DateTime day) {
-    if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
-        day.isBefore(DateTime.now().add(Duration(days: 10))))) {
+    if ((day.isAfter(DateTime.now().subtract(const Duration(days: 1))) &&
+        day.isBefore(DateTime.now().add(const Duration(days: 10))))) {
       return true;
     }
     return false;
@@ -47,10 +50,8 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   Widget build(BuildContext context) {
-    print(dateFormat(selectedDate));
-
     return ListTile(
-      leading: Icon(Icons.date_range),
+      leading: const Icon(Icons.date_range),
       title: Text(
         dateFormat(selectedDate),
         style: TextStyle(
