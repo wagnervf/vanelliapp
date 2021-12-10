@@ -46,10 +46,7 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         detailsDataValor(),
-        // const Divider(height: 1.0, thickness: 1.0),
         detailsPagamento(),
-
-        // const Divider(height: 2.0, thickness: 1.0),
       ],
     );
   }
@@ -68,7 +65,6 @@ class _EventPassoEventoState extends State<EventPassoEvento> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //const Divider(height: 15.0, thickness: 1.0),
           const Text(
             'Evento',
             textAlign: TextAlign.left,

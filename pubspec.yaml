@@ -27,6 +27,7 @@ dependencies:
   syncfusion_flutter_calendar: ^19.3.54
   syncfusion_localizations:
   month_picker_dialog: ^0.4.0
+  fl_chart: ^0.40.6
 
 
 

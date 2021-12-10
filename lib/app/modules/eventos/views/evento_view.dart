@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
 import 'package:vanelliapp/app/components/components_utils.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
-import 'package:vanelliapp/app/modules/eventos/model/event_data_souce.dart';
 import 'package:vanelliapp/app/modules/eventos/model/event_model.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_details.dart';
-import '../../../theme.dart';
 import 'calendar_config.dart';
 import 'evento_add.dart';
 

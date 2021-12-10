@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:vanelliapp/app/application/controllerGlobal/controller_global.dart';
 
 import 'package:vanelliapp/app/modules/despesas/views/despesas_view.dart';
+import 'package:vanelliapp/app/modules/eventos/views/evento_relatorios.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
 import 'package:vanelliapp/app/modules/home/views/home_list.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
@@ -43,10 +44,10 @@ class BottomNavigationBarCustom extends StatelessWidget {
           icon: Icon(Icons.date_range),
           label: 'Eventos',
         ),
-        // const BottomNavigationBarItem(
-        //   icon: Icon(Icons.trending_down),
-        //   label: 'Despesas',
-        // ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.bar_chart),
+          label: 'Relatórios',
+        ),
         // const BottomNavigationBarItem(
         //   icon: Icon(Icons.trending_up),
         //   label: 'Receitas',
@@ -75,7 +76,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
         break;
       case 2:
         Get.to(
-          () => PerfilView(),
+          () => EventoRelatorios(),
           transition: Transition.fadeIn,
           duration: const Duration(milliseconds: 300),
         );
