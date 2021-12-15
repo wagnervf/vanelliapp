@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vanelliapp/app/components/app_bar.dart';
 import 'package:vanelliapp/app/components/buttom_nav_bar.dart';
-import 'package:vanelliapp/app/components/components_utils.dart';
+import 'package:vanelliapp/app/components/get_list_eventos_firebase.dart';
 import 'package:vanelliapp/app/modules/eventos/controllers/evento_controller.dart';
 import 'package:vanelliapp/app/theme.dart';
 
@@ -16,14 +17,15 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: kPrimaryColor,
-      // appBar:
-      //  AppBarCustom(
-      //   title: '',
-      //   color: kPrimaryColor,
-      //   voltar: false,
-      // ),
+      // backgroundColor: Colors.white,
+      appBar: AppBarCustom(
+        title: '',
+        color: kPrimaryColor,
+        voltar: false,
+      ),
+      // primary: true,
       body: SafeArea(
         child: buildBodyHome(size, context),
       ),
@@ -31,124 +33,85 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Container buildHeaderHome(BuildContext context) {
-    return Container(
-      color: kPrimaryColor,
-      width: double.infinity,
-      alignment: Alignment.topCenter,
-    );
-  }
-
-  Container buildBodyHome(Size size, BuildContext context) {
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height,
-      // padding: const EdgeInsets.symmetric(horizontal: 12.0),
+  buildBodyHome(Size size, BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        _controller.selecionarMesFiltro(data: DateTime.now(), limit: true);
+      },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
         children: [
-          buildBalanco(),
-          const SizedBox(height: 20),
-          buildHeaderInfo('Ações'),
-          //buttonsCards(size),
-          const Divider(),
-          buildHeaderInfo('Atividades Recente'),
-          //const GetListEventosFirabase(),
+          buildBalanco(context),
+          buildHeaderInfo(context),
+          buildListData(context),
         ],
       ),
     );
   }
 
-  // Container buttonsCards(Size size) {
-  //   return Container(
-  //     padding: const EdgeInsets.only(left: 20.0, top: 8.0),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: [
-  //         Componentsutils.cardInformation(
-  //           size: size,
-  //           icon: Icons.date_range,
-  //           title: 'Eventos',
-  //           color: kColorEventos,
-  //         ),
-  //         Componentsutils.cardInformation(
-  //           size: size,
-  //           icon: Icons.trending_up,
-  //           title: 'Receitas',
-  //           color: kColorReceitas,
-  //         ),
-  //         Componentsutils.cardInformation(
-  //           size: size,
-  //           icon: Icons.trending_down,
-  //           title: 'Despesas',
-  //           color: kColorDespesas,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Container buildHeaderInfo(String text) {
+  Container buildBalanco(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      alignment: Alignment.topLeft,
-      child: Text(
-        text,
-        style: const TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-            color: ksecondaryColor),
-      ),
-    );
-  }
-
-  Container buttonSelectPeriodo({required String title, required bool active}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      decoration: BoxDecoration(
-        color: active ? Colors.amber[100] : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: TextButton(
-        onPressed: () {},
-        child: Text(
-          title,
-          style: TextStyle(color: active ? Colors.amber[800] : Colors.grey),
-        ),
-      ),
-    );
-  }
-
-  Container buildBalanco() {
-    return Container(
-      decoration: Componentsutils.borderCustom,
+      padding: const EdgeInsets.symmetric(vertical: 18.0),
+      color: Colors.white,
+      width: double.infinity,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.filter_list_alt),
-            label: const Text('Abril'),
-          ),
+          const SizedBox(height: 4.0),
           const Padding(
             padding: EdgeInsets.all(2.0),
             child: Text(
               'Balanço do Mês',
-              style: TextStyle(color: ksecondaryColor),
+              style: TextStyle(color: kTextColor),
             ),
           ),
-          // Obx(
-          //   () => Text(
-          //     'R\$ ${_controller.totalEventoMes.toString().replaceAll('.', ',')}',
-          //     style:
-          //         const TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Obx(
+              () => Text(
+                'R\$ ${_controller.totalEventoMes.toString().replaceAll('.', ',')}',
+                style: const TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.teal),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
+
+  Container buildHeaderInfo(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
+      alignment: Alignment.topLeft,
+      color: Colors.grey[50],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Últimos Eventos',
+            style: styleFilter(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildListData(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * .63,
+      padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
+      alignment: Alignment.topLeft,
+      color: Colors.grey[50],
+      child: const GetListEventosFirabase(),
+    );
+  }
+
+  TextStyle styleFilter() {
+    return const TextStyle(
+        fontSize: 16.0, fontWeight: FontWeight.bold, color: kTextColor);
+  }
 }
+//   decoration: Componentsutils.borderCustom,

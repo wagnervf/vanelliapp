@@ -36,7 +36,10 @@ class _SelectDateMesState extends State<SelectDateMes> {
       locale: const Locale("pt", "BR"),
     ).then((date) {
       if (date != null && date != selectedDate) {
-        _controller.selecionarMesFiltro(date);
+        _controller.selecionarMesFiltro(
+          data: date,
+          limit: false,
+        );
         setState(() {
           selectedDate = date;
         });

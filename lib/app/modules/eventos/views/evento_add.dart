@@ -44,9 +44,7 @@ class _EventoAddState extends State<EventoAdd> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            //  color: Colors.purple,
             width: double.infinity,
-            //  height: MediaQuery.of(context).size.height,
             margin: const EdgeInsets.fromLTRB(6, 12, 6, 0),
             child: Column(
               children: const [
@@ -114,7 +112,9 @@ class _EventoAddState extends State<EventoAdd> {
       late bool contato = _controller.contatoClienteEvento == "";
 
       if (dia || valor || tipo || forma || nome || contato) {
-        Componentsutils.messageAlert('Verificar os campos não preenchidos!');
+        Componentsutils.messageAlert(
+            'Verifique os campos não preenchidos antes de Salvar!');
+        return;
       }
 
       bool result = await _controller.saveEventoInCollectionFirebase();
@@ -122,13 +122,15 @@ class _EventoAddState extends State<EventoAdd> {
       if (result) {
         Get.back();
         Componentsutils.messageAlert('Evento Salvo!');
+        setState(() {
+          salvando = false;
+        });
+
+        return;
+      } else {
+        Componentsutils.messageAlert('Erro ao salvar Evento!');
+        return;
       }
-
-      setState(() {
-        salvando = false;
-      });
-
-      return;
     } catch (e) {
       Componentsutils.messageAlert('Erro ao salvar Evento!');
       return;

@@ -22,9 +22,6 @@ class AppBarCustom extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: kPrimaryColor, //or set color with: Color(0xFF0000FF)
-    ));
     final UserController userController = Get.find();
 
     return AppBar(

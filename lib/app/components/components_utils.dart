@@ -188,38 +188,51 @@ class Componentsutils {
         .format(DateTime.parse(doc.diaCompleto))
         .toString()
         .toUpperCase();
+    String mes = DateFormat.MMM('pt')
+        .format(DateTime.parse(doc.diaCompleto))
+        .toString()
+        .toUpperCase();
+
     return Container(
-      padding: const EdgeInsets.only(top: 10, left: 12, right: 12),
+      padding: const EdgeInsets.only(top: 0, left: 12, right: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             diaSemana,
-            style: const TextStyle(
-              color: kTextColor,
-              fontSize: 14.0,
-            ),
+            style: styleDiaSemana(),
             textAlign: TextAlign.center,
           ),
           Text(
             doc.dia.toString(),
-            style: TextStyle(
-                color: doc.reservaPago ? Colors.teal : Colors.red,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold),
+            style: styleNumeroDia(doc),
             textAlign: TextAlign.center,
           ),
+          Text(
+            mes,
+            style: const TextStyle(fontSize: 10),
+          )
         ],
       ),
     );
   }
 
+  static TextStyle styleNumeroDia(EventoModel doc) {
+    return TextStyle(
+        color: doc.reservaPago ? Colors.teal : Colors.red,
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold);
+  }
+
+  static TextStyle styleDiaSemana() {
+    return const TextStyle(
+      color: kTextColor,
+      fontSize: 14.0,
+    );
+  }
+
   static Card cardEventoAtual(EventoModel doc) {
-    //  String data = DateFormat('dd/MM/yyyy')
-    //     .format(DateTime.parse(doc.diaCompleto))
-    //     .toString();
-    //  var part = data.split('/');
     Color color =
         doc.reservaPago ? const Color(0xFF81c784) : const Color(0xFFe57373);
 
@@ -253,9 +266,6 @@ class Componentsutils {
               ),
             ),
           ),
-          //  itenList(Icons.date_range, 'Dia', data),
-          // itenList(Icons.turned_in, 'Tipo', doc.tipo),
-          //  itenList(Icons.payment, 'Pagamento', doc.formaPagamento),
         ],
       ),
     );

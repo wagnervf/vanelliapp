@@ -21,10 +21,10 @@ class BarChartEidget extends StatelessWidget {
                 alignment: BarChartAlignment.center,
                 maxY: 40,
                 minY: 0,
-                groupsSpace: 16,
+                groupsSpace: 2,
                 barTouchData: BarTouchData(enabled: true),
                 titlesData: buildFlTitlesData(),
-                backgroundColor: Colors.indigo[300],
+                backgroundColor: Colors.white,
                 gridData: FlGridData(
                   show: false,
                 ),
@@ -35,11 +35,16 @@ class BarChartEidget extends StatelessWidget {
                         barRods: [
                           BarChartRodData(
                             y: data.y,
-                            width: 12,
+                            width: 26,
                             colors: [data.color],
+                            backDrawRodData: BackgroundBarChartRodData(
+                              colors: [const Color(0xff0097a7)],
+                              y: 40,
+                              show: true,
+                            ),
                             borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
+                              topLeft: Radius.circular(1),
+                              topRight: Radius.circular(1),
                             ),
                           ),
                         ],
@@ -81,7 +86,7 @@ class BarChartEidget extends StatelessWidget {
 
 class BarData {
   static int interval = 1;
-  static Color colorBar = Color(0xff1a237e);
+  static Color colorBar = Color(0xff00e5ff);
 
   static List<Data> barData = [
     Data(
@@ -179,8 +184,9 @@ class BarTitles {
         getTextStyles: (value, BarData) =>
             const TextStyle(color: Colors.teal, fontSize: 10),
         // rotateAngle: 90,
-        interval: BarData.interval.toDouble(),
+        interval: 5,
         margin: 10,
+
         // reservedSize: 30,
         getTitles: (double value) => '${value.toInt()}',
       );

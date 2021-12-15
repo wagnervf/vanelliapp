@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:vanelliapp/app/modules/home/views/home_list.dart';
+import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/login/views/login_view.dart';
 import 'package:vanelliapp/app/modules/user/controllers/user_controller.dart';
@@ -56,7 +56,7 @@ class LoginController extends GetxController {
     if (usuario == null) {
       Get.offAll(() => const LoginView());
     } else {
-      Get.to(() => HomeList());
+      Get.to(() => HomeView());
 
       Get.find<UserController>().user = await getUserCollection(usuario.uid);
     }
@@ -66,7 +66,7 @@ class LoginController extends GetxController {
     if (googleSignInAccount == null) {
       Get.offAll(() => const LoginView());
     }
-    Get.offAll(() => HomeList());
+    Get.offAll(() => HomeView());
   }
 
   //Criar usuário no Firebase e salvar ele na colletions

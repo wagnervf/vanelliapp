@@ -7,7 +7,7 @@ import 'package:vanelliapp/app/application/controllerGlobal/controller_global.da
 
 import 'package:vanelliapp/app/modules/eventos/views/evento_relatorios.dart';
 import 'package:vanelliapp/app/modules/eventos/views/evento_view.dart';
-import 'package:vanelliapp/app/modules/home/views/home_list.dart';
+import 'package:vanelliapp/app/modules/home/views/home_view.dart';
 import 'package:vanelliapp/app/modules/perfil/views/perfil_view.dart';
 import 'package:vanelliapp/app/modules/receitas/views/receitas_view.dart';
 import 'package:vanelliapp/app/theme.dart';
@@ -62,7 +62,7 @@ class BottomNavigationBarCustom extends StatelessWidget {
       case 0:
         // Get.until((route) => Get.currentRoute == '/home');
         //Get.to(() => HomeView());
-        Get.to(() => HomeList());
+        Get.to(() => HomeView());
         break;
       case 1:
         // Get.until((route) => Get.currentRoute != '/evento');
@@ -71,22 +71,16 @@ class BottomNavigationBarCustom extends StatelessWidget {
       case 2:
         Get.to(
           () => const EventoRelatorios(),
-          transition: Transition.fadeIn,
-          duration: const Duration(milliseconds: 300),
         );
         break;
       case 3:
         Get.off(
-          () => const ReceitasView(),
-          transition: Transition.fadeIn,
-          duration: const Duration(milliseconds: 300),
+          () => PerfilView(),
         );
         break;
       case 4:
         Get.to(
           () => PerfilView(),
-          transition: Transition.fadeIn,
-          duration: const Duration(milliseconds: 300),
         );
         break;
     }

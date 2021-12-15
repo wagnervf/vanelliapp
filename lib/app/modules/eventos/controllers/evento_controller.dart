@@ -30,6 +30,8 @@ class EventoController extends GetxController {
   final Rxn<List<EventoModel>> _todosEventos = Rxn<List<EventoModel>>([]);
   List<EventoModel>? get todosEventos => _todosEventos.value;
   final Rx<double> _totalEventoMes = 0.0.obs;
+  final Rx<int> _qtdeEventoMes = 0.obs;
+  final RxList _totalTipoEventoMes = [].obs;
 
   final Rx<int> _mesFiltro =
       int.parse(DateFormat('MM').format(DateTime.now())).obs;
@@ -47,6 +49,8 @@ class EventoController extends GetxController {
   get nomeClienteEvento => _nomeClienteEvento.value;
   get contatoClienteEvento => _contatoClienteEvento.value;
   get totalEventoMes => _totalEventoMes.value;
+  get qtdeEventoMes => _qtdeEventoMes.value;
+  get totalTipoEventoMes => _totalTipoEventoMes.toList();
 
 //https://www.youtube.com/watch?v=PQ_sxDjPUzU
 
@@ -63,56 +67,97 @@ class EventoController extends GetxController {
 
   @override
   void onInit() {
-    _todosEventos.bindStream(getEventosStream(mesSelecionado));
+    _todosEventos.bindStream(getEventosStream(
+      mes: mesSelecionado,
+      limit: true,
+    ));
 
-    getEventoCollection();
+    getEventoCollection(mesV: DateTime.now(), anoV: DateTime.now());
+
     checkEventoDoDia();
     super.onInit();
   }
 
-  void selecionarMesFiltro(value) {
-    int mes = int.parse(DateFormat('MM').format(value));
+  void selecionarMesFiltro({required data, required bool limit}) {
+    int mes = int.parse(DateFormat('MM').format(data));
     _mesFiltro.value = mes;
     _mesFiltro.refresh();
-    _todosEventos.bindStream(getEventosStream(mesSelecionado));
+    _todosEventos.bindStream(getEventosStream(
+      mes: mes,
+      limit: limit,
+    ));
   }
 
-  Stream<List<EventoModel>> getEventosStream(int mes) {
-    print('****getEventosStream******');
+  Stream<List<EventoModel>> getEventosStream(
+      {required int mes, required bool limit}) {
     int ano = int.parse(DateFormat('yyyy').format(DateTime.now()));
     String mesAno = '$mes-$ano';
     List<EventoModel> retVal = [];
+    print('mesAno');
+    print(mesAno);
 
     return firestore
         .collection("eventos")
         .doc(mesAno)
         .collection(mesAno)
-        .orderBy("id")
+        .limit(limit ? 3 : 40)
+        .orderBy("id", descending: true)
         .snapshots()
         .map((query) {
+      //
+
       if (query.docs.isNotEmpty) {
+        somarTotalEventoMes(query.docs);
+        setQtdeEventoMes(query.docs.length);
+        somarTiposEventoMes(query.docs);
+
         for (var element in query.docs) {
           retVal.add(EventoModel.fromMap(element.data()));
-          somarTotalEventoMes(element.data());
         }
         return retVal;
+        //
       } else {
         setTotalEventoMes(0);
+        setQtdeEventoMes(0);
         return [];
       }
     });
   }
 
-  void somarTotalEventoMes(Map<String, dynamic> map) {
+  void somarTiposEventoMes(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> map) {
+    int valorTotal = 0;
+
+    for (var element in map) {
+      valorTotal += 1;
+      _totalTipoEventoMes.add({
+        element['tipo']: valorTotal,
+      });
+    }
+  }
+
+  // void setTipoEvento(int value) {
+  //   _totalTipoEventoMes.value = value;
+  //   _totalTipoEventoMes.refresh();
+  // }
+
+  void somarTotalEventoMes(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> map) {
     double valorTotal = 0;
-    for (var i = 0; i < map.length; i++) {
-      valorTotal += map['valor'];
+    for (var element in map) {
+      valorTotal += element['valor'];
     }
     if (valorTotal != 0) {
       setTotalEventoMes(valorTotal);
+      return;
     } else {
       setTotalEventoMes(0);
     }
+  }
+
+  setQtdeEventoMes(int value) {
+    _qtdeEventoMes.value = value;
+    _qtdeEventoMes.refresh();
   }
 
   setTotalEventoMes(double value) {
@@ -221,7 +266,7 @@ class EventoController extends GetxController {
           .set(setDadosEvento());
 
       //Após salvar Busca no BD
-      getEventoCollection();
+      getEventoCollection(mesV: DateTime.now(), anoV: DateTime.now());
 
       checkEventoDoDia();
 
@@ -233,11 +278,12 @@ class EventoController extends GetxController {
   }
 
   //buscar usuário banco do firebase
-  Future getEventoCollection() async {
+  Future getEventoCollection({required mesV, required anoV}) async {
     print('****getEventoCollection******');
     try {
-      int mes = int.parse(DateFormat('MM').format(DateTime.now()));
-      int ano = int.parse(DateFormat('yyyy').format(DateTime.now()));
+      int mes = int.parse(DateFormat('MM').format(mesV));
+      int ano = int.parse(DateFormat('yyyy').format(anoV));
+
       String mesAno = '$mes-$ano';
       await firestore
           .collection("eventos")
