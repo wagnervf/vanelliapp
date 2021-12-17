@@ -39,7 +39,7 @@ class _EventoRelatoriosState extends State<EventoRelatorios> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 // buildHeaderInfo(context),
                 // itemList(
                 //   Icons.paid_outlined,
@@ -54,41 +54,57 @@ class _EventoRelatoriosState extends State<EventoRelatorios> {
                 //   'Tipos de evento',
                 //   "",
                 // ),
+
                 Container(
                     margin: const EdgeInsets.only(left: 12),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: _.totalTipoEventoMes.length,
                       itemBuilder: (context, index) {
+                        //var i = 0;
+                        //var y = 1;
+                        var item = _.totalTipoEventoMes.first;
+                        // String key = item.keys.elementAt(index);
+                        //  int value = item.values.elementAt(index);
+
                         return itemList(
                           Icons.outdoor_grill,
-                          _.totalTipoEventoMes[index].toString(),
-                          "",
+                          item.keys.elementAt(index),
+                          item.values.elementAt(index).toString(),
+                          //  ),
                         );
                       },
-                    )
+                    )),
 
-                    // Column(
-                    //   children: [
-                    //     itemList(
-                    //       Icons.outdoor_grill,
-                    //       'Churras',
-                    //       "",
-                    //     ),
-                    //     itemList(
-                    //       Icons.celebration,
-                    //       'Casamento',
-                    //       "",
-                    //     ),
-                    //     itemList(
-                    //       Icons.cake,
-                    //       'Niver',
-                    //       "",
-                    //     )
-                    //   ],
-                    // ),
+                //       // return itemList(
+                //       //   Icons.outdoor_grill,
+                //       //   item[index].key.toString(),
+                //       //   item[index].value.toString(),
+                //       // );
+                //     },
+                //   ),
+                // )
+                // Column(
+                //   children: [
+                //     itemList(
+                //       Icons.outdoor_grill,
+                //       'Churras',
+                //       "",
+                //     ),
+                //     itemList(
+                //       Icons.celebration,
+                //       'Casamento',
+                //       "",
+                //     ),
+                //     itemList(
+                //       Icons.cake,
+                //       'Niver',
+                //       "",
+                //     )
+                //   ],
+                // ),
 
-                    ),
+                // ),
                 // const Divider(),
                 // itemList(
                 //   Icons.local_parking,

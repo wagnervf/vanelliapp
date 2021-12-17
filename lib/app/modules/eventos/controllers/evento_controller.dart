@@ -125,15 +125,45 @@ class EventoController extends GetxController {
   }
 
   void somarTiposEventoMes(
-      List<QueryDocumentSnapshot<Map<String, dynamic>>> map) {
-    int valorTotal = 0;
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    final map = Map();
+    List elements = [];
 
-    for (var element in map) {
-      valorTotal += 1;
-      _totalTipoEventoMes.add({
-        element['tipo']: valorTotal,
-      });
+    //Insere em uma lista os tipos de Eventos
+    for (var element in docs) {
+      elements.add(element['tipo']);
     }
+
+    //realiza a contagem por tipos
+    for (var element in elements) {
+      if (!map.containsKey(element)) {
+        map[element] = 1;
+      } else {
+        map[element] += 1;
+      }
+    }
+
+    _totalTipoEventoMes.add(map);
+
+    // for (var element in map) {
+    //   if (element['tipo'] != "") {
+    //     mape[element] = 1;
+    //   } else {
+    //     mape[element] += 1;
+    //   }
+    //   _totalTipoEventoMes.add([element['tipo'], mape[0]]);
+    // }
+    print(map);
+
+    // for (var element in map) {
+    //   valorTotal += 1;
+
+    //   _totalTipoEventoMes.add([
+    //     element['tipo'],
+    //     element['tipo'],
+    //     valorTotal,
+    //   ]);
+    // }
   }
 
   // void setTipoEvento(int value) {
