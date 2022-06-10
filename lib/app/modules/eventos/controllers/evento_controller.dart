@@ -32,6 +32,7 @@ class EventoController extends GetxController {
   final Rx<double> _totalEventoMes = 0.0.obs;
   final Rx<int> _qtdeEventoMes = 0.obs;
   final RxList _totalTipoEventoMes = [].obs;
+  final RxList _totalFormaPagamentoEventoMes = [].obs;
 
   final Rx<int> _mesFiltro =
       int.parse(DateFormat('MM').format(DateTime.now())).obs;
@@ -51,6 +52,7 @@ class EventoController extends GetxController {
   get totalEventoMes => _totalEventoMes.value;
   get qtdeEventoMes => _qtdeEventoMes.value;
   get totalTipoEventoMes => _totalTipoEventoMes.toList();
+  get totalFormaPagamentoEventoMes => _totalFormaPagamentoEventoMes.toList();
 
 //https://www.youtube.com/watch?v=PQ_sxDjPUzU
 
@@ -100,7 +102,7 @@ class EventoController extends GetxController {
         .collection("eventos")
         .doc(mesAno)
         .collection(mesAno)
-        .limit(limit ? 3 : 40)
+        .limit(limit ? 5 : 40)
         .orderBy("id", descending: true)
         .snapshots()
         .map((query) {
@@ -110,6 +112,7 @@ class EventoController extends GetxController {
         somarTotalEventoMes(query.docs);
         setQtdeEventoMes(query.docs.length);
         somarTiposEventoMes(query.docs);
+        somarFormaPagamentosEventoMes(query.docs);
 
         for (var element in query.docs) {
           retVal.add(EventoModel.fromMap(element.data()));
@@ -119,6 +122,8 @@ class EventoController extends GetxController {
       } else {
         setTotalEventoMes(0);
         setQtdeEventoMes(0);
+        somarTiposEventoMes([]);
+        somarFormaPagamentosEventoMes([]);
         return [];
       }
     });
@@ -126,12 +131,37 @@ class EventoController extends GetxController {
 
   void somarTiposEventoMes(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
-    final map = Map();
+    final map = {};
     List elements = [];
 
-    //Insere em uma lista os tipos de Eventos
+    if (docs.isNotEmpty) {
+      //Insere em uma lista os tipos de Eventos
+      for (var element in docs) {
+        elements.add(element['tipo']);
+      }
+
+      //realiza a contagem por tipos
+      for (var element in elements) {
+        if (!map.containsKey(element)) {
+          map[element] = 1;
+        } else {
+          map[element] += 1;
+        }
+      }
+
+      _totalTipoEventoMes.add(map);
+    }
+    _totalTipoEventoMes.add([]);
+  }
+
+  void somarFormaPagamentosEventoMes(
+      List<QueryDocumentSnapshot<Map<String, dynamic>>> docs) {
+    final map = {};
+    List elements = [];
+
+    //Insere em uma lista os Forma de Pagamento
     for (var element in docs) {
-      elements.add(element['tipo']);
+      elements.add(element['formaPagamento']);
     }
 
     //realiza a contagem por tipos
@@ -142,34 +172,8 @@ class EventoController extends GetxController {
         map[element] += 1;
       }
     }
-
-    _totalTipoEventoMes.add(map);
-
-    // for (var element in map) {
-    //   if (element['tipo'] != "") {
-    //     mape[element] = 1;
-    //   } else {
-    //     mape[element] += 1;
-    //   }
-    //   _totalTipoEventoMes.add([element['tipo'], mape[0]]);
-    // }
-    print(map);
-
-    // for (var element in map) {
-    //   valorTotal += 1;
-
-    //   _totalTipoEventoMes.add([
-    //     element['tipo'],
-    //     element['tipo'],
-    //     valorTotal,
-    //   ]);
-    // }
+    _totalFormaPagamentoEventoMes.add(map);
   }
-
-  // void setTipoEvento(int value) {
-  //   _totalTipoEventoMes.value = value;
-  //   _totalTipoEventoMes.refresh();
-  // }
 
   void somarTotalEventoMes(
       List<QueryDocumentSnapshot<Map<String, dynamic>>> map) {
@@ -191,7 +195,11 @@ class EventoController extends GetxController {
   }
 
   setTotalEventoMes(double value) {
-    _totalEventoMes.value = value;
+    if (value > 0) {
+      _totalEventoMes.value = value;
+    }
+    _totalEventoMes.value = 0.0;
+
     _totalEventoMes.refresh();
   }
 

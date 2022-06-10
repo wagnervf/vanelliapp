@@ -287,6 +287,30 @@ class Componentsutils {
         isDismissible: true,
         snackPosition: SnackPosition.TOP);
   }
+
+  static IconData iconesStatics(String value) {
+    switch (value) {
+      case 'CHURRAS':
+      case 'CHURRASCO':
+        return Icons.outdoor_grill;
+      case 'CASAMENTO':
+      case 'CASORIO':
+        return Icons.celebration;
+      case 'ANIVERSÁRIO':
+      case 'NIVER':
+        return Icons.cake;
+      case 'PIX':
+      case 'pix':
+        return Icons.api;
+      case 'CARTÃO':
+      case 'CARD':
+        return Icons.payment;
+      case 'DINHEIRO':
+        return Icons.attach_money;
+      default:
+        return Icons.ac_unit;
+    }
+  }
 }
 // ElevatedButton buttonConfirmar() {
 //   return ElevatedButton.icon(
